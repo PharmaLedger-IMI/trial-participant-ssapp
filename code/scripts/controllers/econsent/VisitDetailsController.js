@@ -1,9 +1,7 @@
-
 const {WebcController} = WebCardinal.controllers;
 
 const ecoServices = require('eco-services');
 const CommunicationService = ecoServices.CommunicationService;
-const DateTimeService = ecoServices.DateTimeService;
 const Constants = ecoServices.Constants;
 const BaseRepository = ecoServices.BaseRepository;
 
@@ -21,7 +19,6 @@ export default class VisitDetailsController extends WebcController {
             ...this.history.win.history.state.state,
 
         });
-        ;
         this._initServices();
         this._initHandlers();
         this._initVisit();
@@ -98,25 +95,24 @@ export default class VisitDetailsController extends WebcController {
 
                     let date = new Date();
                     date.setTime(event.detail);
-                    model.date = date.toISOString(),
-                        this._updateVisit(model);
+                    model.date = date.toISOString();
+                    this._updateVisit(model);
                     this._updateTrialParticipantVisit(model);
                 },
                 (event) => {
                     const response = event.detail;
-                }
-            ),
+                },
                 {
                     controller: 'SetProcedureDateController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     title: 'Set Procedure Date',
-                };
+                });
         });
     }
 
     _updateVisit(visit) {
-        let objIndex = this.model.visits.findIndex((obj => obj.uid == visit.uid));
+        let objIndex = this.model.visits.findIndex((obj => obj.uid === visit.uid));
         this.model.visits[objIndex] = visit;
     }
 

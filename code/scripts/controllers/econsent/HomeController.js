@@ -1,10 +1,9 @@
-import TrialService from '../services/TrialService.js';
-import TrialConsentService from '../services/TrialConsentService.js';
+import TrialService from '../../services/TrialService.js';
+import TrialConsentService from '../../services/TrialConsentService.js';
 
 const {WebcController} = WebCardinal.controllers;
 
 const ecoServices = require('eco-services');
-const CommunicationService = ecoServices.CommunicationService;
 const Constants = ecoServices.Constants;
 const DateTimeService = ecoServices.DateTimeService;
 const DIDService = ecoServices.DIDService;

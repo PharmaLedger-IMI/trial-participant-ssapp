@@ -1,4 +1,4 @@
-import TrialService from '../services/TrialService.js';
+import TrialService from '../../services/TrialService.js';
 
 
 const ecoServices = require('eco-services');

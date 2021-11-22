@@ -1,6 +1,6 @@
-import TrialService from '../services/TrialService.js';
-import ConsentStatusMapper from '../utils/ConsentStatusMapper.js';
-import TrialConsentService from "../services/TrialConsentService.js";
+import TrialService from '../../services/TrialService.js';
+import ConsentStatusMapper from '../../utils/ConsentStatusMapper.js';
+import TrialConsentService from "../../services/TrialConsentService.js";
 
 const ecoServices = require('eco-services');
 const BaseRepository = ecoServices.BaseRepository;
@@ -92,7 +92,7 @@ export default class ReadEconsentController extends WebcController {
             event.stopImmediatePropagation();
 
             this.showModalFromTemplate(
-                'confirmation-alert',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -104,7 +104,7 @@ export default class ReadEconsentController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'ConfirmationAlertController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     question: 'Are you sure you want to sign this ecosent? ',
@@ -119,7 +119,7 @@ export default class ReadEconsentController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'decline-consent',
+                'econsent/decline-consent',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -133,7 +133,7 @@ export default class ReadEconsentController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'DeclineConsentController',
+                    controller: 'econsent/DeclineConsentController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     title: 'Decline Econsent',
@@ -146,7 +146,7 @@ export default class ReadEconsentController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'withdraw-econsent',
+                'econsent/withdraw-econsent',
                 (event) => {
                     const response = event.detail;
                     let operation = 'withdraw';
@@ -165,7 +165,7 @@ export default class ReadEconsentController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'WithdrawEconsent',
+                    controller: 'econsent/WithdrawEconsent',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     title: 'Decline Econsent',

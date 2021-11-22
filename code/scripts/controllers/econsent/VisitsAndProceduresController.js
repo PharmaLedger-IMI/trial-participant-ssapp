@@ -1,7 +1,4 @@
-
-
 const {WebcController} = WebCardinal.controllers;
-
 const ecoServices = require('eco-services');
 const CommunicationService = ecoServices.CommunicationService;
 const DateTimeService = ecoServices.DateTimeService;
@@ -108,7 +105,7 @@ export default class VisitsAndProceduresController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'confirmation-alert',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -122,7 +119,7 @@ export default class VisitsAndProceduresController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'ConfirmationAlertController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     question: 'Are you sure you want to decline this visit? ',
@@ -136,7 +133,7 @@ export default class VisitsAndProceduresController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'confirmation-alert',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -150,7 +147,7 @@ export default class VisitsAndProceduresController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'ConfirmationAlertController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     question: 'Are you sure you want to confirm this visit? ',
@@ -164,7 +161,7 @@ export default class VisitsAndProceduresController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'visit-accept-or-decline',
+                'econsent/visit-accept-or-decline',
                 (event) => {
                     let accepted = event.detail.accepted;
                     model = this.model.selectedVisit.model;
@@ -183,13 +180,12 @@ export default class VisitsAndProceduresController extends WebcController {
                     this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_DECLINED);
                 },
                 (event) => {
-                }
-            ),
+                },
                 {
-                    controller: 'VisitAcceptOrDeclineController',
+                    controller: 'econsent/VisitAcceptOrDeclineController',
                     disableExpanding: false,
                     disableBackdropClosing: false
-                };
+                });
         });
     }
 

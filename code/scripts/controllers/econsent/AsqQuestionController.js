@@ -1,5 +1,5 @@
-import TrialService from '../services/TrialService.js';
-import EconsentService from "../services/EconsentService.js";
+import TrialService from '../../services/TrialService.js';
+import EconsentService from "../../services/EconsentService.js";
 
 
 const ecoServices = require('eco-services');
@@ -83,7 +83,7 @@ export default class AsqQuestionController extends WebcController {
             }
 
             this.showModalFromTemplate(
-                'confirmation-alert',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -95,7 +95,7 @@ export default class AsqQuestionController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'ConfirmationAlertController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     question: 'Are you sure you want to send the question to HCO ?',

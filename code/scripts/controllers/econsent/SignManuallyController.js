@@ -1,7 +1,7 @@
-import TrialService from '../services/TrialService.js';
-import ConsentStatusMapper from '../utils/ConsentStatusMapper.js';
-import EconsentService from "../services/EconsentService.js";
-import TrialConsentService from "../services/TrialConsentService.js";
+import TrialService from '../../services/TrialService.js';
+import ConsentStatusMapper from '../../utils/ConsentStatusMapper.js';
+import EconsentService from "../../services/EconsentService.js";
+import TrialConsentService from "../../services/TrialConsentService.js";
 
 const ecoServices = require('eco-services');
 const CommunicationService = ecoServices.CommunicationService;
@@ -9,8 +9,6 @@ const FileDownloader = ecoServices.FileDownloader;
 const BaseRepository = ecoServices.BaseRepository;
 
 const {WebcController} = WebCardinal.controllers;
-
-const TEXT_MIME_TYPE = 'text/';
 
 export default class SignManuallyController extends WebcController {
     attachment = {
@@ -93,7 +91,7 @@ export default class SignManuallyController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'confirmation-alert',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
@@ -105,7 +103,7 @@ export default class SignManuallyController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'ConfirmationAlertController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     question: 'Are you sure you want to send this file? ',

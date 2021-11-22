@@ -1,6 +1,6 @@
-import TrialService from '../services/TrialService.js';
-import ConsentStatusMapper from "../utils/ConsentStatusMapper.js";
-import TrialConsentService from "../services/TrialConsentService.js";
+import TrialService from '../../services/TrialService.js';
+import ConsentStatusMapper from "../../utils/ConsentStatusMapper.js";
+import TrialConsentService from "../../services/TrialConsentService.js";
 
 const ecoServices = require('eco-services');
 const DateTimeService = ecoServices.DateTimeService;
