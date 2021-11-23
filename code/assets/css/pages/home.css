@@ -36,9 +36,6 @@
     position: initial !important;
 }
 
-webc-container {
-    background-color: red;
-}
 
 .trial-img img {
     filter: invert(100%);

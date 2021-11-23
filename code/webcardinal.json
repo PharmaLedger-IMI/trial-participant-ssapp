@@ -5,7 +5,7 @@
       "name": "Home",
       "path": "/home",
       "src": "econsent/home.html",
-      "tag": "home"
+      "tag": "econsent-home"
     },
     {
       "name": "Trial",
