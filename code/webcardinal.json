@@ -81,6 +81,6 @@
   ],
   "pagesFallback": {
     "name": "404",
-    "src": "./econsent/home.html"
+    "src": "./landing.html"
   }
 }

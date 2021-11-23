@@ -126,11 +126,11 @@ label.home-title {
     font-weight: 600;
     color: #FFFFFF;
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     padding-left: 2%;
-    padding-top: 10%;
+    padding-top: 2%;
     padding-bottom: 3%;
-    background: #00345B;
+    background: #003156;
 }
 
 .left-image-eu {
@@ -152,6 +152,7 @@ label.home-title {
 
 .right-text-eu label {
     text-align: center;
+    font-size: 8.5px;
 }
 
 .container-child {

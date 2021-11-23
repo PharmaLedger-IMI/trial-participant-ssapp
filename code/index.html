@@ -17,23 +17,10 @@
     <link rel="stylesheet" href="webcardinal/webcardinal.css">
     <script type="module" src="webcardinal/webcardinal.js"></script>
     <script src="//mozilla.github.io/pdf.js/build/pdf.js"></script>
-    <script>
-        if (window.frameElement) {
-            const iframeIdentity = window.frameElement.getAttribute('identity');
-
-            if (iframeIdentity) {
-                window.parent.document.dispatchEvent(new CustomEvent(iframeIdentity, {
-                    detail: {
-                        status: 'completed'
-                    }
-                }));
-            }
-        }
-    </script>
 </head>
 
 <body>
-<webc-app-root>
+<webc-app-root preload='scripts/app-config.js'>
     <webc-app-container>
         <psk-example class="mobile-example">
             <psk-mobile class="noPadding background" disable-header>
