@@ -18,6 +18,7 @@ export default class LandingController extends WebcController {
     }
 
     async initServices(){
+        this.model.did = await DIDService.getDidAsync(this);
         this.CommunicationService = await DIDService.getCommunicationServiceInstanceAsync(this);
     }
 
