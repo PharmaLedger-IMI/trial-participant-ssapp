@@ -66,6 +66,10 @@ webc-app-menu[mode=horizontal] .app-menu webc-app-menu-item:active a {
 
 /* Homepage content */
 
+webc-app-container{
+    background: #00345b;
+}
+
 .container.home {
     display: flex;
     flex-direction: column;
@@ -125,12 +129,8 @@ label.home-title {
     align-items: center;
     font-weight: 600;
     color: #FFFFFF;
-    position: absolute;
-    bottom: 0;
-    padding-left: 2%;
-    padding-top: 2%;
-    padding-bottom: 3%;
-    background: #003156;
+    padding: 0.25rem;
+    background:#00345b;
 }
 
 .left-image-eu {
@@ -142,12 +142,12 @@ label.home-title {
 .right-text-eu {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
-    width: 96%;
-    font-size: 9px;
-    margin-left: 2%;
+    row-gap: 0.5rem;
+    width: 100%;
+    font-size: 18px;
 }
 
 .right-text-eu label {

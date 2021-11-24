@@ -22,24 +22,21 @@
 <body>
 <webc-app-root preload='scripts/app-config.js'>
     <webc-app-container>
-        <psk-example class="mobile-example">
-            <psk-mobile class="noPadding background" disable-header>
                 <webc-app-router>
                 </webc-app-router>
-                <footer class="eu-container">
-                    <div class="left-image-eu">
-                        <img src="assets/images/flageu.png" width="120"/>
-                    </div>
-                    <div class="right-text-eu">
-                        <label>
-                            This project has received funding from the European Union’s Horizon
-                            2020 research and innovation programme under grant agreement No 853992
-                        </label>
-                        <label>Copyright &copy; PharmaLedger Consortium 2020–2023</label>
-                    </div>
-                </footer>
-            </psk-mobile>
-        </psk-example>
+
+        <footer class="eu-container" slot="after">
+            <div class="left-image-eu">
+                <img src="assets/images/flageu.png" width="120"/>
+            </div>
+            <div class="right-text-eu">
+                <label>
+                    This project has received funding from the European Union’s Horizon
+                    2020 research and innovation programme under grant agreement No 853992
+                </label>
+            </div>
+        </footer>
+
     </webc-app-container>
 </webc-app-root>
 </body>
