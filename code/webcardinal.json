@@ -77,6 +77,12 @@
       "name": "Create trial",
       "tag": "econsent/create-trial",
       "indexed": false
+    },
+    {
+      "name": "Feedback",
+      "path": "/iot-feedback",
+      "src": "iot/feedback.html",
+      "tag": "iot-feedback"
     }
   ],
   "pagesFallback": {

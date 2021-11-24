@@ -15,6 +15,9 @@ export default class LandingController extends WebcController {
         this.onTagEvent("navigate:econsent-home","click",()=>{
             this.navigateToPageTag('econsent-home');
         })
+        this.onTagEvent("navigate:iot-feedback","click",()=>{
+            this.navigateToPageTag('iot-feedback');
+        })
     }
 
     async initServices(){
