@@ -83,6 +83,18 @@
       "path": "/iot-feedback",
       "src": "iot/feedback.html",
       "tag": "iot-feedback"
+    },
+    {
+      "name": "Devices",
+      "path": "/iot-devices",
+      "src": "iot/devices.html",
+      "tag": "iot-devices"
+    },
+    {
+      "name": "Health Studies",
+      "path": "/iot-health-studies",
+      "src": "iot/health-studies.html",
+      "tag": "iot-health-studies"
     }
   ],
   "pagesFallback": {

@@ -26,6 +26,12 @@ export default class LandingController extends WebcController {
         this.onTagEvent("navigate:econsent-trials-dashboard", "click", () => {
             this.navigateToPageTag('econsent-trials-dashboard');
         });
+        this.onTagEvent("navigate:iot-devices", "click", () => {
+            this.navigateToPageTag('iot-devices');
+        });
+        this.onTagEvent("navigate:health-studies", "click", () => {
+            this.navigateToPageTag('iot-health-studies');
+        });
         this.onTagEvent("navigate:iot-feedback", "click", () => {
             this.navigateToPageTag('iot-feedback');
         });
