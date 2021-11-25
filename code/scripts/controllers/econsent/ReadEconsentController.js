@@ -2,11 +2,11 @@ import TrialService from '../../services/TrialService.js';
 import ConsentStatusMapper from '../../utils/ConsentStatusMapper.js';
 import TrialConsentService from "../../services/TrialConsentService.js";
 
-const ecoServices = require('eco-services');
-const BaseRepository = ecoServices.BaseRepository;
-const CommunicationService = ecoServices.CommunicationService;
-const FileDownloaderService = ecoServices.FileDownloaderService;
-const Constants = ecoServices.Constants;
+const commonServices = require('common-services');
+const BaseRepository = commonServices.BaseRepository;
+const CommunicationService = commonServices.CommunicationService;
+const FileDownloaderService = commonServices.FileDownloaderService;
+const Constants = commonServices.Constants;
 
 const {WebcController} = WebCardinal.controllers;
 

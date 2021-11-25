@@ -3,9 +3,9 @@ import TrialConsentService from '../../services/TrialConsentService.js';
 
 const {WebcController} = WebCardinal.controllers;
 
-const ecoServices = require('eco-services');
-const DIDService = ecoServices.DIDService;
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const DIDService = commonServices.DIDService;
+const BaseRepository = commonServices.BaseRepository;
 
 export default class TrialsDashboard extends WebcController {
     constructor(...props) {

@@ -1,9 +1,9 @@
 const {WebcController} = WebCardinal.controllers;
-const ecoServices = require('eco-services');
-const CommunicationService = ecoServices.CommunicationService;
-const DateTimeService = ecoServices.DateTimeService;
-const Constants = ecoServices.Constants;
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const CommunicationService = commonServices.CommunicationService;
+const DateTimeService = commonServices.DateTimeService;
+const Constants = commonServices.Constants;
+const BaseRepository = commonServices.BaseRepository;
 
 let getInitModel = () => {
     return {

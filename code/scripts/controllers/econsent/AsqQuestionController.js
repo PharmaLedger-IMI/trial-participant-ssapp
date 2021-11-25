@@ -2,10 +2,10 @@ import TrialService from '../../services/TrialService.js';
 import EconsentService from "../../services/EconsentService.js";
 
 
-const ecoServices = require('eco-services');
-const CommunicationService = ecoServices.CommunicationService;
-const Constants = ecoServices.Constants;
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const CommunicationService = commonServices.CommunicationService;
+const Constants = commonServices.Constants;
+const BaseRepository = commonServices.BaseRepository;
 
 const {WebcController} = WebCardinal.controllers;
 

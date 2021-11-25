@@ -2,10 +2,10 @@ import TrialService from '../../services/TrialService.js';
 import ConsentStatusMapper from "../../utils/ConsentStatusMapper.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 
-const ecoServices = require('eco-services');
-const DateTimeService = ecoServices.DateTimeService;
-const Constants = ecoServices.Constants;
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const DateTimeService = commonServices.DateTimeService;
+const Constants = commonServices.Constants;
+const BaseRepository = commonServices.BaseRepository;
 
 const {WebcController} = WebCardinal.controllers;
 

@@ -1,7 +1,7 @@
 const {WebcController} = WebCardinal.controllers;
 
-const ecoServices = require('eco-services');
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const BaseRepository = commonServices.BaseRepository;
 
 export default class SiteController extends WebcController {
     constructor(...props) {

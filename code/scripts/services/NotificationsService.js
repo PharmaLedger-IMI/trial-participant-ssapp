@@ -1,7 +1,7 @@
 import NotificationMapper from "../utils/NotificationMapper.js";
 
-const ecoServices = require('eco-services');
-const DSUService = ecoServices.DSUService;
+const commonServices = require('common-services');
+const DSUService = commonServices.DSUService;
 
 export default class NotificationsService extends DSUService {
 

@@ -1,16 +1,8 @@
 import TrialService from '../../services/TrialService.js';
-
-
-const ecoServices = require('eco-services');
-const DateTimeService = ecoServices.DateTimeService;
-const BaseRepository = ecoServices.BaseRepository;
+const commonServices = require('common-services');
+const BaseRepository = commonServices.BaseRepository;
 const {WebcController} = WebCardinal.controllers;
-let getInitModel = () => {
-    return {
-        econsent: {},
-        versions: [],
-    };
-};
+
 export default class EconsentVersionsController extends WebcController {
     constructor(...props) {
         super(...props);

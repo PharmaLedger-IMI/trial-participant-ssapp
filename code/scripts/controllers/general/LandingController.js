@@ -2,14 +2,13 @@ import TrialService from "../../services/TrialService.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 
 const {WebcController} = WebCardinal.controllers;
-const ecoServices = require('eco-services');
-const DIDService = ecoServices.DIDService;
+const commonServices = require('common-services');
+const DIDService = commonServices.DIDService;
 const usecases = WebCardinal.USECASES;
 
-
-const Constants = ecoServices.Constants;
-const DateTimeService = ecoServices.DateTimeService;
-const BaseRepository = ecoServices.BaseRepository;
+const Constants = commonServices.Constants;
+const DateTimeService = commonServices.DateTimeService;
+const BaseRepository = commonServices.BaseRepository;
 
 export default class LandingController extends WebcController {
     constructor(...props) {
