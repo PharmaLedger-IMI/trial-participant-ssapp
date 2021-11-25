@@ -7,10 +7,6 @@
     clear: both;
 }
 
-.header-title {
-    display: flex;
-    height: 50px;
-}
 
 .scan-error-title {
     color: #00345B;

@@ -160,15 +160,21 @@ label.home-title {
     padding: 5%;
     border: 10px solid #00345B;
     border-width: 10px 10px 0 10px;
-    /*border-top-left-radius: 25px;*/
-    /*border-top-right-radius: 25px;*/
+    background: #FFFFFF;
+    border-radius: 20px;
+}
 
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*background-image: url(assets/images/pharmaup.jpg);*/
-    /*background-size: cover;*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: center;*/
+.header-title {
+    display: flex;
+    height: 50px;
+}
+
+.trial-row{
+    display: flex;
+    flex-direction: row;
+}
+.trial-row i{
+    margin:0 1rem;
 }
 
 .user-name {

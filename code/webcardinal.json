@@ -2,10 +2,10 @@
   "theme": "trial-participant-theme",
   "pages": [
     {
-      "name": "Home",
-      "path": "/home",
-      "src": "econsent/home.html",
-      "tag": "econsent-home"
+      "name": "Trials Dashboard",
+      "path": "/trials-dashboard",
+      "src": "econsent/trials-dashboard.html",
+      "tag": "econsent-trials-dashboard"
     },
     {
       "name": "Trial",
@@ -16,7 +16,7 @@
     {
       "name": "Notifications",
       "path": "/notifications",
-      "src": "econsent/notifications.html",
+      "src": "general/notifications.html",
       "tag": "notifications"
     },
     {
