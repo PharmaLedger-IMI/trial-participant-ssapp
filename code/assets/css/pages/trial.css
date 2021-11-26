@@ -185,7 +185,34 @@
 }
 
 .long-button consent {
-
     border-top: none !important;
+}
 
+.consent-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: stretch;
+    flex-wrap: wrap;
+    border-bottom: 1px #D0D0D0 solid;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.consent-item .consent-icon{
+    display: flex;
+    align-items: center;
+}
+
+.consent-item .consent-details{
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+
+.consent-item .consent-status-container{
+    align-items: center;
+    display: flex;
 }

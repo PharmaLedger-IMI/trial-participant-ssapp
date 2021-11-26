@@ -329,6 +329,6 @@ export default class ReadEconsentController extends WebcController {
     }
 
     _finishActionSave() {
-        this.navigateToPageTag('home');
+        this.navigateToPageTag('econsent-trials-dashboard');
     }
 }

@@ -140,7 +140,7 @@ export default class AsqQuestionController extends WebcController {
                 };
 
                 this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
-                this.navigateToPageTag('home');
+                this.navigateToPageTag('econsent-trials-dashboard');
             }
         });
     }

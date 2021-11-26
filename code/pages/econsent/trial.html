@@ -22,14 +22,14 @@
             <div data-if="@econsentsAreLoaded">
             <div data-if="@hasConsents" slot="true">
                 <div data-for="@econsents" slot="true">
-                    <psk-layout columns="3" template-columns="10% 50% 40%"
-                                class="justify-content-center align-items-center table-row"
+                    <div class="consent-item"
                                 data="@keySSI" data-tag="go-to-econsent">
-                        <div>
-                            <psk-img class="left-image" height='40'
-                                     src="assets/images/document_black.png" width='40'></psk-img>
+
+                        <div class="consent-icon">
+                            <i class="fa-3x fa fa-file-text-o" ></i>
                         </div>
-                        <div class="layout-content">
+
+                        <div class="layout-content consent-details" >
                             <strong>
                                 {{@name}}
                             </strong>
@@ -40,11 +40,11 @@
                                 ({{@type}})
                             </div>
                         </div>
-                        <div class="layout-content">
+
+                        <div class="layout-content consent-status-container">
                             {{@status.name}}
                         </div>
-                        <hr class="layout-hr">
-                    </psk-layout>
+                    </div>
                 </div>
                 <div slot="false">
                     <div class="alert alert-warning" role="alert">

@@ -196,7 +196,7 @@ export default class SignManuallyController extends WebcController {
     }
 
     _finishActionSave(fileSSI, fileName) {
-        this.navigateToPageTag('home');
+        this.navigateToPageTag('econsent-trials-dashboard');
         this.sendMessageToSponsorAndHCO('sign', this.model.historyData.ecoId, 'TP signed econsent ', fileSSI, fileName);
     }
 
