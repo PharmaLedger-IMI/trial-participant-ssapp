@@ -1,0 +1,7 @@
+.btn.next, .btn.edit, .btn.delete {
+    border-radius: 1rem;
+    background-color: #008798;
+    width: 30%;
+    color: white;
+    font-weight: bold;
+}

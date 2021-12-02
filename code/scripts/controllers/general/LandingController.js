@@ -22,6 +22,9 @@ export default class LandingController extends WebcController {
         this.onTagEvent("navigate:notifications", "click", () => {
             this.navigateToPageTag('notifications');
         });
+        this.onTagEvent("navigate:my-profile", "click", () => {
+            this.navigateToPageTag('my-profile');
+        });
         this.onTagEvent("navigate:econsent-trials-dashboard", "click", () => {
             this.navigateToPageTag('econsent-trials-dashboard');
         });

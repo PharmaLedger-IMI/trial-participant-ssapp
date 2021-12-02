@@ -14,6 +14,12 @@
       "tag": "trial"
     },
     {
+      "name": "My Profile",
+      "path": "/my-profile",
+      "src": "general/my-profile.html",
+      "tag": "my-profile"
+    },
+    {
       "name": "Notifications",
       "path": "/notifications",
       "src": "general/notifications.html",

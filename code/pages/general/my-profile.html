@@ -1,0 +1,34 @@
+<link href="/assets/css/pages/profile.css" rel="stylesheet">
+<webc-container controller="general/MyProfileController">
+    <div class="container-child">
+        <header>
+            <div class="text-center logo-container">
+                <img src="../assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
+            </div>
+        </header>
+        <div class="p-1 text-center"> 
+            <h4 class="title">My Profile</h4>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Name</label>
+            <input class="form-control" data-view-model="@profile.name"/>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Age</label>
+            <input class="form-control" data-view-model="@profile.age"/>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Email</label>
+            <input class="form-control" data-view-model="@profile.email"/>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Password</label>
+            <input class="form-control" data-view-model="@profile.password"/>
+        </div>
+        <div class="button-group-wrapper text-center p-1">
+            <button class="btn next" data-tag="profile:save">Next</button>
+            <button class="btn edit" data-tag="profile:go-back">Delete</button>
+            <button class="btn delete" data-tag="profile:go-back">Edit</button>
+        </div>
+    </div>
+</webc-container>
