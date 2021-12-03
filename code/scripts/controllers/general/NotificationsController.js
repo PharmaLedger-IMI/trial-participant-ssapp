@@ -1,13 +1,12 @@
 const commonServices = require('common-services');
 const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
-
+const DateTimeService  = commonServices.DateTimeService;
 const { WebcController } = WebCardinal.controllers;
 
 export default class NotificationsController extends WebcController {
   constructor(...props) {
     super(...props);
-    this.setModel({});
     this._initServices();
     this._attachNotificationNavigationHandler();
     this._initNotifications();
@@ -28,10 +27,9 @@ export default class NotificationsController extends WebcController {
           return {
             ...notification,
             entitySSI: notification.ssi,
-            name: notification.title,
-            details: notification.shortDescription,
-            type: notification.page,
-
+            name: notification.type,
+            details: notification.shortDescription ? notification.shortDescription : "Tap on the notification to see further details",
+            date:DateTimeService.timeAgo(notification.date, true)
           };
         })
         .sort(function (a, b) {

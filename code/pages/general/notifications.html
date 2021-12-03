@@ -6,50 +6,23 @@
             <h3>Notifications</h3>
         </div>
         <div data-if="@notifications">
-            <div slot="no-data">No notifications yet!</div>
+            <div slot="no-data" class="alert alert-warning" role="alert">
+                No notifications yet!
+            </div>
+
             <div slot="true" data-for="@notifications">
-                <psk-layout columns="2" template-columns=" 70% 30%"
-                            class="justify-content-center align-items-center table-row"
-                            data="@keySSI" data-tag="go-to-econsent">
 
-                    <div class="layout-content">
-                        <div class="right-text" data-if="@viewed">
-                            <container slot="true">
-                                <div>
-                                    {{@name}}
-                                </div>
-                                <div>
-                                    {{@details}}
-                                </div>
-
-                                <div>
-                                    <psk-echo value="Date: "></psk-echo>
-                                    {{@startDate}}
-                                </div>
-                            </container>
-                            <container slot="false">
-                                <strong>
-                                    <div>
-                                        {{@name}}
-                                    </div>
-                                    <div>
-                                        {{@details}}
-                                    </div>
-                                    <div>
-                                        <psk-echo value="Date: "></psk-echo>
-                                        {{@startDate}}
-                                    </div>
-                                </strong>
-                            </container>
-
-                        </div>
+                <div class="p-2 notification-item">
+                    <div class="notification-title">
+                        <i class="fa fa-star"></i>
+                        <span>{{@name}}</span>
                     </div>
-                    <div>
-                        <psk-img class="left-image" height='20'
-                                 src="assets/images/notification.png" width='20'></psk-img>
+                    <div class="notification-details">
+                        <div class="notification-description>">{{@details}}</div>
+                        <div class="notification-date">{{@date}}</div>
                     </div>
-                    <hr class="layout-hr">
-                </psk-layout>
+                </div>
+
             </div>
         </div>
 
