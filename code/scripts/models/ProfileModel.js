@@ -19,12 +19,18 @@ const profileModel = {
 export default class ProfileModel {
 
     constructor() {
-        this = JSON.parse(JSON.stringify(profileModel))
+        this.profile = JSON.parse(JSON.stringify(profileModel))
     }
 
     setProfileModel(profileData){
-        this = {
-            ...this, ...profileData
-        }
+        Object.keys(profileData).forEach((key)=>{
+            if(this.profile[key]){
+                this.profile[key].value = profileData[key];
+            }
+        })
+    }
+
+    getProfileModel(){
+        return this.profile;
     }
 }

@@ -2,6 +2,12 @@
   "theme": "trial-participant-theme",
   "pages": [
     {
+      "name": "Landing",
+      "path": "/",
+      "src": "./landing.html",
+      "tag": "home"
+    },
+    {
       "name": "Trials Dashboard",
       "path": "/trials-dashboard",
       "src": "econsent/trials-dashboard.html",

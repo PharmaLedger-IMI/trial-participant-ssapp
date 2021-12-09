@@ -7,21 +7,21 @@ export default class ProfileService extends DSUService {
         super('/profile');
     }
 
-    getProfile(callback) { 
-        this.getEntities(uid, (err, profiles) => {
+    getProfile(callback) {
+        this.getEntities((err, profiles) => {
             if (err) {
                 return callback(err)
-            }  
-        let myProfile = profiles && profiles.length > 0 ? profiles[0] : undefined 
-        callback(err, myProfile)
+            }
+            let myProfile = profiles && profiles.length > 0 ? profiles[0] : undefined
+            callback(err, myProfile)
         })
     }  
 
-    saveProfle(profile, callback) {
+    saveProfile(profile, callback) {
         this.saveEntity(profile, callback);
     }
 
-    updateProfle(profile, callback) {
+    updateProfile(profile, callback) {
         this.updateEntity(profile, callback);
     }
 
