@@ -107,6 +107,18 @@
       "path": "/iot-health-studies",
       "src": "iot/health-studies.html",
       "tag": "iot-health-studies"
+    },
+    {
+      "name": "E-Diary",
+      "path": "/iot-ediary",
+      "src": "iot/ediary/ediary.html",
+      "tag": "iot-ediary"
+    },
+    {
+      "name": "Questionnaire",
+      "path": "/iot-questionnaire",
+      "src": "iot/questionnaire/questionnaire.html",
+      "tag": "iot-questionnaire"
     }
   ],
   "pagesFallback": {
