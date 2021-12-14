@@ -115,6 +115,12 @@
       "tag": "iot-ediary"
     },
     {
+      "name": "Create E-Diary",
+      "path": "/iot-ediary/create-diary",
+      "src": "iot/ediary/create-diary.html",
+      "tag": "create-diary"
+    },
+    {
       "name": "Questionnaire",
       "path": "/iot-questionnaire",
       "src": "iot/questionnaire/questionnaire.html",

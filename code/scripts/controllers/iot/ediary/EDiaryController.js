@@ -28,14 +28,14 @@ export default class EDiaryController extends WebcController {
     }
 
     _attachHandlerEDiaryCreate (){
-        this.on('ediary:create', (event) => {
+        this.onTagClick('ediary:create', (event) => {
             this.navigateToPageTag('create-diary');
         });
     }
 
     _attachHandlerEDiaryBack() {
-        this.on('ediary:back', (event) => {
-            this.navigateToPageTag('home');
+        this.onTagClick('ediary:back', (event) => {
+            this.navigateToPageTag('iot-devices');
         });
     }
 
