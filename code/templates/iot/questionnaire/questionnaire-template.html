@@ -2,19 +2,19 @@
                    selected="@questionnairesTabNavigator.selected" tab-navigation-disabled>
     <psk-tab title="">
         <div class="question-details">
-            <psk-label class="ed-question-title">{{@title}}</psk-label>
+            <label class="ed-question-title">{{@title}}</label>
         </div>
         <webc-template template="@template" data-view-model="@"></webc-template>
     </psk-tab>
 </psk-tab-navigator>
-<div class="button-bottom-row">
-    <div class="width-100 align-center" data-if="@buttonsState.showLeft">
-        <button class="ed-btn always-left" data-tag="prev">Back</button>
+<div class="btn-group" role="group" style="margin: 20px;">
+    <div data-if="@buttonsState.showLeft" >
+        <button type="button" class="btn btn-primary" data-tag="prev">Back</button>
     </div>
-    <div class="width-100 align-center" data-if="@buttonsState.showRight">
-        <button class="ed-btn always-right" data-tag="next">Next</button>
+    <div data-if="@buttonsState.showRight" style="margin-left: 10%;">
+        <button type="button" data-tag="next" class="btn btn-primary">Next</button>
     </div>
 </div>
-<div class="width-100 align-center" data-if="@buttonsState.showFeedback">
-    <button class="ed-btn ed-big-button always-center" data-tag="send-feedback">Send Feedback</button>
+<div data-if="@buttonsState.showFeedback">
+    <button type="button" class="btn btn-primary" data-tag="send-feedback">Send Feedback</button>
 </div>
