@@ -164,11 +164,6 @@ label.home-title {
     border-radius: 20px;
 }
 
-.header-title {
-    display: flex;
-    height: 50px;
-}
-
 .trial-row{
     display: flex;
     flex-direction: row;

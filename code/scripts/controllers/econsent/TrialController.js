@@ -4,7 +4,6 @@ import TrialConsentService from "../../services/TrialConsentService.js";
 
 const commonServices = require('common-services');
 const DateTimeService = commonServices.DateTimeService;
-const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 
 const {WebcController} = WebCardinal.controllers;
@@ -13,9 +12,6 @@ export default class TrialController extends WebcController {
     constructor(...props) {
         super(...props);
 
-        this.setModel({});
-
-        this.model.trial = {};
         this.model.econsents = [];
         this.model.econsentsAreLoaded = false;
         this.model.tpStatus = [];
@@ -30,6 +26,7 @@ export default class TrialController extends WebcController {
     async _initServices() {
         this.TrialService = new TrialService();
         this.EconsentsStatusRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
+        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
@@ -52,11 +49,6 @@ export default class TrialController extends WebcController {
                 return console.log(err);
             }
             this.model.trial = trial;
-            if (trial.name.length > 16) {
-                this.model.bigTitle = true;
-            } else {
-                this.model.lowTitle = true;
-            }
             this.model.tpEconsents = [];
 
             let lastAction = 'Consent required';
@@ -103,7 +95,15 @@ export default class TrialController extends WebcController {
                 this.model.econsents[0].isMain = true;
             }
 
-            this.model.econsentsAreLoaded = true;
+            this.TrialParticipantRepository.findAll((err, data) => {
+                if (err) {
+                    return console.log(err);
+                }
+                if (data && data.length > 0) {
+                    this.model.site = data [0].site;
+                }
+                this.model.econsentsAreLoaded = true;
+            });
 
         });
     }
@@ -122,16 +122,14 @@ export default class TrialController extends WebcController {
     }
 
     _attachHandlerSiteClick() {
-        this.on('go-to-site', (event) => {
-            this.navigateToPageByTag('site', event.data);
+        this.onTagClick('go-to-site', (event) => {
+            this.navigateToPageTag('site', event.data);
         });
     }
 
     _attachHandlerBack() {
-        this.onTagEvent('back', 'click', (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            window.history.back();
+        this.onTagClick('navigation:go-back', () => {
+            this.history.goBack();
         });
     }
 

@@ -1,59 +1,79 @@
 <link href="./assets/css/pages/home.css" rel="stylesheet">
 <webc-container controller="econsent/TrialsDashboard">
-    <div class="container-child">
-        <div class=header-title>
-            <psk-button-link class="go-back-link" event-name="go-back" icon="arrow-left"></psk-button-link>
-            <h3>Trials Dashboard</h3>
-        </div>
+        <div class="container">
 
-                <div class="padding-sides" data-for="@trials">
-                    <div class="date-div justify-content-space-between" data="@id"
-                         data-tag="home:trial">
-                        <div class="trial-row">
-                            <div class="left-image padding-image">
-                                <i class="fa-4x fa fa-hospital-o" ></i>
-                            </div>
-                            <div class="right-text">
-                                <div>
-                                    <div>
-                                        <strong>
-                                            <psk-echo value="Trial Name: "></psk-echo>
-                                            {{@name}}
-                                        </strong>
+            <header>
+                <div class="header-title">
+                    <button class="navigate-back" data-tag="navigation:go-back">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <h3>Trials Dashboard</h3>
+                </div>
+
+                <div class=" landing-profile-picture">
+                    <picture>
+                        <img src="./assets/images/profile-pic.jpg" class="img-fluid img-thumbnail">
+                    </picture>
+                </div>
+            </header>
+
+
+            <div class="main-navigation">
+                <div class="feedback-container">
+
+                    <button class="feedback-btn" data-for="@trials">
+                        <i class="fa fa-hospital-o fa-4x"></i>
+                        <div class="feedback-item-container" >
+                            <div class="date-div justify-content-space-between" data="@id"
+                                 data-tag="home:trial">
+                                <div class="trial-row">
+
+                                    <div class="right-text">
+                                        <div>
+                                            <div>
+                                                <strong>
+                                                    <span>Trial Name:</span>
+                                                    {{@name}}
+                                                </strong>
+                                            </div>
+                                            <div>
+                                                <span>Trial Number:</span>
+                                                <strong>
+                                                    {{@id}}
+                                                </strong>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span>Sponsor Name: </span>
+                                            <strong>
+                                                {{@sponsor}}
+                                            </strong>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <psk-echo value="Number: "></psk-echo>
-                                        <strong>
-                                            {{@id}}
-                                        </strong>
-                                    </div>
-                                </div>
-                                <div>
-                                    <psk-echo value="Sponsor Name: "></psk-echo>
-                                    <strong>
-                                        {{@sponsor}}
-                                    </strong>
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                    </button>
+
+                    <button class="feedback-btn" data-tag="home:visits">
+                        <i class="fa fa-check-square fa-4x"></i>
+                        <div class="feedback-item-container">
+                            <p class="title">Visits</p>
+                            <p>See yor next visits</p>
+                        </div>
+
+                    </button>
+
+                    <button class="feedback-btn" data-tag="home:questions">
+                        <i class="fa fa-pencil-square fa-4x"></i>
+                        <div class="feedback-item-container">
+                            <p class="title">FAQ</p>
+                            <p>Consult a list with frequent asked questions</p>
+                        </div>
+                    </button>
                 </div>
+            </div>
 
-                <psk-card class="patient-button-row">
-<!--                    <div>-->
-<!--                        <div data-if="@tp.hasNewVisits">-->
-<!--                            <div slot="true">-->
-<!--                                <psk-img class="table-cell" src="assets/images/notification.png"-->
-<!--                                         height='30' width='34'></psk-img>-->
-<!--                            </div>-->
-
-<!--                        </div>-->
-
-<!--                        <button class="long-button" data-tag="home:visits">Visits</button>-->
-<!--                    </div>-->
-                    <button class="long-button" data-tag="home:visits">Visits</button>
-                    <button class="long-button" data-tag="home:questionns">FAQ</button>
-                    <button class="long-button" data-tag="home:site">Study Contact Information</button>
-                </psk-card>
-    </div>
+        </div>
 </webc-container>

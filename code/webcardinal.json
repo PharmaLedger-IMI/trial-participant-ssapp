@@ -74,12 +74,6 @@
       "tag": "signmanually-econsent"
     },
     {
-      "name": "Site",
-      "path": "/site",
-      "src": "econsent/site.html",
-      "tag": "site"
-    },
-    {
       "name": "EconsentVersions",
       "path": "/econsent-versions",
       "src": "econsent/econsent-versions.html",

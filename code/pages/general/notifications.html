@@ -1,8 +1,10 @@
 <link href="./assets/css/pages/trial.css" rel="stylesheet">
 <webc-container controller="general/NotificationsController">
     <div class="container-child">
-        <div class=header-title>
-            <psk-button-link class="go-back-link" event-name="go-back" icon="arrow-left"></psk-button-link>
+        <div class="header-title">
+            <button class="navigate-back" data-tag="navigation:go-back">
+                <i class="fa fa-angle-left"></i>
+            </button>
             <h3>Notifications</h3>
         </div>
         <div data-if="@notifications">

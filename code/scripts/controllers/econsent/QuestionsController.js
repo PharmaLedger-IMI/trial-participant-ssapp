@@ -10,6 +10,7 @@ export default class QuestionsController extends WebcController {
         this._initServices();
         this._attachQuestionNavigationHandler();
         this._initQuestions();
+        this._attachHandlerBack();
     }
 
     _initServices() {
@@ -32,6 +33,11 @@ export default class QuestionsController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.navigateToPageTag('question', model.uid);
+        });
+    }
+    _attachHandlerBack() {
+        this.onTagClick('navigation:go-back', () => {
+            this.history.goBack();
         });
     }
 }
