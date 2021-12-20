@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 <link href="./assets/css/pages/profile.css" rel="stylesheet">
+=======
+<link href="../../assets/css/pages/profile.css" rel="stylesheet">
+>>>>>>> Stashed changes
 <webc-container controller="general/MyProfileController">
     <div class="container-child">
         <header>
@@ -8,6 +12,23 @@
         </header>
         <div class="p-1 text-center"> 
             <h4 class="title">My Profile</h4>
+        </div>
+        <div class="form-group">
+            <!-- <label class="col-form-label">Profile Picture</label>
+            <input type="file" class="form-control input-file" placeholder="@profile.picture.placeholder" value="@profile.picture.filename"/> -->
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <form action="" method="post" id="form-image">
+                    <input type='file' id="profileImageUpload" accept=".png, .jpg, .jpeg" />
+                    <label for="profileImageUpload"></label>
+                  </form>
+                </div>
+                <div class="avatar-preview">
+
+                  <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="https://adminlte.io/themes/AdminLTE/dist/img/user3-128x128.jpg" alt="User profile picture">
+                </div>
+              </div>
+
         </div>
         <div class="form-group">
             <label class="col-form-label">Name</label>
@@ -21,17 +42,12 @@
             <label class="col-form-label">Email</label>
             <input class="form-control" type="@profile.email.type" placeholder="@profile.email.placeholder" value="@profile.email.value"/>
         </div>
-        <!-- <div class="form-group">
-            <label class="col-form-label">Password</label>
-            <input class="form-control" data-view-model="@profile.password"/>
-        </div> -->
         <div class="button-group-wrapper text-center p-1">
             <div data-if="@profileExits">
-                <button slot="true" class="btn next" data-tag="profile:save">Update</button>
-                <button slot="false" class="btn next" data-tag="profile:save">Save</button>
+                <button slot="true" class="btn next pull-left" data-tag="profile:save">Update</button>
+                <button slot="false" class="btn next pull-left" data-tag="profile:save">Save</button>
             </div>
-            <button class="btn edit" data-tag="profile:go-back">Delete</button>
-            <!-- <button class="btn delete" data-tag="profile:go-back">Edit</button> -->
+            <button class="btn edit pull-right" data-tag="profile:go-back">Delete</button>
         </div>
     </div>
 </webc-container>

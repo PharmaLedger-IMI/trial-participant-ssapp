@@ -25,7 +25,9 @@ export default class MyProfileController extends WebcController {
                 }
             }
         });
+        this.profilePicture = "https://adminlte.io/themes/AdminLTE/dist/img/user3-128x128.jpg"
         this.addTagsListeners();
+        this.addProfilePictureHandler();
     }
 
     addTagsListeners() {
@@ -55,6 +57,24 @@ export default class MyProfileController extends WebcController {
                 this.profileService.updateProfile(this.profileData, profileCreatedOrUpdatedHandler)
             }
         })
+    }
+
+
+    addProfilePictureHandler() {
+        const profilePictureUpload = this.querySelector('#profileImageUpload')
+
+        profilePictureUpload.addEventListener('change',(data)=>{
+
+            let imageFile = data.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(imageFile);
+        
+            reader.onload = (evt)=>{
+                this.model.profilePicture = evt.target.result
+            }})
+    
+        
+          
     }
 
 }
