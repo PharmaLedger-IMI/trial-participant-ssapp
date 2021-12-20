@@ -216,3 +216,29 @@
     align-items: center;
     display: flex;
 }
+
+.trial-card{
+    background: #00345b;
+    color: #FFF;
+    width: 100%;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.trial-card .trial-status-item{
+    justify-items: start;
+    display:flex;
+}
+
+.trial-card .trial-status-item span{
+    flex:2;
+}
+.trial-card .trial-status-item p{
+    flex:4
+}
+
+.trial-card .trial-status-item *{
+    margin: 0;
+    padding: 0.5rem;
+}

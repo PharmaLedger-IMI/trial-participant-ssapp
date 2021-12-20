@@ -10,7 +10,6 @@ const BaseRepository = commonServices.BaseRepository;
 export default class TrialsDashboard extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({});
         this._initServices();
         this._initHandlers();
         this._initTrials();
@@ -32,9 +31,9 @@ export default class TrialsDashboard extends WebcController {
 
     _initHandlers() {
         this._attachHandlerTrialClick();
-        this._attachHandlerSites();
         this._attachHandlerVisits();
         this._attachHandlerQuestions();
+        this._attachHandlerBack();
     }
 
     _initTrials() {
@@ -75,14 +74,8 @@ export default class TrialsDashboard extends WebcController {
         });
     }
 
-    _attachHandlerSites() {
-        this.onTagClick('home:site', (event) => {
-            this.navigateToPageTag('site');
-        });
-    }
-
     _attachHandlerQuestions() {
-        this.onTagClick('home:questionns', (event) => {
+        this.onTagClick('home:questions', (event) => {
             this.navigateToPageTag('questions');
         });
     }
@@ -93,6 +86,11 @@ export default class TrialsDashboard extends WebcController {
                 tpDid: this.model.tp.did,
                 tpUid: this.model.tp.uid
             });
+        });
+    }
+    _attachHandlerBack() {
+        this.onTagClick('navigation:go-back', () => {
+            this.history.goBack();
         });
     }
 

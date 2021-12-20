@@ -10,6 +10,7 @@ export default class NotificationsController extends WebcController {
     this._initServices();
     this._attachNotificationNavigationHandler();
     this._initNotifications();
+    this._attachHandlerBack();
   }
 
   _initServices() {
@@ -59,6 +60,11 @@ export default class NotificationsController extends WebcController {
       } else {
         this.navigateToPageTag(page, model.entitySSI);
       }
+    });
+  }
+  _attachHandlerBack() {
+    this.onTagClick('navigation:go-back', () => {
+      this.history.goBack();
     });
   }
 }

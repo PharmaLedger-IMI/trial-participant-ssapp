@@ -1,10 +1,15 @@
 <link href="./assets/css/pages/trial.css" rel="stylesheet">
 <webc-container controller="econsent/QuestionsController">
     <div class="container-child">
-        <div class=header-title>
-            <psk-button-link class="go-back-link" event-name="go-back" icon="arrow-left"></psk-button-link>
-            <psk-label class="scan-error-title" label="Questions"></psk-label>
+
+        <div class="header-title">
+            <button class="navigate-back" data-tag="navigation:go-back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h3>Questions</h3>
         </div>
+
+
         <div data-for="@questions">
             <psk-layout columns="2" template-columns=" 80% 20%"
                         class="justify-content-center align-items-center table-row"

@@ -1,59 +1,93 @@
 <link href="./assets/css/pages/home.css" rel="stylesheet">
 <webc-container controller="econsent/TrialsDashboard">
-    <div class="container-child">
-        <div class=header-title>
-            <psk-button-link class="go-back-link" event-name="go-back" icon="arrow-left"></psk-button-link>
-            <h3>Trials Dashboard</h3>
-        </div>
+    <div class="container">
 
-                <div class="padding-sides" data-for="@trials">
-                    <div class="date-div justify-content-space-between" data="@id"
-                         data-tag="home:trial">
-                        <div class="trial-row">
-                            <div class="left-image padding-image">
-                                <i class="fa-4x fa fa-hospital-o" ></i>
-                            </div>
-                            <div class="right-text">
-                                <div>
+        <header>
+            <div class="header-title">
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>Trials Dashboard</h3>
+            </div>
+
+            <div class=" landing-profile-picture">
+                <picture>
+                    <img src="./assets/images/profile-pic.jpg" class="img-fluid img-thumbnail">
+                </picture>
+            </div>
+        </header>
+
+
+        <div class="main-navigation">
+            <div class="feedback-container">
+
+                <button class="feedback-btn" data-for="@trials">
+                    <i class="fa fa-hospital-o fa-4x fa-fw"></i>
+                    <div class="feedback-item-container">
+                        <div class="date-div justify-content-space-between" data="@id"
+                             data-tag="home:trial">
+                            <div class="trial-row">
+
+                                <div class="right-text">
                                     <div>
                                         <strong>
-                                            <psk-echo value="Trial Name: "></psk-echo>
-                                            {{@name}}
+                                            Active Trial
                                         </strong>
+                                        <div class="active_trial_details">
+                                            <div>
+                                                <span>Trial Name:</span>
+                                                <strong> {{@name}} </strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Trial Number:</span>
+                                                <strong>
+                                                    {{@id}}
+                                                </strong>
+                                            </div>
+
+                                            <div>
+                                                <span>Sponsor Name: </span>
+                                                <strong>
+                                                    {{@sponsor}}
+                                                </strong>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <psk-echo value="Number: "></psk-echo>
-                                        <strong>
-                                            {{@id}}
-                                        </strong>
-                                    </div>
-                                </div>
-                                <div>
-                                    <psk-echo value="Sponsor Name: "></psk-echo>
-                                    <strong>
-                                        {{@sponsor}}
-                                    </strong>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </button>
 
-                <psk-card class="patient-button-row">
-<!--                    <div>-->
-<!--                        <div data-if="@tp.hasNewVisits">-->
-<!--                            <div slot="true">-->
-<!--                                <psk-img class="table-cell" src="assets/images/notification.png"-->
-<!--                                         height='30' width='34'></psk-img>-->
-<!--                            </div>-->
+                <button class="feedback-btn" data-tag="home:visits">
+                    <i class="fa fa-calendar fa-4x fa-fw"></i>
+                    <div class="feedback-item-container">
+                        <p class="title">Visits</p>
+                        <p>See yor next visits</p>
+                    </div>
 
-<!--                        </div>-->
+                </button>
 
-<!--                        <button class="long-button" data-tag="home:visits">Visits</button>-->
-<!--                    </div>-->
-                    <button class="long-button" data-tag="home:visits">Visits</button>
-                    <button class="long-button" data-tag="home:questionns">FAQ</button>
-                    <button class="long-button" data-tag="home:site">Study Contact Information</button>
-                </psk-card>
+                <button class="feedback-btn" data-tag="home:questions">
+                    <i class="fa fa-question-circle fa-4x fa-fw"></i>
+                    <div class="feedback-item-container">
+                        <p class="title">FAQ</p>
+                        <p>Consult a list with frequent asked questions</p>
+                    </div>
+                </button>
+
+
+                <button class="feedback-btn">
+                    <i class="fa fa-history fa-4x fa-fw"></i>
+                    <div class="feedback-item-container">
+                        <p class="title">Past Trials</p>
+                        <p>Archived list of past trials</p>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
     </div>
 </webc-container>
