@@ -1,128 +1,133 @@
 {
-  "theme": "trial-participant-theme",
-  "pages": [
-    {
-      "name": "Landing",
-      "path": "/",
-      "src": "./landing.html",
-      "tag": "home"
-    },
-    {
-      "name": "Trials Dashboard",
-      "path": "/trials-dashboard",
-      "src": "econsent/trials-dashboard.html",
-      "tag": "econsent-trials-dashboard"
-    },
-    {
-      "name": "Trial",
-      "path": "/trial",
-      "src": "econsent/trial.html",
-      "tag": "trial"
-    },
-    {
-      "name": "My Profile",
-      "path": "/my-profile",
-      "src": "general/my-profile.html",
-      "tag": "my-profile"
-    },
-    {
-      "name": "Notifications",
-      "path": "/notifications",
-      "src": "general/notifications.html",
-      "tag": "notifications"
-    },
-    {
-      "name": "Questions",
-      "path": "/questions",
-      "src": "econsent/questions.html",
-      "tag": "questions"
-    },
-    {
-      "name": "AskQuestion",
-      "path": "/ask-question",
-      "src": "econsent/ask-question.html",
-      "tag": "ask-question"
-    },
-    {
-      "name": "Visits And Procedures List",
-      "path": "/visits-procedures",
-      "src": "econsent/visits-procedures.html",
-      "tag": "visits-procedures"
-    },
-    {
-      "name": "Econsent",
-      "path": "/econsent",
-      "src": "econsent/econsent.html",
-      "tag": "econsent"
-    },
-    {
-      "name": "SignEconsent",
-      "path": "/sign-econsent",
-      "src": "econsent/sign-econsent.html",
-      "tag": "sign-econsent"
-    },
-    {
-      "name": "ProceduresView",
-      "path": "/procedures-view",
-      "src": "econsent/procedures-view.html",
-      "tag": "procedures-view"
-    },
-    {
-      "name": "SignManuallyEconsent",
-      "path": "/signmanually-econsent",
-      "src": "econsent/signmanually-econsent.html",
-      "tag": "signmanually-econsent"
-    },
-    {
-      "name": "EconsentVersions",
-      "path": "/econsent-versions",
-      "src": "econsent/econsent-versions.html",
-      "tag": "econsent-versions"
-    },
-    {
-      "name": "Create trial",
-      "tag": "econsent/create-trial",
-      "indexed": false
-    },
-    {
-      "name": "Feedback",
-      "path": "/iot-feedback",
-      "src": "iot/feedback.html",
-      "tag": "iot-feedback"
-    },
-    {
-      "name": "Devices",
-      "path": "/iot-devices",
-      "src": "iot/devices.html",
-      "tag": "iot-devices"
-    },
-    {
-      "name": "Health Studies",
-      "path": "/iot-health-studies",
-      "src": "iot/health-studies.html",
-      "tag": "iot-health-studies"
-    },
-    {
-      "name": "E-Diary",
-      "path": "/iot-ediary",
-      "src": "iot/ediary/ediary.html",
-      "tag": "iot-ediary"
-    },
-    {
-      "name": "Create E-Diary",
-      "path": "/iot-ediary/create-diary",
-      "src": "iot/ediary/create-diary.html",
-      "tag": "create-diary"
-    },
-    {
-      "name": "Questionnaire",
-      "path": "/iot-questionnaire",
-      "src": "iot/questionnaire/questionnaire.html",
-      "tag": "iot-questionnaire"
+    "theme": "trial-participant-theme",
+    "pages": [{
+            "name": "Landing",
+            "path": "/",
+            "src": "./landing.html",
+            "tag": "home"
+        },
+        {
+            "name": "Trials Dashboard",
+            "path": "/trials-dashboard",
+            "src": "econsent/trials-dashboard.html",
+            "tag": "econsent-trials-dashboard"
+        },
+        {
+            "name": "Trial",
+            "path": "/trial",
+            "src": "econsent/trial.html",
+            "tag": "trial"
+        },
+        {
+            "name": "My Profile",
+            "path": "/my-profile",
+            "src": "general/my-profile.html",
+            "tag": "my-profile"
+        },
+        {
+            "name": "Notifications",
+            "path": "/notifications",
+            "src": "general/notifications.html",
+            "tag": "notifications"
+        },
+        {
+            "name": "Questions",
+            "path": "/questions",
+            "src": "econsent/questions.html",
+            "tag": "questions"
+        },
+        {
+            "name": "AskQuestion",
+            "path": "/ask-question",
+            "src": "econsent/ask-question.html",
+            "tag": "ask-question"
+        },
+        {
+            "name": "Visits And Procedures List",
+            "path": "/visits-procedures",
+            "src": "econsent/visits-procedures.html",
+            "tag": "visits-procedures"
+        },
+        {
+            "name": "Econsent",
+            "path": "/econsent",
+            "src": "econsent/econsent.html",
+            "tag": "econsent"
+        },
+        {
+            "name": "SignEconsent",
+            "path": "/sign-econsent",
+            "src": "econsent/sign-econsent.html",
+            "tag": "sign-econsent"
+        },
+        {
+            "name": "ProceduresView",
+            "path": "/procedures-view",
+            "src": "econsent/procedures-view.html",
+            "tag": "procedures-view"
+        },
+        {
+            "name": "SignManuallyEconsent",
+            "path": "/signmanually-econsent",
+            "src": "econsent/signmanually-econsent.html",
+            "tag": "signmanually-econsent"
+        },
+        {
+            "name": "EconsentVersions",
+            "path": "/econsent-versions",
+            "src": "econsent/econsent-versions.html",
+            "tag": "econsent-versions"
+        },
+        {
+            "name": "Create trial",
+            "tag": "econsent/create-trial",
+            "indexed": false
+        },
+        {
+            "name": "Feedback",
+            "path": "/iot-feedback",
+            "src": "iot/feedback.html",
+            "tag": "iot-feedback"
+        },
+        {
+            "name": "Devices",
+            "path": "/iot-devices",
+            "src": "iot/devices.html",
+            "tag": "iot-devices"
+        },
+        {
+            "name": "Health Studies",
+            "path": "/iot-health-studies",
+            "src": "iot/health-studies.html",
+            "tag": "iot-health-studies"
+        },
+        {
+            "name": "E-Diary",
+            "path": "/iot-ediary",
+            "src": "iot/ediary/ediary.html",
+            "tag": "iot-ediary"
+        },
+        {
+            "name": "Create E-Diary",
+            "path": "/iot-ediary/create-diary",
+            "src": "iot/ediary/create-diary.html",
+            "tag": "create-diary"
+        },
+        {
+            "name": "Thk E-Diary",
+            "path": "/thk-ediary",
+            "src": "iot/ediary/thk-ediary.html",
+            "tag": "thk-ediary"
+        },
+        {
+            "name": "Questionnaire",
+            "path": "/iot-questionnaire",
+            "src": "iot/questionnaire/questionnaire.html",
+            "tag": "iot-questionnaire"
+        }
+    ],
+    "pagesFallback": {
+        "name": "404",
+        "src": "./landing.html"
     }
-  ],
-  "pagesFallback": {
-    "name": "404",
-    "src": "./landing.html"
-  }
 }

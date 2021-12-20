@@ -2,10 +2,10 @@ import EDiaryService from "../../../services/iot/EDiaryService.js";
 
 const { WebcController } = WebCardinal.controllers;
 
-const BUTTON_NEW = 'ed-button-new';
-const BUTTON_USED = 'ed-button-used';
-const BUTTON_ATTACHED = 'ed-button-attached';
-const BUTTON_DETACHED = 'ed-button-detached';
+const BUTTON_NEW = 'ed_button_new';
+//const BUTTON_USED = 'ed-button-used';
+const BUTTON_ATTACHED = 'ed_button_attached';
+//const BUTTON_DETACHED = 'ed-button-detached';
 
 const initModel = {
     title: 'Create EDiary',
@@ -26,6 +26,7 @@ const initModel = {
         placeholder: "Notes",
         value: ''
     }
+
 }
 
 export default class CreateEdiaryController extends WebcController {
@@ -48,28 +49,13 @@ export default class CreateEdiaryController extends WebcController {
 
         this.on(BUTTON_NEW, (event) => {
             this.model.patchState = BUTTON_NEW;
-            this._unfadeButton(BUTTON_NEW);
-            this._fadeButton(BUTTON_USED);
         });
-        this.on(BUTTON_USED, (event) => {
-            this.model.patchState = BUTTON_USED;
-            this._unfadeButton(BUTTON_USED);
-            this._fadeButton(BUTTON_NEW);
-        });
+
 
         this.on(BUTTON_ATTACHED, (event) => {
             this.model.patchOption = BUTTON_ATTACHED;
-            this._unfadeButton(BUTTON_ATTACHED);
-            this._fadeButton(BUTTON_DETACHED);
-        });
-        this.on(BUTTON_DETACHED, (event) => {
-            this.model.patchOption = BUTTON_DETACHED;
-            this._unfadeButton(BUTTON_DETACHED);
-            this._fadeButton(BUTTON_ATTACHED)
         });
 
-        this._fadeButton(BUTTON_USED);
-        this._fadeButton(BUTTON_DETACHED);
     }
 
     _attachHandlerEDiaryCreate() {
@@ -84,18 +70,13 @@ export default class CreateEdiaryController extends WebcController {
                 if (err) {
                     return console.log(err);
                 }
-                this.navigateToPageTag("iot-ediary");
+                this.navigateToPageTag("thk-ediary");
             });
+
         });
+
     }
 
-    _fadeButton(id) {
-        this.element.querySelector("#" + id).classList.add('ed-faded')
-    }
-
-    _unfadeButton(id) {
-        this.element.querySelector("#" + id).classList.remove('ed-faded')
-    }
 
     __displayErrorMessages = (event) => {
         return this.__displayErrorRequiredField(event, 'name', this.model.name.value) ||
