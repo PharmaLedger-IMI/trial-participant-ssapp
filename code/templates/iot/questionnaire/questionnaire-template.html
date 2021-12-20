@@ -1,13 +1,13 @@
-<psk-tab-navigator class="margin-sides question-navigator" data-for="@questions"
+<psk-tab-navigator style="background-color: #008798;" class="margin-sides question-navigator" data-for="@questions"
                    selected="@questionnairesTabNavigator.selected" tab-navigation-disabled>
-    <psk-tab title="">
+    <div>
         <div class="question-details">
             <label class="ed-question-title">{{@title}}</label>
         </div>
         <webc-template template="@template" data-view-model="@"></webc-template>
-    </psk-tab>
+    </div>
 </psk-tab-navigator>
-<div class="btn-group" role="group" style="margin: 20px;">
+<div class="button-group-wrapper" role="group">
     <div data-if="@buttonsState.showLeft" >
         <button type="button" class="btn btn-primary" data-tag="prev">Back</button>
     </div>
@@ -15,6 +15,6 @@
         <button type="button" data-tag="next" class="btn btn-primary">Next</button>
     </div>
 </div>
-<div data-if="@buttonsState.showFeedback">
+<div data-if="@buttonsState.showFeedback"  class="button-group-wrapper">
     <button type="button" class="btn btn-primary" data-tag="send-feedback">Send Feedback</button>
 </div>
