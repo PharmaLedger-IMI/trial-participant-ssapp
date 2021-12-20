@@ -1,8 +1,4 @@
-<<<<<<< Updated upstream
 <link href="./assets/css/pages/profile.css" rel="stylesheet">
-=======
-<link href="../../assets/css/pages/profile.css" rel="stylesheet">
->>>>>>> Stashed changes
 <webc-container controller="general/MyProfileController">
     <div class="container-child">
         <header>
@@ -14,8 +10,6 @@
             <h4 class="title">My Profile</h4>
         </div>
         <div class="form-group">
-            <!-- <label class="col-form-label">Profile Picture</label>
-            <input type="file" class="form-control input-file" placeholder="@profile.picture.placeholder" value="@profile.picture.filename"/> -->
             <div class="avatar-upload">
                 <div class="avatar-edit">
                   <form action="" method="post" id="form-image">
@@ -24,8 +18,7 @@
                   </form>
                 </div>
                 <div class="avatar-preview">
-
-                  <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="https://adminlte.io/themes/AdminLTE/dist/img/user3-128x128.jpg" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="@profilePicture" alt="User profile picture">
                 </div>
               </div>
 
@@ -46,8 +39,8 @@
             <div data-if="@profileExits">
                 <button slot="true" class="btn next pull-left" data-tag="profile:save">Update</button>
                 <button slot="false" class="btn next pull-left" data-tag="profile:save">Save</button>
+                <button slot="true" class="btn edit pull-right" data-tag="profile:delete">Delete</button>
             </div>
-            <button class="btn edit pull-right" data-tag="profile:go-back">Delete</button>
         </div>
     </div>
 </webc-container>

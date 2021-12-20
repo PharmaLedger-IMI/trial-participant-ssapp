@@ -25,4 +25,8 @@ export default class ProfileService extends DSUService {
         this.updateEntity(profile, callback);
     }
 
+    deleteProfile(profile, callback) {
+        console.log("delete profile WIP!")
+    }
+
 }

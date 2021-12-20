@@ -1,9 +1,4 @@
 const profileModel = {
-    picture: {
-        type: 'text',
-        value: '',
-        placeholder: 'Please chose a file'
-    },
     name: {
         type: 'text',
         value: '',
