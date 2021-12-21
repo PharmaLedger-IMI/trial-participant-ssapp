@@ -15,8 +15,8 @@
                 <label class="col-form-label">Please select the options New or used patch?</label>
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="switch-button">
-                            <input class="switch-button-checkbox" id="ed_button_new"  type="checkbox" checked></input>
-                            <label class="switch-button-label" for=""><span class="switch-button-label-span">New</span></label>
+                            <input class="switch-button-checkbox" id="ed_button_new"  type="checkbox" data-view-model="@isNew"></input>
+                            <label class="switch-button-label" ><span class="switch-button-label-span">New</span></label>
                         </div>
                     </div>    
             </div>
@@ -27,9 +27,9 @@
                     <label class="col-form-label">Please select the options.Did you attached or detached the patch?</label>
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="switch2-button">
-                            <input id="ed_button_attached" class="switch2-button-checkbox" type="checkbox" checked=""></input>
-                            <label class="switch2-button-label" for=""><span class="switch2-button-label-span">Attached</span></label>
-                            <label class="switch2-button-label" for=""><span class="switch2-button-label-span">Detached</span></label>
+                            <input id="ed_button_attached" class="switch2-button-checkbox" type="checkbox" data-view-model="@isAttached"></input>
+                            <label class="switch2-button-label"><span class="switch2-button-label-span">Attached</span></label>
+                            <label class="switch2-button-label"><span class="switch2-button-label-span">Detached</span></label>
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
 
                 <div class="button-group-wrapper text-center p-1">
 
-                        <button  class="btn save" data-tag="ediary:create">Save</button>
+                        <button  class="btn save" data-tag="ediary:create" disabled="@isFormInvalid">Save</button>
         
                 </div>
     </div>

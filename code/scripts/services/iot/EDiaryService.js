@@ -8,6 +8,6 @@ export default class EDiaryService extends DSUService {
     }
 
     getEdiaries = (callback) => this.getEntities(callback);
-
+    getEdiary = (uuid, callback) =>this.getEntity(uuid,callback);
     saveEdiary = (data, callback) => this.saveEntity(data, callback);
 }
