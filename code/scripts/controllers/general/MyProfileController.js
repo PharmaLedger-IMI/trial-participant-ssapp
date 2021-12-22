@@ -1,12 +1,16 @@
 import ProfileModel from '../../models/ProfileModel.js';
 import ProfileService from '../../services/ProfileService.js';
 
+const commonServices = require('common-services');
+const DSUService = commonServices.DSUService;
+
 const {WebcController} = WebCardinal.controllers;
 
 export default class MyProfileController extends WebcController {
     constructor(...props) {
         super(...props);
         this.profileExists = false;
+        this.profilePictureChanged = false;
         this.profileModel = new ProfileModel();
         this.profileService = new ProfileService();
         this.profileService.getProfile((err, profileData) => {
@@ -25,7 +29,15 @@ export default class MyProfileController extends WebcController {
                 }
             }
         });
-        this.model.profilePicture = "./assets/images/profile-pic.jpg"
+        
+        this.profileService.getProfilePicture((err,data)=>{
+            if (err || !data) {
+                this.model.profilePicture = "./assets/images/profile-pic.jpg"
+            } else {
+                this.model.profilePicture = data
+            }
+        })
+
         this.addTagsListeners();
         this.addProfilePictureHandler();
     }
@@ -44,8 +56,17 @@ export default class MyProfileController extends WebcController {
                 if (err) {
                     return console.log(err);
                 }
-
-                this.navigateToPageTag("home");
+                if (this.profilePictureChanged) {
+                    this.profileService.saveProfilePicture(this.model.profilePicture, () =>{
+                        if (err) {
+                            return console.log(err);
+                        } 
+                        this.navigateToPageTag("home");
+                    })
+                } else {
+                    this.navigateToPageTag("home");
+                }
+                
             }
 
             if (!this.profileExists) {
@@ -57,6 +78,7 @@ export default class MyProfileController extends WebcController {
                 }
                 this.profileService.updateProfile(this.profileData, profileCreatedOrUpdatedHandler)
             }
+            
         })
 
         this.onTagClick('profile:delete', () => {
@@ -81,12 +103,11 @@ export default class MyProfileController extends WebcController {
 
     }
 
-
     addProfilePictureHandler() {
         const profilePictureUpload = this.querySelector('#profileImageUpload')
 
         profilePictureUpload.addEventListener('change',(data)=>{
-
+            this.profilePictureChanged = true;
             let imageFile = data.target.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(imageFile);

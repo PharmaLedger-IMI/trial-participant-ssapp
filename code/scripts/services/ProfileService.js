@@ -29,4 +29,11 @@ export default class ProfileService extends DSUService {
         console.log("delete profile WIP!")
     }
 
+    saveProfilePicture(filedata, callback) {
+        this.writeFile("/profile-pic", $$.Buffer.from(filedata), callback)
+    }
+
+    getProfilePicture(callback) {
+        this.readFile("/profile-pic", callback)
+    }
 }
