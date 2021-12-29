@@ -1,16 +1,15 @@
 const CommunicationService = require("common-services").CommunicationService;
 import QuestionnaireService from "../../../services/iot/QuestionnaireService.js";
-import QuestionnaireResponse from "../../../models/iot/QuestionnaireResponse.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
 const getInitModel = () => {
     return {
-        votingOpen: true,
-        questionnairesTabNavigator: {
-            selected: 0
-        },
+        progress:0,
+        fillMode: true,
+        questionIndex:0,
+        questionNumber:1,
         questions: [],
         buttonsState: {
             showLeft: false,
@@ -20,86 +19,32 @@ const getInitModel = () => {
     };
 }
 
-const TAB_MIN_VALUE = 0;
-let TAB_MAX_VALUE = 0;
-
 export default class QuestionnaireController extends WebcController {
     constructor(...props) {
         super(...props);
 
         this.setModel(getInitModel());
 
-        this.tabsContainer = this.querySelector('#tabs-container');
         this.CommunicationService = CommunicationService.getInstance(CommunicationService.identities.IOT.EDIARY_IDENTITY);
         this.QuestionnaireService = new QuestionnaireService();
         this.ResponsesService = new ResponsesService();
 
         this.updateQuestionnaire();
+        this._attachHandlers();
 
-        this.onTagClick('prev', (event) => {
-            let currentIndexSelected = this.model.questionnairesTabNavigator.selected;
-            if (currentIndexSelected > TAB_MIN_VALUE) {
-                this.model.questionnairesTabNavigator.selected = currentIndexSelected - 1;
-            }
-            this.computeButtonStates();
-        });
-
-        this.onTagClick('next', (event) => {
-            let currentIndexSelected = this.model.questionnairesTabNavigator.selected;
-            if (currentIndexSelected < TAB_MAX_VALUE) {
-                this.model.questionnairesTabNavigator.selected = currentIndexSelected + 1;
-            }
-            this.computeButtonStates();
-        });
-
-        this.onTagClick('send-feedback', (event) => {
-            this.model.questions = this.model.questions.map(question => {
-                let querySelector = `input[name="${question.name}"]`;
-                if (question.type === 'choice') {
-                    querySelector = querySelector + ':checked';
-                }
-                return {
-                    ...question,
-                    response: this.querySelector(querySelector).value
-                }
+        this.model.onChange("questionIndex",()=>{
+            const currentIndex = this.model.questionIndex;
+            this.model.questionNumber = currentIndex + 1;
+            this.model.questions.forEach(question=>{
+                question.visible = false
             })
-            this.model.votingOpen = false;
-        });
+            this.model.questions[currentIndex].visible = true;
+            this.fillProgress()
+        })
+    }
 
-        this.onTagClick('finish-questionnaire', (event) => {
-            let questionTemplate = QuestionnaireResponse.example;
-            questionTemplate.item = this.model.questions.map((question) => {
-                return {
-                    linkId: question.name,
-                    text: question.title,
-                    answer: [
-                        {
-                            valueCoding: {
-                                code: question.response
-                            }
-                        }
-                    ],
-                }
-            });
-            this.ResponsesService.saveResponse(questionTemplate, (err, data) => {
-                if (err) {
-                    return console.log(err);
-                }
-                this.sendMessageToProfessional('questionnaire-response', data.uid);
-                this.ResponsesService.getResponses((err, data) => {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    data.forEach(response => {
-                        response.item.forEach(item => {
-                            //console.log(item.answer[0], item.linkId, item.text)
-                        })
-                    })
-                })
-            });
-            this.model.questions.forEach(question => console.log(question.id, question.response, question.title))
-            this.navigateToPageTag('home');
-        });
+    onReady(){
+        this.progressElement = this.querySelector("#questionnaire_progress .progress-bar");
     }
 
     updateQuestionnaire() {
@@ -107,37 +52,77 @@ export default class QuestionnaireController extends WebcController {
             if (err) {
                 return console.log(err);
             }
-            let questionnaire = data[0];
+            let questionnaire = data;
             this.model.questions = questionnaire.item
                 .map((item, i) => {
-                    let answers = [{
-                        id: 'input-' + item.type + '-' + i,
-                        name: item.linkId,
-                        value: ''
-                    }];
                     let templateType = 'question-' + item.type + '-template';
-                    if (item.type === 'choice') {
-                        answers = item.answerOption.map(answer => {
-                            return {
-                                id: answer.valueCoding.code,
-                                label: answer.valueCoding.code,
-                                name: item.linkId
-                            };
-                        });
-                    }
-                    return {
-                        id: i,
+
+                    let questionModel = {
                         name: item.linkId,
                         type: item.type,
                         title: item.text,
-                        response: -1,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
-                        answers: answers
                     }
+
+                    if (item.type === "range") {
+                        questionModel['range'] = item.range;
+                    } else {
+                        questionModel['value'] = item.value;
+                    }
+
+                    return questionModel;
                 })
-                this.querySelector('#tabs-container').innerHTML = `<webc-template template="iot/questionnaire/questionnaire-template" data-view-model="@"></webc-template>`
-            TAB_MAX_VALUE = this.model.questions.length;
+                this.model.questions[this.model.questionIndex].visible = true;
+                this.fillProgress();
         })
+    }
+
+    _attachHandlers() {
+        this.onTagClick('prev', (event) => {
+            let currentIndexSelected = this.model.questionIndex;
+            if (currentIndexSelected > 0) {
+                this.model.questionIndex = currentIndexSelected - 1;
+            }
+            this.computeButtonStates();
+
+        });
+
+        this.onTagClick('next', (event) => {
+            let currentIndexSelected = this.model.questionIndex;
+            if (currentIndexSelected < this.model.questions.length) {
+                this.model.questionIndex = currentIndexSelected + 1;
+            }
+            this.computeButtonStates();
+
+        });
+
+        this.onTagClick('send-feedback', (event) => {
+            this.model.fillMode = false;
+            const questionResponse = this.model.questions.map((question) => {
+                return {
+                    type:question.type,
+                    linkId: question.name,
+                    text: question.title,
+                    response: question.type === "range" ? question.range.value : question.value
+                }
+            });
+
+            this.ResponsesService.saveResponse(questionResponse, (err, data) => {
+                if (err) {
+                    return console.log(err);
+                }
+                //TODO
+                //this.sendMessageToProfessional('questionnaire-response', data.uid);
+            });
+        });
+
+        this.onTagClick('finish-questionnaire', (event) => {
+            this.navigateToPageTag('home');
+        });
+
+        this.onTagClick('navigation:go-back', () => {
+            this.history.goBack();
+        });
     }
 
     sendMessageToProfessional(operation, ssi) {
@@ -148,14 +133,15 @@ export default class QuestionnaireController extends WebcController {
     }
 
     computeButtonStates() {
-        this.model.buttonsState.showLeft = this.model.questionnairesTabNavigator.selected > 0;
-        this.model.buttonsState.showRight = this.model.questionnairesTabNavigator.selected < TAB_MAX_VALUE - 1;
-
-        if (this.model.questionnairesTabNavigator.selected === TAB_MAX_VALUE - 1) {
-            this.model.buttonsState.showLeft = false;
-            this.model.buttonsState.showRight = false;
-            this.model.buttonsState.showFeedback = true;
-        }
+        this.model.buttonsState.showLeft = this.model.questionIndex > 0;
+        this.model.buttonsState.showRight = this.model.questionIndex < this.model.questions.length - 1;
+        this.model.buttonsState.showFeedback = this.model.questionIndex === this.model.questions.length - 1
     }
+
+    fillProgress(){
+        this.model.progress = Math.ceil(100 * this.model.questionNumber/this.model.questions.length)+"%";
+        this.progressElement.style.width = this.model.progress;
+    }
+
 
 }

@@ -23,7 +23,7 @@ export default class MyProfileController extends WebcController {
                 this.profileModel.setProfileModel(profileData)
             }
             this.model = {
-                profileExits: this.profileExists,
+                profileExists: this.profileExists,
                 profile: {
                     ...this.profileModel.getProfileModel()
                 }

@@ -26,329 +26,82 @@ export default {
         ],
         "item": [
             {
-                "linkId": "nameOfChild",
+                "linkId": "name",
                 "text": "Enter your name:",
-                "type": "string"
+                "type": "string",
+                "value":""
             },
             {
                 "linkId": "birthWeight",
                 "text": "Birth weight (kg)",
-                "type": "decimal"
+                "type": "decimal",
+                "value":"0.00"
             },
             {
-                "linkId": "vitaminiKDose1",
+                "linkId": "birthday",
                 "text": "Your birthday",
-                "type": "dateTime"
+                "type": "dateTime",
+                "value":"1980-01-01"
             },
             {
                 "linkId": "annoying_patch",
-                "text": "How annoying was it to keep the patch applied to the chest? (0 No hassle – 10 Maximum annoyance)",
-                "type": "choice",
-                "answerOption": [
-                    {
-                        "valueCoding": {
-                            "code": "0"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "1"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "2"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "3"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "4"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "5"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "6"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "7"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "8"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "9"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "10"
-                        }
-                    }
-                ]
+                "text": "How annoying was it to keep the patch applied to the chest?",
+                "type": "range",
+                "range": {
+                    "min":"0",
+                    "value":"5",
+                    "max":"10",
+                    "minLabel":"No hassle",
+                    "maxLabel":"Maximum annoyance"
+                }
             },
             {
                 "linkId": "difficult_send",
-                "text": "How difficult was it to send data daily to the Virtual Clinic? (0 Not at all difficult – 10 Maximum difficulty)",
-                "type": "choice",
-                "answerOption": [
-                    {
-                        "valueCoding": {
-                            "code": "0"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "1"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "2"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "3"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "4"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "5"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "6"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "7"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "8"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "9"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "10"
-                        }
-                    }
-                ]
+                "text": "How difficult was it to send data daily to the Virtual Clinic?",
+                "type": "range",
+                "range": {
+                    "min":"0",
+                    "value":"5",
+                    "max":"10",
+                    "minLabel":"Not at all difficult",
+                    "maxLabel":"Maximum difficulty"
+                }
             },
             {
                 "linkId": "hard_contact",
-                "text": "How hard was it to contact the Virtual Clinic nurse? (0 Not at all difficult – 10D maximum difficulty)",
-                "type": "choice",
-                "answerOption": [
-                    {
-                        "valueCoding": {
-                            "code": "0"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "1"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "2"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "3"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "4"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "5"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "6"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "7"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "8"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "9"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "10"
-                        }
-                    }
-                ]
+                "text": "How hard was it to contact the Virtual Clinic nurse?",
+                "type": "range",
+                "range": {
+                    "min":"0",
+                    "value":"5",
+                    "max":"10",
+                    "minLabel":"Not at all difficult",
+                    "maxLabel":"Maximum difficulty"
+                }
             },
             {
                 "linkId": "helpful_support",
-                "text": "How helpful was the virtual clinic nurse's support when you contacted him? (0 Not at all useful – 10 Very useful)",
-                "type": "choice",
-                "answerOption": [
-                    {
-                        "valueCoding": {
-                            "code": "0"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "1"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "2"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "3"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "4"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "5"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "6"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "7"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "8"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "9"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "10"
-                        }
-                    }
-                ]
+                "text": "How helpful was the virtual clinic nurse's support when you contacted him?",
+                "type": "range",
+                "range": {
+                    "min":"0",
+                    "value":"5",
+                    "max":"10",
+                    "minLabel":"Not at all useful",
+                    "maxLabel":"Very useful"
+                }
             },
             {
                 "linkId": "security_remote",
-                "text": "How much security did the remote monitoring system give you? (0 No security – 10 A lot of security)",
-                "type": "choice",
-                "answerOption": [
-                    {
-                        "valueCoding": {
-                            "code": "0"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "1"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "2"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "3"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "4"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "5"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "6"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "7"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "8"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "9"
-                        }
-                    },
-                    {
-                        "valueCoding": {
-                            "code": "10"
-                        }
-                    }
-                ]
+                "text": "How much security did the remote monitoring system give you?",
+                "type": "range",
+                "range": {
+                    "min":"0",
+                    "value":"5",
+                    "max":"10",
+                    "minLabel":"No security",
+                    "maxLabel":"A lot of security"
+                }
             }
         ]
     }

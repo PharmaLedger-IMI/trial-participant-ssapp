@@ -17,7 +17,7 @@ export default class QuestionnaireService extends DSUService {
             }
 
             if (entities.length > 0) {
-                return callback(err, entities)
+                return callback(err, entities[0])
             }
 
             this.saveQuestionnaire(Questionnaire.example, (err, data) => {

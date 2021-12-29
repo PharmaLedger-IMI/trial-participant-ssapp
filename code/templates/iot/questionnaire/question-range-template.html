@@ -1,0 +1,12 @@
+<div class="form-group">
+    <label class="question-title" for="formControlRange">{{@title}}</label>
+    <div class="pt-5 pb-5">
+    <div class="range-labels mb-2">
+        <span>{{@range.minLabel}}</span>
+        <span>{{@range.maxLabel}}</span>
+    </div>
+    <input type="range" class="form-control-range" id="formControlRange"
+           data-view-model="@range"
+           step="1">
+    </div>
+</div>

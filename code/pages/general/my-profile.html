@@ -36,10 +36,10 @@
             <input class="form-control" type="@profile.email.type" placeholder="@profile.email.placeholder" value="@profile.email.value"/>
         </div>
         <div class="button-group-wrapper text-center p-1">
-            <div data-if="@profileExits">
-                <button slot="true" class="btn next pull-left" data-tag="profile:save">Update</button>
-                <button slot="false" class="btn next pull-left" data-tag="profile:save">Save</button>
-                <button slot="true" class="btn edit pull-right" data-tag="profile:delete">Delete</button>
+            <div class="d-flex justify-content-between w-100" data-if="@profileExists">
+                <button slot="true" class="general-button" data-tag="profile:save">Update</button>
+                <button slot="false" class="general-button" data-tag="profile:save">Save</button>
+                <button slot="true" class="general-button" data-tag="profile:delete">Delete</button>
             </div>
         </div>
     </div>

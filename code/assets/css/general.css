@@ -197,7 +197,7 @@ label.home-title {
     position: initial !important;
 }
 
-.back-button {
+.back-button{
     background-color: #008798;
     border: none;
     color: white;
@@ -205,11 +205,22 @@ label.home-title {
     text-decoration: none;
     font-size: 16px;
     border-radius: 5px;
-    margin-left: 26%;
     height: 55px;
     width: 130px;
     position: absolute;
     bottom: 130px;
+}
+
+.general-button{
+    background-color: #008798;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    height: 55px;
+    width: 130px;
 }
 
 .left-image-eu img {
