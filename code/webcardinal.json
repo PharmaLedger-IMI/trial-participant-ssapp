@@ -1,4 +1,5 @@
 {
+    "translations":"false",
     "theme": "trial-participant-theme",
     "pages": [{
             "name": "Landing",
