@@ -5,6 +5,7 @@ const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const ProfileService = commonServices.ProfileService;
+const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
 
 
@@ -42,7 +43,6 @@ export default class LandingController extends WebcController {
 
     async initServices() {
         this.model.did = await ProfileService.getProfileServiceInstance().getDID();
-
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
@@ -52,18 +52,13 @@ export default class LandingController extends WebcController {
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
 
-        //temporary fix
-        setTimeout(()=>{
-            this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
-            this._handleMessages();
-        },1000)
-
+        this._attachMessageHandlers();
     }
 
-    _handleMessages() {
-        this.CommunicationService.listenForMessages(async (err, data) => {
+    _attachMessageHandlers() {
+        MessageHandlerService.init(async (err, data) =>{
 
-            if (err) {
+        if (err) {
                 return console.error(err);
             }
 
@@ -132,7 +127,8 @@ export default class LandingController extends WebcController {
             ssi: this.TrialConsentService.ssi,
             shortDescription: null,
         };
-        this.CommunicationService.sendMessage(hcoIdentity, sendObject);
+        let communicationService = CommunicationService.getCommunicationServiceInstance();
+        communicationService.sendMessage(hcoIdentity, sendObject);
     }
 
     _mountHCODSUAndSaveConsentStatuses(data, callback) {
