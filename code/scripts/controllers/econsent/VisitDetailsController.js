@@ -31,9 +31,9 @@ export default class VisitDetailsController extends WebcController {
     }
 
     _initServices() {
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
-        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
-        this.CommunicationService = CommunicationService.getInstance(CommunicationService.identities.ECO.HCO_IDENTITY);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
+        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
     }
 
     async _initVisit() {

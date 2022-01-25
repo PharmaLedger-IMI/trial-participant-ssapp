@@ -4,7 +4,7 @@ import TrialConsentService from '../../services/TrialConsentService.js';
 const {WebcController} = WebCardinal.controllers;
 
 const commonServices = require('common-services');
-const DIDService = commonServices.DIDService;
+const CommunicationService = commonServices.CommunicationService;
 const BaseRepository = commonServices.BaseRepository;
 
 export default class TrialsDashboard extends WebcController {
@@ -18,13 +18,13 @@ export default class TrialsDashboard extends WebcController {
 
     async _initServices() {
         this.TrialService = new TrialService();
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
-        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS);
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
-        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
+        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS, this.DSUStorage);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
+        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS, this.DSUStorage);
 
-        this.CommunicationService = await DIDService.getCommunicationServiceInstanceAsync(this);
+        this.CommunicationService = await CommunicationService.getCommunicationServiceInstance();
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
     }

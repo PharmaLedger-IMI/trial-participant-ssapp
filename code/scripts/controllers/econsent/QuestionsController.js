@@ -14,7 +14,7 @@ export default class QuestionsController extends WebcController {
     }
 
     _initServices() {
-        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
+        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS, this.DSUStorage);
     }
 
     _initQuestions() {
