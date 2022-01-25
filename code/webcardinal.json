@@ -121,6 +121,12 @@
             "tag": "thk-ediary"
         },
         {
+            "name": "View E-Diary",
+            "path": "/view-ediary",
+            "src": "iot/ediary/view-ediary.html",
+            "tag": "view-ediary"
+        },
+        {
             "name": "Questionnaire",
             "path": "/iot-questionnaire",
             "src": "iot/questionnaire/questionnaire.html",

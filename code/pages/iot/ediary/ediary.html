@@ -4,35 +4,39 @@
 <webc-container controller="iot/ediary/EDiaryController">
     <div class="container-child">
         <header>
+            <button title="back" class="navigate-back" data-tag="ediary:back">
+                <i class="fa fa-angle-left"></i>
+            </button>
             <div class="text-center logo-container">
                 <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
             </div>
         </header>
-        <div class="p-1 text-center"> 
+        <div class="p-1 text-center">
+            <p></p>  
             <h4 class="title">E-Diary</h4>
             <h6 class="title">Summary of your last reports</h6>
         </div>
 
 
-        <div class="feedback-container" data-for="@trials">
+        <div class="feedback-container" data-for="@ediaries">
 
-            <button class="ed-list-btn">
+            <button class="ed-list-btn" data-tag="ediary:view">
 
               <i class="fa fa-square fa-3x"></i>
               <div class="feedback-item-container">
-                <p class="t-data-ed-home">{{@date}}</p>
+                <p class="t-data-ed-home">{{@stringDate}}</p>
                 <p class="t-notes-ed-home">{{@notes}}</p>
-                <hr>
-              </div>   
+                <hr>   
+              </div> 
+               
             </button>
     
         </div>
 
         <div class="button-group-wrapper text-center p-1">
 
-                <button  class="btn new-input pull-left" data-tag="ediary:create">New input</button>
-                <button  class="btn back pull-right" data-tag="ediary:back">Back</button>
-
+            <button  class="btn new-input" data-tag="ediary:create">New input</button>
+                
         </div>
 
     </div>

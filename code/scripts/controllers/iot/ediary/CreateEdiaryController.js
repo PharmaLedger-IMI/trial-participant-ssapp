@@ -17,18 +17,18 @@ function getTodayDate() {
 }
 
 const initModel = {
-    isFormInvalid:true,
-    isNew:{
-        checked:true
+    isFormInvalid: true,
+    isUsed: {
+        checked: false
     },
-    isAttached:{
-        checked:true
+    isDetached: {
+        checked: true
     },
     date: {
-        label: "Please indicate the date of the activity",
-        name: "date",
-        required: true,
-        value: getTodayDate()
+       label: "Please indicate the date of the activity",
+       name: "date",
+       required: true,
+       value: getTodayDate()
     },
     notes: {
         label: "Notes",
@@ -45,35 +45,44 @@ export default class CreateEdiaryController extends WebcController {
 
         this.setModel(JSON.parse(JSON.stringify(initModel)));
         this.EDiaryService = new EDiaryService();
-
+        this._addHandlerBack();
         this._attachHandlerEDiaryCreate();
     }
 
     _attachHandlerEDiaryCreate() {
 
-        this.model.onChange("notes.value",()=>{
+        this.model.onChange("notes.value", () => {
             let notes = this.model.notes.value;
             this.model.isFormInvalid = notes.trim() === "";
         });
-
+        
         this.onTagClick('ediary:create', (event) => {
             let ediaryRecord = {
-                isNew: this.model.isNew,
-                isAttached: this.model.isAttached,
+                //isNew: this.model.isNew,
+                isUsed: this.model.isUsed,
+                isDetached: this.model.isDetached,
                 date: new Date(this.model.date.value).getTime(),
-                notes: this.model.notes.value,
+                //date_mdy: new Date(this.model.date.value).getMonth()+1 + '/' + new Date(this.model.date.value).getDate() + '/' + new Date(this.model.date.value).getFullYear(),
+                notes: this.model.notes.value
+                
             }
 
             this.EDiaryService.saveEdiary(ediaryRecord, (err, data) => {
                 if (err) {
                     return console.log(err);
                 }
+
                 this.navigateToPageTag("thk-ediary");
             });
         });
 
+    }
+    _addHandlerBack() {
 
+        this.onTagClick('ediary:back', () => {
+            this.navigateToPageTag('iot-ediary');
 
+        });
 
     }
 }

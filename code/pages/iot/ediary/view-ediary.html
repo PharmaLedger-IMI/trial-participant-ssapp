@@ -1,5 +1,5 @@
 <link href="./assets/css/pages/ediary.css" rel="stylesheet">
-<webc-container controller="iot/ediary/CreateEdiaryController">
+<webc-container controller="iot/ediary/ViewEDiaryController">
     <div class="container-child">
         <header>
             <button title="back" class="navigate-back" data-tag="ediary:back">
@@ -9,53 +9,61 @@
                 <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
             </div>
         </header>
-
+        
             <div class="p-1 text-center"> 
                 <p></p>
-                <h4 class="title">E-Diary</h4>
-                <h6 class="title">Record your daily use of the device and patch</h6>
+                <h4 class="title">View E-Diary</h4>
+                <h6 class="title">Your daily use of the device and patch</h6>
             </div>
             <div class="form-group">
-                <label class="col-form-label">Please select the options New or used patch?</label>
+                <label class="col-form-label">New or used patch?</label>
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="switch-button">
-                            <input class="switch-button-checkbox" id="ed_button_new"  type="checkbox" data-view-model="@isUsed"></input>
+                            
+                                
+                             
+                                    <input class="switch-button-checkbox" id="ed_button_new" data-view-model="@ediary.isUsed" type="checkbox" disabled></input>
+                                 
+
                             <label class="switch-button-label" ><span class="switch-button-label-span" >New</span></label>
-                        </div>
+                        
+                        
                     </div>    
             </div>
 
 
 
                 <div class="form-group">
-                    <label class="col-form-label">Please select the options.Did you attached or detached the patch?</label>
+                    <label class="col-form-label">Attached or detached the patch?</label>
                     <div class="d-flex flex-row justify-content-center align-items-center">
                         <div class="switch2-button">
                             
-                            <input  id="ed_button_attached" class="switch2-button-checkbox" type="checkbox" data-view-model="@isDetached"></input>
+                            <input  id="ed_button_attached" class="switch2-button-checkbox" type="checkbox" data-view-model="@ediary.isDetached" checked disabled></input>
                             
                             
                             <label class="switch2-button-label"><span class="switch2-button-label-span">Attached</span></label>
-                            <!--<label class="switch2-button-label"><span class="switch2-button-label-span">Detached</span></label>-->
+
                         </div>
                     </div>
                 </div>
 
+
                 <div class="form-group">
-                    <label for="@date.name" class="col-form-label">{{ @date.label}}</label>
-                    <input class="form-control" type="date" data-view-model="@date" id="@date.name"/>     
+                    <label for="@date.name" class="col-form-label">Data [mm/dd/yyyy]</label>
+                    <input  disabled class="form-control" type="date" value="@ediary.stringDate" />     
                 </div>
         
                 <div class="form-group"> 
                     <label class="col-form-label">Notes</label>
-                    <textarea data-view-model="@notes" id="@notes.name" class="form-control" rows="6" cols="40" placeholder="@notes.placeholder"></textarea>
+                    <textarea  disabled class="form-control" rows="6" cols="40" placeholder="">{{@ediary.notes}}</textarea>
                 </div>
 
-                <div class="button-group-wrapper text-center p-1">
+               <!-- <div class="button-group-wrapper text-center p-1">
 
                         <button  class="btn save" data-tag="ediary:create" disabled="@isFormInvalid">Save</button>
         
-                </div>
+                </div>-->
+                
     </div>
 </webc-container>
 

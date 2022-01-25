@@ -32,6 +32,7 @@
 .switch-button-checkbox {
     cursor: pointer;
     position: absolute;
+    align-items: center;
     top: 0;
     left: 0;
     bottom: 0;
@@ -52,6 +53,7 @@
     display: block;
     user-select: none;
     pointer-events: none;
+    text-align: center;
 }
 
 .switch-button-checkbox+.switch-button-label:before {
@@ -137,6 +139,7 @@
     display: block;
     user-select: none;
     pointer-events: none;
+    text-align: center;
 }
 
 .switch2-button-checkbox+.switch2-button-label:before {

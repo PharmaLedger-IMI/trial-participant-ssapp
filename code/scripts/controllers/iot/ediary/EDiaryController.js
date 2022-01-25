@@ -8,23 +8,27 @@ export default class EDiaryController extends WebcController {
         super(...props);
 
         this.setModel({
-            trials: []
+            ediaries: []
         });
 
         this.EDiaryService = new EDiaryService();
+        
         this.EDiaryService.getEdiaries((err, data) => {
             if (err) {
                 return console.log(err);
             }
-            this.model.trials = data;
+            data.forEach(item => {
+                item.stringDate = new Date(item.date).toLocaleDateString();
+                console.log(item.stringDate);
+            });
+            this.model.ediaries = data;
+            console.log(data);
         });
 
         this._attachHandlerEDiaryCreate();
+        this._attachHandlerEDiaryView();
         this._attachHandlerEDiaryBack();
 
-        this.on('openFeedback', (evt) => {
-            this.feedbackEmitter = evt.detail;
-        });
     }
 
     _attachHandlerEDiaryCreate (){
@@ -38,27 +42,15 @@ export default class EDiaryController extends WebcController {
             this.navigateToPageTag('iot-devices');
         });
     }
-
-    __displayErrorMessages = (event) => {
-        return this.__displayErrorRequiredField(event, 'name', this.model.name.value) ||
-            this.__displayErrorRequiredField(event, 'version', this.model.version.value) ||
-              this.__displayErrorRequiredField(event, 'consentName', this.model.consentName.value) ;
+    _attachHandlerEDiaryView() {
+        
+        this.onTagClick('ediary:view', (model) => {
+            console.log(model);
+            this.navigateToPageTag('view-ediary',{
+                uid: model.KeySSI
+            });
+        });
     }
 
-    __displayErrorRequiredField(event, fieldName, field) {
-        if (field === undefined || field === null || field.length === 0) {
-            this._emitFeedback(event, fieldName.toUpperCase() + " field is required.", "alert-danger")
-            return true;
-        }
-        return false;
-    }
-
-    _emitFeedback(event, message, alertType) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        if (typeof this.feedbackEmitter === 'function') {
-            this.feedbackEmitter(message, "Validation", alertType)
-        }
-    }
 
 }
