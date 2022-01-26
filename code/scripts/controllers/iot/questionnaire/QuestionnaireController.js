@@ -25,7 +25,7 @@ export default class QuestionnaireController extends WebcController {
 
         this.setModel(getInitModel());
 
-        this.CommunicationService = CommunicationService.getInstance(CommunicationService.identities.IOT.EDIARY_IDENTITY);
+        this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.QuestionnaireService = new QuestionnaireService();
         this.ResponsesService = new ResponsesService();
 

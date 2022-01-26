@@ -20,7 +20,7 @@ export default class EconsentVersionsController extends WebcController {
 
     _initServices() {
         this.TrialService = new TrialService();
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
     }
 
     _initHandlers() {

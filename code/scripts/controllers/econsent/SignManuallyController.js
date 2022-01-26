@@ -31,10 +31,10 @@ export default class SignManuallyController extends WebcController {
 
     _initServices() {
         this.TrialService = new TrialService();
-        this.CommunicationService = CommunicationService.getInstance(CommunicationService.identities.ECO.PATIENT_IDENTITY);
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
+        this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
         this.EcosentService = new EconsentService();
-        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
+        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
@@ -211,7 +211,6 @@ export default class SignManuallyController extends WebcController {
                 return console.log(err);
             }
             let fileName = this.file[0].name;
-            debugger;
             this._finishActionSave(eco.KeySSI, fileName);
         });
 

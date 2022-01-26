@@ -25,8 +25,8 @@ export default class TrialController extends WebcController {
 
     async _initServices() {
         this.TrialService = new TrialService();
-        this.EconsentsStatusRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
+        this.EconsentsStatusRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
+        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {

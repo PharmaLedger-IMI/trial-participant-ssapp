@@ -3,7 +3,9 @@ import TrialConsentService from "../../services/TrialConsentService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
-const DIDService = commonServices.DIDService;
+const CommunicationService = commonServices.CommunicationService;
+const ProfileService = commonServices.ProfileService;
+const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
 
 
@@ -40,61 +42,65 @@ export default class LandingController extends WebcController {
     }
 
     async initServices() {
-        this.model.did = await DIDService.getDidAsync(this);
+        this.model.did = await ProfileService.getProfileServiceInstance().getDID();
         this.TrialService = new TrialService();
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT);
-        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS);
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
-        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
-
-        this.CommunicationService = await DIDService.getCommunicationServiceInstanceAsync(this);
+        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES,this.DSUStorage);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS,this.DSUStorage);
+        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS,this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
-        this._handleMessages();
 
+        this._attachMessageHandlers();
     }
 
-    _handleMessages() {
-        this.CommunicationService.listenForMessages(async (err, data) => {
-            if (err) {
+    _attachMessageHandlers() {
+        MessageHandlerService.init(async (err, data) =>{
+
+        if (err) {
                 return console.error(err);
             }
-            let hcoIdentity = {
-                did: data.did,
-                domain: data.domain
+
+            data = JSON.parse(data);
+
+            let hcoIdentity = data.senderIdentity;
+
+            if (typeof hcoIdentity === "undefined") {
+                throw new Error("Sender identity is undefined. Did you forgot to add it?")
             }
-            console.log("OPERATION:", data.message.operation);
-            switch (data.message.operation) {
+
+            console.log("OPERATION:", data.operation);
+            switch (data.operation) {
                 case  CONSTANTS.MESSAGES.PATIENT.REFRESH_TRIAL: {
-                    this.TrialService.reMountTrial(data.message.ssi, (err, trial) => {
+                    this.TrialService.reMountTrial(data.ssi, (err, trial) => {
                         this._saveConsentsStatuses(this.model.trialConsent.volatile.ifc, this.model.tp?.did);
                     });
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.ADD_TO_TRIAL : {
                     this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
-                    this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc?.consents, data.message.useCaseSpecifics.did);
+                    this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc?.consents, data.useCaseSpecifics.did);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
                     this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
-                    this._saveVisit(data.message.useCaseSpecifics.visit);
+                    this._saveVisit(data.useCaseSpecifics.visit);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_VISIT : {
                     this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_UPDATE);
-                    this._updateVisit(data.message.useCaseSpecifics.visit);
+                    this._updateVisit(data.useCaseSpecifics.visit);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER: {
                     this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
-                    this._updateTrialParticipant(data.message.useCaseSpecifics);
+                    this._updateTrialParticipant(data.useCaseSpecifics);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.QUESTION_RESPONSE: {
                     //this.saveNotification(data);
-                    this._updateQuestion(data.message.useCaseSpecifics)
+                    this._updateQuestion(data.useCaseSpecifics)
                     break;
                 }
                 case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
@@ -121,11 +127,12 @@ export default class LandingController extends WebcController {
             ssi: this.TrialConsentService.ssi,
             shortDescription: null,
         };
-        this.CommunicationService.sendMessage(hcoIdentity, sendObject);
+        let communicationService = CommunicationService.getCommunicationServiceInstance();
+        communicationService.sendMessage(hcoIdentity, sendObject);
     }
 
     _mountHCODSUAndSaveConsentStatuses(data, callback) {
-        this.TrialConsentService.mountHCODSU(data.message.ssi, (err, trialConsent) => {
+        this.TrialConsentService.mountHCODSU(data.ssi, (err, trialConsent) => {
             if (err) {
                 return callback(err);
             }
@@ -136,9 +143,9 @@ export default class LandingController extends WebcController {
 
 
     async _mountICFAndSaveConsentStatuses(data) {
-        let trialConsent = await this.TrialConsentService.mountIFCAsync(data.message.ssi);
+        let trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
         this.model.trialConsent = trialConsent;
-        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc, data.message.useCaseSpecifics.did);
+        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc, data.useCaseSpecifics.did);
     }
 
     async _saveConsentsStatuses(consents, did) {
@@ -185,8 +192,8 @@ export default class LandingController extends WebcController {
 
     async saveNotification(message, type) {
         let notification = {
-            ...message.message,
-            uid: message.message.ssi,
+            ...message,
+            uid: message.ssi,
             viewed: false,
             date: Date.now(),
             type:type
@@ -225,12 +232,9 @@ export default class LandingController extends WebcController {
 
     async _handleAddToTrial(data, notificationType) {
         this.saveNotification(data, notificationType);
-        let hcoIdentity = {
-            did: data.did,
-            domain: data.domain
-        }
-        await this._saveTrialParticipantInfo(hcoIdentity, data.message.useCaseSpecifics);
-        await this.mountTrial(data.message.useCaseSpecifics.trialSSI);
+        let hcoIdentity = data.senderIdentity;
+        await this._saveTrialParticipantInfo(hcoIdentity, data.useCaseSpecifics);
+        await this.mountTrial(data.useCaseSpecifics.trialSSI);
     }
 
     _updateQuestion(data) {
