@@ -11,7 +11,6 @@
     color: white;
     position: relative;
     padding-right: 120px;
-    position: relative;
 }
 
 .switch-button:before {
@@ -49,7 +48,7 @@
 
 .switch-button-checkbox+.switch-button-label {
     position: relative;
-    padding: 10px 0px;
+    padding: 10px 0;
     display: block;
     user-select: none;
     pointer-events: none;
@@ -98,7 +97,6 @@
     color: white;
     position: relative;
     padding-right: 120px;
-    position: relative;
 }
 
 .switch2-button:before {
@@ -135,7 +133,7 @@
 
 .switch2-button-checkbox+.switch2-button-label {
     position: relative;
-    padding: 10px 0px;
+    padding: 10px 0;
     display: block;
     user-select: none;
     pointer-events: none;
@@ -164,24 +162,24 @@
 }
 
 .t-data-ed-home {
-    padding-top: 0px;
+    padding-top: 0;
     padding-left: 20px;
-    color: blank;
-    font-size: 20px;
+    color: black;
+    font-size: 18px;
     font-weight: bold;
     display: block;
     text-align: left;
 }
 
 .t-notes-ed-home {
-    padding-top: 0px;
+    padding-top: 0;
     padding-left: 20px;
     font-size: 14px;
     display: block;
     text-align: left !important;
 }
 
-.fa-square {
+.ed-list-btn i.fa {
     color: #008798;
     background-color: #fff;
 }
@@ -198,7 +196,6 @@
     margin: 0;
 }
 
-.btn.new-input,
 .btn.back {
     border-radius: 1rem;
     background-color: #008798;
@@ -223,7 +220,7 @@
 
 .t-thank {
     padding-top: 60px;
-    color: blank;
+    color: black;
     font-size: 34px;
     font-weight: bold;
     letter-spacing: 1px;
@@ -238,4 +235,11 @@
     font-weight: bold;
     letter-spacing: 1px;
     text-align: center;
+}
+
+.ediaries-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: calc(100% - 3rem);
 }

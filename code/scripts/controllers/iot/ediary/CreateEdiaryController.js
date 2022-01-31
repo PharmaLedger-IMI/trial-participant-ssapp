@@ -1,20 +1,6 @@
 import EDiaryService from "../../../services/iot/EDiaryService.js";
-
+const commonServices = require("common-services");
 const { WebcController } = WebCardinal.controllers;
-
-function getTodayDate() {
-    let date = new Date(),
-        month = '' + (date.getMonth() + 1),
-        day = '' + date.getDate(),
-        year = date.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
 
 const initModel = {
     isFormInvalid: true,
@@ -28,7 +14,7 @@ const initModel = {
        label: "Please indicate the date of the activity",
        name: "date",
        required: true,
-       value: getTodayDate()
+       value: commonServices.DateTimeService.convertDateToInputValue(new Date())
     },
     notes: {
         label: "Notes",
@@ -58,13 +44,10 @@ export default class CreateEdiaryController extends WebcController {
         
         this.onTagClick('ediary:create', (event) => {
             let ediaryRecord = {
-                //isNew: this.model.isNew,
                 isUsed: this.model.isUsed,
                 isDetached: this.model.isDetached,
                 date: new Date(this.model.date.value).getTime(),
-                //date_mdy: new Date(this.model.date.value).getMonth()+1 + '/' + new Date(this.model.date.value).getDate() + '/' + new Date(this.model.date.value).getFullYear(),
                 notes: this.model.notes.value
-                
             }
 
             this.EDiaryService.saveEdiary(ediaryRecord, (err, data) => {

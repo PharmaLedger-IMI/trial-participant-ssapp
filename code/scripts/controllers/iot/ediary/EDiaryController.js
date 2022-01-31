@@ -1,5 +1,4 @@
 import EDiaryService from "../../../services/iot/EDiaryService.js";
-
 const { WebcController } = WebCardinal.controllers;
 
 
@@ -19,10 +18,8 @@ export default class EDiaryController extends WebcController {
             }
             data.forEach(item => {
                 item.stringDate = new Date(item.date).toLocaleDateString();
-                console.log(item.stringDate);
             });
             this.model.ediaries = data;
-            console.log(data);
         });
 
         this._attachHandlerEDiaryCreate();

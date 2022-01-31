@@ -2,68 +2,59 @@
 <webc-container controller="iot/ediary/ViewEDiaryController">
     <div class="container-child">
         <header>
-            <button title="back" class="navigate-back" data-tag="ediary:back">
-                <i class="fa fa-angle-left"></i>
-            </button>
-            <div class="text-center logo-container">
-                <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
+            <div class="header-title">
+                <button title="back" class="navigate-back" data-tag="ediary:back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>View E-Diary</h3>
             </div>
         </header>
-        
-            <div class="p-1 text-center"> 
-                <p></p>
-                <h4 class="title">View E-Diary</h4>
-                <h6 class="title">Your daily use of the device and patch</h6>
+
+        <div class="p-1 text-center">
+            <h5 class="title">Your daily use of the device and patch</h5>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">New or used patch?</label>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <div class="switch-button">
+
+                    <input class="switch-button-checkbox" data-view-model="@ediary.isUsed"
+                           type="checkbox" disabled/>
+
+                    <label class="switch-button-label"><span class="switch-button-label-span">New</span></label>
+
+                </div>
             </div>
+
+
             <div class="form-group">
-                <label class="col-form-label">New or used patch?</label>
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        <div class="switch-button">
-                            
-                                
-                             
-                                    <input class="switch-button-checkbox" id="ed_button_new" data-view-model="@ediary.isUsed" type="checkbox" disabled></input>
-                                 
+                <label class="col-form-label">Attached or detached the patch?</label>
+                <div class="d-flex flex-row justify-content-center align-items-center">
+                    <div class="switch2-button">
 
-                            <label class="switch-button-label" ><span class="switch-button-label-span" >New</span></label>
-                        
-                        
-                    </div>    
-            </div>
+                        <input class="switch2-button-checkbox" type="checkbox"
+                               data-view-model="@ediary.isDetached" checked disabled/>
 
 
+                        <label class="switch2-button-label"><span
+                                class="switch2-button-label-span">Attached</span></label>
 
-                <div class="form-group">
-                    <label class="col-form-label">Attached or detached the patch?</label>
-                    <div class="d-flex flex-row justify-content-center align-items-center">
-                        <div class="switch2-button">
-                            
-                            <input  id="ed_button_attached" class="switch2-button-checkbox" type="checkbox" data-view-model="@ediary.isDetached" checked disabled></input>
-                            
-                            
-                            <label class="switch2-button-label"><span class="switch2-button-label-span">Attached</span></label>
-
-                        </div>
                     </div>
                 </div>
+            </div>
 
 
-                <div class="form-group">
-                    <label for="@date.name" class="col-form-label">Data [mm/dd/yyyy]</label>
-                    <input  disabled class="form-control" type="date" value="@ediary.stringDate" />     
-                </div>
-        
-                <div class="form-group"> 
-                    <label class="col-form-label">Notes</label>
-                    <textarea  disabled class="form-control" rows="6" cols="40" placeholder="">{{@ediary.notes}}</textarea>
-                </div>
+            <div class="form-group">
+                <label class="col-form-label">E-diary date</label>
+                <input disabled class="form-control" type="date" value="@ediary.stringDate"/>
+            </div>
 
-               <!-- <div class="button-group-wrapper text-center p-1">
+            <div class="form-group">
+                <label class="col-form-label">Notes</label>
+                <textarea disabled class="form-control" rows="6" cols="40" placeholder="">{{@ediary.notes}}</textarea>
+            </div>
 
-                        <button  class="btn save" data-tag="ediary:create" disabled="@isFormInvalid">Save</button>
-        
-                </div>-->
-                
+        </div>
     </div>
 </webc-container>
 
