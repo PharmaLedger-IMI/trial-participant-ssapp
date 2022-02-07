@@ -1,5 +1,6 @@
 import TrialService from "../../services/TrialService.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
+import ProfileService from '../../services/ProfileService.js';
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -7,6 +8,7 @@ const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
+const DSUService = commonServices.DSUService;
 
 
 const CONSTANTS = commonServices.Constants;
@@ -51,8 +53,11 @@ export default class LandingController extends WebcController {
         this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS,this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
-
         this._attachMessageHandlers();
+        this.profileService = ProfileService.getProfileService();
+        this.profileService.getProfilePicture((err,data)=>{
+            this.model.profilePicture = data
+        })
     }
 
     _attachMessageHandlers() {

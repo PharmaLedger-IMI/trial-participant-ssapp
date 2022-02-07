@@ -1,5 +1,6 @@
 import TrialService from '../../services/TrialService.js';
 import TrialConsentService from '../../services/TrialConsentService.js';
+import ProfileService from '../../services/ProfileService.js';
 
 const {WebcController} = WebCardinal.controllers;
 
@@ -27,6 +28,10 @@ export default class TrialsDashboard extends WebcController {
         this.CommunicationService = await CommunicationService.getCommunicationServiceInstance();
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
+        this.profileService = ProfileService.getProfileService();
+        this.profileService.getProfilePicture((err,data)=>{
+            this.model.profilePicture = data
+        })
     }
 
     _initHandlers() {

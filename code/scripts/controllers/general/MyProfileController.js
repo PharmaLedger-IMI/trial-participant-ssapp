@@ -1,6 +1,7 @@
 import ProfileModel from '../../models/ProfileModel.js';
 import ProfileService from '../../services/ProfileService.js';
 
+
 const commonServices = require('common-services');
 const DSUService = commonServices.DSUService;
 
@@ -12,7 +13,7 @@ export default class MyProfileController extends WebcController {
         this.profileExists = false;
         this.profilePictureChanged = false;
         this.profileModel = new ProfileModel();
-        this.profileService = new ProfileService();
+        this.profileService = ProfileService.getProfileService();
         this.profileService.getProfile((err, profileData) => {
             if (err) {
                 return console.log(err);
@@ -31,11 +32,7 @@ export default class MyProfileController extends WebcController {
         });
         
         this.profileService.getProfilePicture((err,data)=>{
-            if (err || !data) {
-                this.model.profilePicture = "./assets/images/profile-pic.jpg"
-            } else {
-                this.model.profilePicture = data
-            }
+            this.model.profilePicture = data
         })
 
         this.addTagsListeners();
@@ -58,9 +55,6 @@ export default class MyProfileController extends WebcController {
                 }
                 if (this.profilePictureChanged) {
                     this.profileService.saveProfilePicture(this.model.profilePicture, () =>{
-                        if (err) {
-                            return console.log(err);
-                        } 
                         this.navigateToPageTag("home");
                     })
                 } else {
