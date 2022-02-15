@@ -1,5 +1,6 @@
 {
-    "translations":"false",
+    "translations":false,
+    "logLevel": "none",
     "theme": "trial-participant-theme",
     "pages": [{
             "name": "Landing",
