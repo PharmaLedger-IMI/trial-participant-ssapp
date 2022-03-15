@@ -44,7 +44,7 @@ export default class EDiaryController extends WebcController {
         this.onTagClick('ediary:view', (model) => {
             console.log(model);
             this.navigateToPageTag('view-ediary',{
-                uid: model.KeySSI
+                uid: model.uid
             });
         });
     }
