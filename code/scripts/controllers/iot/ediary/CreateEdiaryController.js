@@ -16,6 +16,24 @@ const initModel = {
        required: true,
        value: commonServices.DateTimeService.convertDateToInputValue(new Date())
     },
+    devices: {
+        label: "Please select your device",
+        required: true,
+        options:[{
+            label:"Device 1",
+            value: 'Device 1'
+        },
+        {
+            label:"Device 2",
+            value: 'Device 2'
+        },
+        {
+            label:"Device 3",
+            value: 'Device 3'
+        }
+    ],
+    value: ""
+    },
     notes: {
         label: "Notes",
         name: "notes",
@@ -30,6 +48,7 @@ export default class CreateEdiaryController extends WebcController {
         super(...props);
 
         this.setModel(JSON.parse(JSON.stringify(initModel)));
+        console.log(this.model);
         this.EDiaryService = new EDiaryService();
         this._addHandlerBack();
         this._attachHandlerEDiaryCreate();
@@ -47,7 +66,8 @@ export default class CreateEdiaryController extends WebcController {
                 isUsed: this.model.isUsed,
                 isDetached: this.model.isDetached,
                 date: new Date(this.model.date.value).getTime(),
-                notes: this.model.notes.value
+                notes: this.model.notes.value,
+                device: this.model.devices.value
             }
 
             this.EDiaryService.saveEdiary(ediaryRecord, (err, data) => {

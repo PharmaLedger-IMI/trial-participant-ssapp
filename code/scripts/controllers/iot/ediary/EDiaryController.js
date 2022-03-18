@@ -21,7 +21,7 @@ export default class EDiaryController extends WebcController {
             });
             this.model.ediaries = data;
         });
-
+console.log(this.model);
         this._attachHandlerEDiaryCreate();
         this._attachHandlerEDiaryView();
         this._attachHandlerEDiaryBack();
