@@ -104,30 +104,6 @@
             "tag": "iot-health-studies"
         },
         {
-            "name": "E-Diary",
-            "path": "/iot-ediary",
-            "src": "iot/ediary/ediary.html",
-            "tag": "iot-ediary"
-        },
-        {
-            "name": "Create E-Diary",
-            "path": "/iot-ediary/create-diary",
-            "src": "iot/ediary/create-diary.html",
-            "tag": "create-diary"
-        },
-        {
-            "name": "Thk E-Diary",
-            "path": "/thk-ediary",
-            "src": "iot/ediary/thk-ediary.html",
-            "tag": "thk-ediary"
-        },
-        {
-            "name": "View E-Diary",
-            "path": "/view-ediary",
-            "src": "iot/ediary/view-ediary.html",
-            "tag": "view-ediary"
-        },
-        {
             "name": "Questionnaire",
             "path": "/iot-questionnaire",
             "src": "iot/questionnaire/questionnaire.html",
