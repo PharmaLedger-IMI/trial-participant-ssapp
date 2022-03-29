@@ -17,16 +17,13 @@ export default class PendingInvitationsController extends WebcController {
         ];
 
         this.onTagClick('view-study-details', (model) => {
-            console.log('modelul', model);
-            let objToSend = {
+            let invitationState = {
                 pageType: 'pending-invitations',
                 title: model,
                 confirmationMessage: `Hello User ID! Hospital Saint Mary from London is about to start a Clinical trial on measuring Vit D after lockdown due to COVID-19.  Are you willing to participate?
-                Hello User ID! Hospital Saint Mary from London is about to start a Clinical trial on measuring Vit D after lockdown due to COVID-19.  Are you willing to participate?
-                Hello User ID! Hospital Saint Mary from London is about to start a Clinical trial on measuring Vit D after lockdown due to COVID-19.  Are you willing to participate?`
+                Hello User ID! Hospital Saint Mary from London is about to start a Clinical trial on measuring Vit D after lockdown due to COVID-19.`
             }
-            this.navigateToPageTag('view-study-details', objToSend)
-            console.log(objToSend)
+            this.navigateToPageTag('view-study-details', invitationState)
         })
     }
 }

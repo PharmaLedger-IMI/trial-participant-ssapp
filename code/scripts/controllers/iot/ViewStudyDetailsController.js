@@ -7,14 +7,11 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = prevState;
 
         this.onTagClick('confirm', (model) => {
-            let objToSend = {
+            let studyState = {
                 confirmationMessage: `Hello User ID! Thanks for accepting the request. 
-                Are you willing to give permission to hospitals/pharmas/stakeholders to re-use your data? 
-                Are you willing to give permission to hospitals/pharmas/stakeholders to re-use your data?
                 Are you willing to give permission to hospitals/pharmas/stakeholders to re-use your data?`
             }
-            this.navigateToPageTag('user-permission', objToSend)
-            console.log(objToSend)
+            this.navigateToPageTag('user-permission', studyState)
         })
     }
 }
