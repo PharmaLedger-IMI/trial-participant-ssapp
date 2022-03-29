@@ -8,7 +8,6 @@ const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
-const DSUService = commonServices.DSUService;
 
 
 const CONSTANTS = commonServices.Constants;
@@ -44,6 +43,7 @@ export default class LandingController extends WebcController {
     }
 
     async initServices() {
+        this._attachMessageHandlers();
         this.model.did = await DidService.getDidServiceInstance().getDID();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
@@ -53,7 +53,6 @@ export default class LandingController extends WebcController {
         this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS,this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
-        this._attachMessageHandlers();
         this.profileService = ProfileService.getProfileService();
         this.profileService.getProfilePicture((err,data)=>{
             this.model.profilePicture = data
