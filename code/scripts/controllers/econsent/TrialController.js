@@ -16,7 +16,7 @@ export default class TrialController extends WebcController {
         this.model.econsentsAreLoaded = false;
         this.model.tpStatus = [];
         let receivedObject = this.history.win.history.state.state;
-        this.model.keyssi = receivedObject.trialSSI;
+        this.model.uid = receivedObject.uid;
         this.model.tpNumber = receivedObject.tpNumber;
         this.model.tpDid = receivedObject.tpDid;
         this._initServices();
@@ -44,7 +44,7 @@ export default class TrialController extends WebcController {
     }
 
     _initTrial() {
-        this.TrialService.getTrial(this.model.keyssi, async (err, trial) => {
+        this.TrialService.getTrial(this.model.uid, async (err, trial) => {
             if (err) {
                 return console.log(err);
             }
@@ -114,7 +114,7 @@ export default class TrialController extends WebcController {
             event.stopImmediatePropagation();
             this.navigateToPageTag('econsent', {
                 tpDid: this.model.tpDid,
-                trialuid: this.model.keyssi,
+                trialuid: this.model.uid,
                 ecoId: model.uid,
                 ecoVersion: model.version,
             });
