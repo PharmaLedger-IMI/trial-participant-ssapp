@@ -1,0 +1,58 @@
+<webc-container controller="iot/ViewStudyDetailsController">
+
+    <webc-switch condition="@pageType">
+
+        <div slot="participating-study" class="container-child view-study-details">
+    
+            <header>
+                <div class="header-title">
+                    <button class="navigate-back" data-tag="navigation:go-back">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <h3>{{@title.value}}</h3>
+                </div>
+            </header>
+    
+    
+            <div class="study-details-container">
+                <div>
+                    <p class="description-text">{{@description}}</p>
+                </div>
+                
+                <div>
+                    <button type="button" data-tag="stop-sharing" class="general-button action-btn">STOP sharing</button>
+                </div>
+            </div>
+                
+        </div>
+
+
+        <div slot="pending-invitations" class="container-child view-study-details">
+    
+            <header>
+                <div class="header-title">
+                    <button class="navigate-back" data-tag="navigation:go-back">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <h3>Pending Invitations</h3>
+                </div>
+            </header>
+    
+    
+            <div class="pending-study">
+
+                <div>
+                    <p class="confirmation-text">{{@confirmationMessage}}</p>
+                </div>
+                
+                <div class="pending-btn-container">
+                    <button type="button" data-tag="reject" class="general-button action-btn">Reject</button>
+                    <button type="button" data-tag="confirm" class="general-button action-btn">Confirm</button>
+                </div>
+            </div>
+                
+        </div>
+
+    </webc-switch>
+
+</webc-container>

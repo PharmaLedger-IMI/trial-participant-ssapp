@@ -1,0 +1,29 @@
+<webc-container controller="iot/UserPermissionController">
+
+    <div class="container-child view-study-details">
+
+        <header>
+            <div class="header-title">
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>Pending Invitations</h3>
+            </div>
+        </header>
+
+
+        <div class="pending-study">
+
+            <div>
+                <p class="confirmation-text">{{@confirmationMessage}}</p>
+            </div>
+
+            <div class="pending-btn-container">
+                <button type="button" data-tag="reject" class="general-button action-btn">Reject</button>
+                <button type="button" data-tag="confirm" class="general-button action-btn">Confirm</button>
+            </div>
+        </div>
+
+    </div>
+
+</webc-container>
