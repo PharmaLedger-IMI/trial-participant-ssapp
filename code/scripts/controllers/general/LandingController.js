@@ -17,8 +17,12 @@ export default class LandingController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model = JSON.parse(JSON.stringify(usecases));
-        this.addHandlers();
-        this.initServices();
+
+        DidService.getDidServiceInstance().getDID().then(async (did) => {
+            this.model.did = did;
+            await this.initServices();
+            this.addHandlers();
+        });
     }
 
     addHandlers() {
@@ -44,7 +48,6 @@ export default class LandingController extends WebcController {
 
     async initServices() {
         this._attachMessageHandlers();
-        this.model.did = await DidService.getDidServiceInstance().getDID();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
