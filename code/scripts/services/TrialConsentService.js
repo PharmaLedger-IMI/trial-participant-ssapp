@@ -26,6 +26,8 @@ export default class TrialConsentService extends DSUService {
             if (typeof trialConsents !== 'undefined' && trialConsents.length > 0) {
                 let trialConsent = trialConsents[0];
                 classThis.ssi = trialConsent.uid;
+                classThis.sReadSSI = trialConsent.sReadSSI;
+
                 return this.fillObjectWithVolatileSubItems(trialConsent, (err, data) => callback(err, data))
             }
             this.saveEntity({}, (err, entity) => {
@@ -33,7 +35,15 @@ export default class TrialConsentService extends DSUService {
                     return callback(err);
                 }
                 classThis.ssi = entity.uid;
-                this.fillObjectWithVolatileSubItems(entity, (err, data) => callback(err, data))
+                //store sRead to be able to share it
+                classThis.sReadSSI = entity.sReadSSI;
+                this.updateEntity(entity,(err, entity)=>{
+                    if(err){
+                        return callback(err);
+                    }
+                    this.fillObjectWithVolatileSubItems(entity, (err, data) => callback(err, data))
+                })
+
             })
         })
     }

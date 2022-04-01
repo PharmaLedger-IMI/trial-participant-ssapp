@@ -131,7 +131,7 @@ export default class LandingController extends WebcController {
     _sendTrialConsentToHCO(hcoIdentity) {
         let sendObject = {
             operation: CONSTANTS.MESSAGES.PATIENT.SEND_TRIAL_CONSENT_DSU_TO_HCO,
-            ssi: this.TrialConsentService.ssi,
+            ssi: this.TrialConsentService.sReadSSI,
             shortDescription: null,
         };
         let communicationService = CommunicationService.getCommunicationServiceInstance();
