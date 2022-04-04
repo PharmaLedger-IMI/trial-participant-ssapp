@@ -1,0 +1,37 @@
+<link href="./assets/css/pages/new_ediary.css" rel="stylesheet">
+<webc-container controller="CalendarController" id='calendar' data-view-model="@calendar">
+        <div class="container">
+            <div class="calendar">
+                <div class="month">
+
+
+                    <button class="navigate-back" data-tag="calendar:prev">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+
+                    <!--<span class="fas fa-angle-left" data-tag="calendar:prev"></span>-->
+                    <div class="date">
+                        <h1></h1>
+                        <p></p>
+                    </div>
+
+                    <button class="navigate-back" data-tag="calendar:next">
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+
+                    <!--<span class="fas fa-angle-right" data-tag="calendar:next"></span>-->
+
+                </div>
+                <div class="weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="days"></div>
+            </div>
+        </div>
+</webc-container>

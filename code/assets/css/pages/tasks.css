@@ -1,0 +1,17 @@
+*{
+    text-align:center;
+}
+
+
+h3{
+    text-align:center;
+}
+
+.date {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    background-color: #00345b;
+    width: 70%;
+    color: #ffffff;
+}

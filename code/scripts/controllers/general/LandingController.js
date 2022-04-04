@@ -18,6 +18,8 @@ export default class LandingController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model = JSON.parse(JSON.stringify(usecases));
+        // TODO: Testing - to be removed
+        this.model.calendar = {value: ""}
         this.addHandlers();
         this.initServices();
     }
@@ -31,6 +33,9 @@ export default class LandingController extends WebcController {
         });
         this.onTagEvent("navigate:econsent-trials-dashboard", "click", () => {
             this.navigateToPageTag('econsent-trials-dashboard');
+        });
+        this.onTagEvent("navigate:eDiary", "click", () => {
+            this.navigateToPageTag('eDiary');
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
             this.navigateToPageTag('iot-devices');
