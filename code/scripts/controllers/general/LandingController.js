@@ -174,7 +174,7 @@ export default class LandingController extends WebcController {
             if (!status) {
                 consent.actions = [];
                 consent.actions.push({name: 'required'});
-                consent.foreignConsentId = consent.keySSI;
+                consent.foreignConsentId = consent.uid;
                 consent.tpDid = did;
                 await this.EconsentsStatusRepository.createAsync(consent);
             }
