@@ -8,7 +8,6 @@ const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
-const DSUService = commonServices.DSUService;
 
 
 const CONSTANTS = commonServices.Constants;
@@ -18,10 +17,12 @@ export default class LandingController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model = JSON.parse(JSON.stringify(usecases));
-        // TODO: Testing - to be removed
-        this.model.calendar = {value: ""}
-        this.addHandlers();
-        this.initServices();
+
+        DidService.getDidServiceInstance().getDID().then(async (did) => {
+            this.model.did = did;
+            await this.initServices();
+            this.addHandlers();
+        });
     }
 
     addHandlers() {
@@ -49,7 +50,7 @@ export default class LandingController extends WebcController {
     }
 
     async initServices() {
-        this.model.did = await DidService.getDidServiceInstance().getDID();
+        this._attachMessageHandlers();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
@@ -58,7 +59,6 @@ export default class LandingController extends WebcController {
         this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS,this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
-        this._attachMessageHandlers();
         this.profileService = ProfileService.getProfileService();
         this.profileService.getProfilePicture((err,data)=>{
             this.model.profilePicture = data
@@ -134,7 +134,7 @@ export default class LandingController extends WebcController {
     _sendTrialConsentToHCO(hcoIdentity) {
         let sendObject = {
             operation: CONSTANTS.MESSAGES.PATIENT.SEND_TRIAL_CONSENT_DSU_TO_HCO,
-            ssi: this.TrialConsentService.ssi,
+            ssi: this.TrialConsentService.sReadSSI,
             shortDescription: null,
         };
         let communicationService = CommunicationService.getCommunicationServiceInstance();
@@ -177,7 +177,7 @@ export default class LandingController extends WebcController {
             if (!status) {
                 consent.actions = [];
                 consent.actions.push({name: 'required'});
-                consent.foreignConsentId = consent.keySSI;
+                consent.foreignConsentId = consent.uid;
                 consent.tpDid = did;
                 await this.EconsentsStatusRepository.createAsync(consent);
             }

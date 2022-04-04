@@ -116,6 +116,30 @@
             "tag": "iot-health-studies"
         },
         {
+            "name": "Participating Studies",
+            "path": "/participating-studies",
+            "src": "iot/participating-studies.html",
+            "tag": "participating-studies"
+        },
+        {
+            "name": "Pending Invitations",
+            "path": "/pending-invitations",
+            "src": "iot/pending-invitations.html",
+            "tag": "pending-invitations"
+        },
+        {
+            "name": "View Study Details",
+            "path": "/view-study-details",
+            "src": "iot/view-study-details.html",
+            "tag": "view-study-details"
+        },
+        {
+            "name": "user-permission",
+            "path": "/user-permission",
+            "src": "iot/user-permission.html",
+            "tag": "user-permission"
+        },
+        {
             "name": "E-Diary",
             "path": "/iot-ediary",
             "src": "iot/ediary/ediary.html",

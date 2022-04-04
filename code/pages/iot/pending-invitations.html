@@ -1,0 +1,27 @@
+<webc-container controller="iot/PendingInvitationsController">
+
+    <div class="container-child">
+
+        <header>
+            <div class="header-title">
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>Pending Invitations</h3>
+            </div>
+        </header>
+
+        <div class="participating-studies-container">
+            <div data-for="@studies">
+                <div class="participating-study">
+                    <p>{{@value}}</p>
+                    <button type="button" data-tag="view-study-details" class="general-button action-btn">View</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</webc-container>

@@ -72,7 +72,7 @@ export default class TrialsDashboard extends WebcController {
             event.stopImmediatePropagation();
 
             this.navigateToPageTag('trial', {
-                trialSSI: trial.keySSI,
+                uid: trial.uid,
                 tpDid: this.model.tp.did,
                 isNewTp: this.model.isNewTp,
             });

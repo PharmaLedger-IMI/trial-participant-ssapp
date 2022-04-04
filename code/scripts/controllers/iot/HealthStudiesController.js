@@ -5,7 +5,15 @@ const {WebcController} = WebCardinal.controllers;
 export default class HealthStudiesController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.initServices()
+        this.initServices();
+
+        this.onTagClick("participating-studies",()=>{
+            this.navigateToPageTag("participating-studies");
+        });
+
+        this.onTagClick("pending-invitations",()=>{
+            this.navigateToPageTag("pending-invitations");
+        });
     }
 
     async initServices() {
