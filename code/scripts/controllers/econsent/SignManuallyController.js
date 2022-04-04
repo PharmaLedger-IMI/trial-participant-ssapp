@@ -132,7 +132,7 @@ export default class SignManuallyController extends WebcController {
         });
     }
 
-    sendMessageToSponsorAndHCO(action, ssi, shortMessage, fileSSI, fileName) {
+    sendMessageToHCO(action, ssi, shortMessage, fileSSI, fileName) {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
@@ -164,7 +164,6 @@ export default class SignManuallyController extends WebcController {
                     },
                     shortDescription: shortMessage,
                 };
-                this.CommunicationService.sendMessage(this.model.tp.sponsorIdentity, sendObject);
                 this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
             }
         });
@@ -197,7 +196,7 @@ export default class SignManuallyController extends WebcController {
 
     _finishActionSave(fileSSI, fileName) {
         this.navigateToPageTag('econsent-trials-dashboard');
-        this.sendMessageToSponsorAndHCO('sign', this.model.historyData.ecoId, 'TP signed econsent ', fileSSI, fileName);
+        this.sendMessageToHCO('sign', this.model.historyData.ecoId, 'TP signed econsent ', fileSSI, fileName);
     }
 
     async _saveStatus(operation) {
@@ -211,7 +210,7 @@ export default class SignManuallyController extends WebcController {
                 return console.log(err);
             }
             let fileName = this.file[0].name;
-            this._finishActionSave(eco.KeySSI, fileName);
+            this._finishActionSave(eco.uid, fileName);
         });
 
         if (this.model.status === undefined || this.model.status.uid === undefined) {
