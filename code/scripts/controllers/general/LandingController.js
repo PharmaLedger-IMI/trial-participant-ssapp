@@ -44,6 +44,9 @@ export default class LandingController extends WebcController {
         this.onTagEvent("navigate:iot-feedback", "click", () => {
             this.navigateToPageTag('iot-feedback');
         });
+        this.onTagEvent("navigate:temporary-page", "click", () => {
+            this.navigateToPageTag('iot-ediary-pending-tempor');
+        });
     }
 
     async initServices() {

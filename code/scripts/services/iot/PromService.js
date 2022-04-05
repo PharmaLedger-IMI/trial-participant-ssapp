@@ -1,0 +1,35 @@
+import Questionnaire from "../../models/iot/QuestionnairePromPrem.js";
+
+const commonServices = require('common-services');
+const DSUService = commonServices.DSUService;
+
+export default class PromService extends DSUService {
+
+    constructor() {
+        super('/prom');
+    }
+
+    getProms = (callback) => {
+
+        this.getEntities((err, entities) => {
+            if (err) {
+                return callback(err);
+            }
+
+            if (entities.length > 0) {
+                return callback(err, entities[0])
+            }
+
+            this.saveProm(Questionnaire.prom, (err, data) => {
+                if (err) {
+                    return console.log(err);
+                }
+                callback(err, data);
+            })
+        });
+
+
+    }
+
+    saveProm = (data, callback) => this.saveEntity(data, callback);
+}
