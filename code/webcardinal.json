@@ -15,6 +15,18 @@
             "tag": "econsent-trials-dashboard"
         },
         {
+            "name": "eDiary",
+            "path": "/eDiary",
+            "src": "econsent/eDiary.html",
+            "tag": "eDiary"
+        },
+        {
+            "name": "tasks",
+            "path": "/tasks",
+            "src": "econsent/tasks.html",
+            "tag": "econsent-tasks"
+        },
+        {
             "name": "Trial",
             "path": "/trial",
             "src": "econsent/trial.html",
