@@ -145,23 +145,24 @@
             "src": "iot/ediary/ediary.html",
             "tag": "iot-ediary"
         },
+  
         {
-            "name": "Create E-Diary",
-            "path": "/iot-ediary/create-diary",
-            "src": "iot/ediary/create-diary.html",
-            "tag": "create-diary"
+            "name": "eDiary Temporary Page",
+            "path": "/iot-ediary-pendingq-tempor",
+            "src": "iot/ediary/ediary-pendingq-tempor.html",
+            "tag": "iot-ediary-pending-tempor"
         },
         {
-            "name": "Thk E-Diary",
-            "path": "/thk-ediary",
-            "src": "iot/ediary/thk-ediary.html",
-            "tag": "thk-ediary"
+            "name": "eDiary Service Experience",
+            "path": "/iot-ediary-prom",
+            "src": "iot/ediary/ediary-prom.html",
+            "tag": "ediary-prom"
         },
         {
-            "name": "View E-Diary",
-            "path": "/view-ediary",
-            "src": "iot/ediary/view-ediary.html",
-            "tag": "view-ediary"
+            "name": "eDiary Personal Reports",
+            "path": "/iot-ediary-prem",
+            "src": "iot/ediary/ediary-prem.html",
+            "tag": "ediary-prem"
         },
         {
             "name": "Questionnaire",

@@ -192,7 +192,7 @@ export default class ReadEconsentController extends WebcController {
         });
     }
 
-    sendMessageToSponsorAndHCO(action, ssi, shortMessage) {
+    sendMessageToHCO(action, ssi, shortMessage) {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
@@ -219,7 +219,6 @@ export default class ReadEconsentController extends WebcController {
                     },
                     shortDescription: shortMessage,
                 };
-                this.CommunicationService.sendMessage(this.model.tp.sponsorIdentity, sendObject);
                 this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
             }
         });
@@ -324,7 +323,7 @@ export default class ReadEconsentController extends WebcController {
             return;
         }
         await this.EconsentsStatusRepository.updateAsync(this.model.status.uid, this.model.status);
-        this.sendMessageToSponsorAndHCO(operation, this.model.econsent.keySSI, 'Tp ' + operation);
+        this.sendMessageToHCO(operation, this.model.econsent.keySSI, 'Tp ' + operation);
         this._finishActionSave();
     }
 
