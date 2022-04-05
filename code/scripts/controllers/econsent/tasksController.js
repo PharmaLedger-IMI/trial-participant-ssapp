@@ -11,7 +11,7 @@ export default class eDiaryController extends WebcController {
     constructor(...props) {
         super(...props);
         this._attachHandlerBack();
-        this._attachHandlerPREM();
+        this._attachHandlerPREMAndPROM();
         //this._attachHandlerPROM();
         this.TaskService = new TaskService();
         this.model = this.getDefaultModel();
@@ -25,10 +25,13 @@ export default class eDiaryController extends WebcController {
         });
     }
 
-    _attachHandlerPREM() {
-        this.onTagClick('navigation:go-prem', () => {
-            this.navigateToPageTag('iot-questionnaire');
-        });
+    _attachHandlerPREMAndPROM() {
+        this.onTagClick("navigate:ediary-prom",()=>{
+            this.navigateToPageTag("ediary-prom");
+        })
+        this.onTagClick("navigate:ediary-prem",()=>{
+            this.navigateToPageTag("ediary-prem");
+        })
     }
 /*
     _attachHandlerPROM() {
