@@ -18,7 +18,7 @@ export default class eDiaryController extends WebcController {
     }
 
     _attachHandlerShowTasks(){
-        this.onTagClick('day', () => {
+        this.onTagClick('day', (model) => {
             const day = event.path[0].innerHTML;
             const month = event.path[0].id;
             let today = false;
@@ -29,8 +29,8 @@ export default class eDiaryController extends WebcController {
             let info = {
                 month, day, today
             };
-
-            this.navigateToPageTag('econsent-tasks', info);
+            console.log(model);
+            //this.navigateToPageTag('econsent-tasks', info);
         });
     }
 
