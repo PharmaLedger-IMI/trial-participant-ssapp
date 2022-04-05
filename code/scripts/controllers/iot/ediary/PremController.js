@@ -2,7 +2,7 @@ const CommunicationService = require("common-services").CommunicationService;
 import PremService from "../../../services/iot/PremService.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
 
-const {WebcController} = WebCardinal.controllers;
+const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
 const getInitModel = () => {
     return {
@@ -19,7 +19,7 @@ const getInitModel = () => {
     };
 }
 
-export default class PremController extends WebcController {
+export default class PremController extends WebcIonicController {
     constructor(...props) {
         super(...props);
 
@@ -48,55 +48,41 @@ export default class PremController extends WebcController {
     }
 
     updatePrem() {
-        this.PremService.getPrems((err, data) => {
+        this.PremService.getPrems((err, questionnaire) => {
             if (err) {
                 return console.log(err);
             }
-            let questionnaire = data;
-            console.log("questionnaire");
-            console.log(questionnaire);
-            
             this.model.questions = questionnaire
                 .map((prem, i) => {
                     let templateType = 'question-' + prem.type + '-template';
 
-
                     let questionModel = {
-                        
+
                         uid: prem.uid,
                         type: prem.type,
-                        
+
                         title: prem.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
 
                     if (prem.type === "range") {
-                        questionModel['range']=prem.range;
-                    }else{
-                        questionModel['options']=prem.options;
-                        
-                        this.model.onChange("questions."+i+".options",(type,chain,targetChain)=>{
-                            
-                        const options=this.model.questions.i.options
-                        options.forEach(option=>{
-                            options.checked=false
-                        })
-    
-                        
+                        questionModel['range'] = prem.range;
+                    } else {
+                        questionModel['options'] = prem.options;
+                        questionModel.value = "";
+
+                        this.model.onChange("questions." + i, (changeDetails) => {
+                            console.log(changeDetails.targetChain)
                         });
 
                     }
 
-
-
                     return questionModel;
                 })
-                this.model.questions[this.model.questionIndex].visible = true;
-                this.fillProgress();
+            this.model.questions[this.model.questionIndex].visible = true;
+            this.fillProgress();
 
 
-                
-              
         })
     }
 

@@ -1,19 +1,11 @@
 <div class="form-group">
-        <label class="question-title">{{@title}}</label>
+    <label class="question-title">{{@title}}</label>
 
     <main data-for="@options" slot="true">
-            <div>  
-
-
-              <input    type="checkbox" id="@value"   checked="@checked" name="chk"  value="@modelChain" >
-               
-              <label>{{@value}}</label>
-              
-            </div>
-    
-
-                                              
-     
+        <div>
+            <input type="checkbox" id="@value" checked="@checked" name="chk">
+            <label>{{@value}}</label>
+        </div>
     </main>
 
 </div>
