@@ -3,26 +3,21 @@ const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const DateTimeService  = commonServices.DateTimeService;
 const { WebcController } = WebCardinal.controllers;
-import TaskService from "../../services/TaskService";
+import TaskService from "../../services/TaskService.js";
+import {getTestTaskModel} from "../../models/TaskModel.js"
 
 export default class eDiaryController extends WebcController {
 
-    prevState = this.getState() || {};
     constructor(...props) {
         super(...props);
-        const prevState = this.getState() || {};
         this._attachHandlerBack();
         this._attachHandlerPREM();
         //this._attachHandlerPROM();
         this.TaskService = new TaskService();
-        this.renderPage();
-        this.model.today = this.prevState[2];
-        console.log(this.model.today);
+        this.model = this.getDefaultModel();
+        console.log(this.model.toObject());
     }
 
-    renderPage(){
-        this.querySelector(".date h3").innerHTML = this.prevState[0] + " " + this.prevState[1];
-    }
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
@@ -43,4 +38,12 @@ export default class eDiaryController extends WebcController {
     }
 
  */
+
+    getDefaultModel(){
+        const prevState = this.getState() || {};
+        return{
+            tasks: getTestTaskModel(),
+            ...prevState
+        }
+    }
 }

@@ -26,10 +26,10 @@ export default class eDiaryController extends WebcController {
             if(date == "today"){
                 today = true;
             }
-            let info = [];
-            info.push(month);
-            info.push(day);
-            info.push(today);
+            let info = {
+                month, day, today
+            };
+
             this.navigateToPageTag('econsent-tasks', info);
         });
     }
