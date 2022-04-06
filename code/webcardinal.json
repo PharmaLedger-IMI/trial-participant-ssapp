@@ -145,13 +145,6 @@
             "src": "iot/ediary/ediary.html",
             "tag": "iot-ediary"
         },
-  
-        {
-            "name": "eDiary Temporary Page",
-            "path": "/iot-ediary-pendingq-tempor",
-            "src": "iot/ediary/ediary-pendingq-tempor.html",
-            "tag": "iot-ediary-pending-tempor"
-        },
         {
             "name": "eDiary Service Experience",
             "path": "/iot-ediary-prom",
