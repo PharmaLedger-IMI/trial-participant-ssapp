@@ -22,20 +22,19 @@ class CalendarController extends WebcController {
         this.date = new Date();
         this._attachHandlerPrev();
         this._attachHandlerNext();
-        this.model = this.getDefaultModel();
+        this.model = this.getDaysModel();
     }
 
     _attachHandlerPrev(){
         this.onTagEvent("calendar:prev", "click", () => {
-            debugger;
             this.date.setMonth(this.date.getMonth() - 1);
-            this.model.date = this.getDaysModel();
+            this.model = this.getDaysModel();
         });
     }
     _attachHandlerNext(){
         this.onTagEvent("calendar:next", "click", () => {
             this.date.setMonth(this.date.getMonth() + 1);
-            this.model.date = this.getDaysModel();
+            this.model = this.getDaysModel();
         });
     }
 
@@ -43,8 +42,6 @@ class CalendarController extends WebcController {
     getDaysModel(){
 
         this.date.setDate(1);
-
-        const monthDays = this.querySelector(".days");
 
         const lastDay = new Date(
             this.date.getFullYear(),
@@ -72,7 +69,7 @@ class CalendarController extends WebcController {
 
         for (let x = firstDayIndex; x > 0; x--) {
             days.push({
-                prev : true,
+                type : "prev",
                 disabled: true,
                 value: prevLastDay - x + 1
             });
@@ -85,13 +82,13 @@ class CalendarController extends WebcController {
                 this.date.getFullYear() === new Date().getFullYear()
             ) {
                 days.push({
-                    today: true,
-                    month: this.date.getMonth(),
+                    type: "today",
+                    month: this.months[this.date.getMonth()],
                     value: i
                 });
             } else {
                 days.push({
-                    month: this.date.getMonth(),
+                    month: this.months[this.date.getMonth()],
                     value: i
                 });
             }
@@ -99,22 +96,17 @@ class CalendarController extends WebcController {
 
         for (let j = 1; j <= nextDays; j++) {
             days.push({
-                next : true,
+                type : "next",
                 disabled: true,
                 value: j
             });
         }
-        return days;
-    };
-
-    getDefaultModel(){
         return{
             monthName: this.months[this.date.getMonth()],
             fullYear: this.date.getFullYear(),
-            days: this.getDaysModel()
+            days: days
         }
-    }
-
+    };
 }
 
 export {CalendarController}
