@@ -1,33 +1,47 @@
 const { WebcController } = WebCardinal.controllers;
 
 class CalendarController extends WebcController {
+
+    months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
+
     constructor(...props) {
         super(...props);
         this.date = new Date();
-        this.renderCalendar();
         this._attachHandlerPrev();
         this._attachHandlerNext();
+        this.model = this.getDaysModel();
     }
 
     _attachHandlerPrev(){
         this.onTagEvent("calendar:prev", "click", () => {
             this.date.setMonth(this.date.getMonth() - 1);
-            this.renderCalendar();
+            this.model = this.getDaysModel();
         });
     }
     _attachHandlerNext(){
         this.onTagEvent("calendar:next", "click", () => {
             this.date.setMonth(this.date.getMonth() + 1);
-            this.renderCalendar();
+            this.model = this.getDaysModel();
         });
     }
 
 
-    renderCalendar(){
+    getDaysModel(){
 
         this.date.setDate(1);
-
-        const monthDays = this.querySelector(".days");
 
         const lastDay = new Date(
             this.date.getFullYear(),
@@ -51,31 +65,15 @@ class CalendarController extends WebcController {
 
         const nextDays = 7 - lastDayIndex - 1;
 
-        const months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
-
-        this.querySelector(".date h1").innerHTML = months[this.date.getMonth()];
-
-        this.querySelector(".date p").innerHTML = this.date.getFullYear();
-
-        let days = "";
+        let days = [];
 
         for (let x = firstDayIndex; x > 0; x--) {
-            days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
+            days.push({
+                type : "prev",
+                disabled: true,
+                value: prevLastDay - x + 1
+            });
         }
-
 
         for (let i = 1; i <= lastDay; i++) {
             if (
@@ -83,19 +81,32 @@ class CalendarController extends WebcController {
                 this.date.getMonth() === new Date().getMonth() &&
                 this.date.getFullYear() === new Date().getFullYear()
             ) {
-                days += `<div data-tag="day" class="today" id=${months[this.date.getMonth()]}>${i}</div>`;
+                days.push({
+                    type: "today",
+                    month: this.months[this.date.getMonth()],
+                    value: i
+                });
             } else {
-                days += `<div data-tag="day" id=${months[this.date.getMonth()]}>${i}</div>`;
+                days.push({
+                    month: this.months[this.date.getMonth()],
+                    value: i
+                });
             }
         }
 
         for (let j = 1; j <= nextDays; j++) {
-            days += `<div class="next-date">${j}</div>`;
-            //monthDays.innerHTML = days;
+            days.push({
+                type : "next",
+                disabled: true,
+                value: j
+            });
         }
-        monthDays.innerHTML = days;
+        return{
+            monthName: this.months[this.date.getMonth()],
+            fullYear: this.date.getFullYear(),
+            days: days
+        }
     };
-
 }
 
 export {CalendarController}

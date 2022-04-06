@@ -18,18 +18,16 @@ export default class eDiaryController extends WebcController {
     }
 
     _attachHandlerShowTasks(){
-        this.onTagClick('day', () => {
-            const day = event.path[0].innerHTML;
-            const month = event.path[0].id;
-            let today = false;
-            const date = event.path[0].className;
-            if(date == "today"){
-                today = true;
+        this.onTagClick('day', (model) => {
+            if(model.disabled === true){
+                return;
             }
             let info = {
-                month, day, today
+                month: model.month,
+                day: model.value,
+                today: model.type === "today"
             };
-
+            console.log(model);
             this.navigateToPageTag('econsent-tasks', info);
         });
     }
