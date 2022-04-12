@@ -124,11 +124,7 @@ export default {
             question: "Indicate how your health is TODAY",
             type: "range",
             uid: "q6",
-            // minLabel:"The worst health you can imagine",
-            // maxLabel:"The best health you can imagine",
-            // min:"0",
-            // value:"5",
-            //  max:"10",
+
             range: {
                 "min": "0",
                 "value": "5",
@@ -226,11 +222,7 @@ export default {
             question: "How difficult was it to send data daily to the Virtual Clinic?",
             type: "range",
             uid: "q5",
-            // minLabel:"The worst health you can imagine",
-            // maxLabel:"The best health you can imagine",
-            // min:"0",
-            // value:"5",
-            //  max:"10",
+
             range: {
                 "min": "0",
                 "value": "5",
@@ -286,8 +278,3 @@ export default {
 
 
 }
-
-        
-   
-
-

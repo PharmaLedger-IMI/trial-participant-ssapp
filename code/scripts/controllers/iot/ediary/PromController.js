@@ -2,7 +2,7 @@ const CommunicationService = require("common-services").CommunicationService;
 import PromService from "../../../services/iot/PromService.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
 
-const {WebcController} = WebCardinal.controllers;
+const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
 const getInitModel = () => {
     return {
@@ -19,12 +19,11 @@ const getInitModel = () => {
     };
 }
 
-export default class PromController extends WebcController {
+export default class PromController extends WebcIonicController {
     constructor(...props) {
         super(...props);
 
         this.setModel(getInitModel());
-
 
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.PromService = new PromService();
@@ -49,18 +48,14 @@ export default class PromController extends WebcController {
     }
 
     updateProm() {
-        this.PromService.getProms((err, data) => {
+        this.PromService.getProms((err, questionnaire) => {
+           
             if (err) {
                 return console.log(err);
-            }
-            let questionnaire = data;
-
-            console.log(questionnaire);
-            
+            }          
             this.model.questions = questionnaire
                 .map((prom, i) => {
                     let templateType = 'question-' + prom.type + '-template';
-
 
                     let questionModel = {
                         
@@ -70,21 +65,24 @@ export default class PromController extends WebcController {
                         title: prom.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
+
+
                     if (prom.type === "range") {
                         questionModel['range']=prom.range;
                     }else{
                         questionModel['options']=prom.options;
+                        questionModel.value = "";
+
+                        this.model.onChange("questions." + i, (changeDetails) => {
+                           
+                        });
+
                     }
 
                     return questionModel;
                 })
                 this.model.questions[this.model.questionIndex].visible = true;
-                this.fillProgress();
-
-
-
-
-                
+                this.fillProgress();                
               
         })
     }
@@ -122,7 +120,7 @@ export default class PromController extends WebcController {
  
 
 
-                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.options}]
+                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.value}]
                     
                    
                 }
@@ -136,7 +134,7 @@ export default class PromController extends WebcController {
                 if (err) {
                     return console.log('eroare!'+err);
                 }
-                console.log('---FINAL');
+              
                 console.log(data);
                 //TODO
                 //this.sendMessageToProfessional('questionnaire-response', data.uid);

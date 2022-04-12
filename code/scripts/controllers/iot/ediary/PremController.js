@@ -55,7 +55,7 @@ export default class PremController extends WebcIonicController {
             this.model.questions = questionnaire
                 .map((prem, i) => {
                     let templateType = 'question-' + prem.type + '-template';
-
+                    
                     let questionModel = {
 
                         uid: prem.uid,
@@ -72,7 +72,7 @@ export default class PremController extends WebcIonicController {
                         questionModel.value = "";
 
                         this.model.onChange("questions." + i, (changeDetails) => {
-                            console.log(changeDetails.targetChain)
+                            
                         });
 
                     }
@@ -86,7 +86,6 @@ export default class PremController extends WebcIonicController {
         })
     }
 
- 
 
     _attachHandlers() {
         this.onTagClick('prev', (event) => {
@@ -125,7 +124,7 @@ export default class PremController extends WebcIonicController {
 
 
 
-                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.options}]
+                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.value}]
                    
                    
                    
