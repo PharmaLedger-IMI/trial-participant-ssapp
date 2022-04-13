@@ -21,32 +21,38 @@ export default class eDiaryController extends WebcController {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         for(let i = 0; i < this.model.tasks.item.length; i++){
 
-            const startDate = new Date(this.model.tasks.item[i].schedule.startDate);
-            const endDate = new Date(this.model.tasks.item[i].schedule.endDate);
-            const clickedDate = new Date(this.getState().year, months.indexOf(this.getState().month), this.getState().day);
-            const repeatAppointment = this.model.tasks.item[i].schedule.repeatAppointment;
+            const tasksItemList = this.model.toObject("tasks.item");
+            const {day, month, year} = this.model;
+
+            const startDate = new Date(tasksItemList[i].schedule.startDate);
+            const endDate = new Date(tasksItemList[i].schedule.endDate);
+            const clickedDate = new Date(year, months.indexOf(month), day);
+            const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
 
             if((clickedDate >= startDate) && (clickedDate <= endDate)){
                 console.log((clickedDate-startDate) * (1000 * 60 * 60 * 24));
                 switch (repeatAppointment) {
                     case "weekly":
                         if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
-                            this.model.tasks.item[i].showTask = true;
+                            tasksItemList[i].showTask = true;
                         }
                         break;
                     case "monthly":
                         if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
-                            this.model.tasks.item[i].showTask = true;
+                            tasksItemList[i].showTask = true;
                         }
                         break;
                     case "daily":
-                        this.model.tasks.item[i].showTask = true;
+                        tasksItemList[i].showTask = true;
                         break;
                 }
 
             } else {
-                this.model.tasks.item[i].showTask = false;
+                tasksItemList[i].showTask = false;
             }
+
+            this.model.tasks.item = JSON.parse(JSON.stringify(tasksItemList));
+
         }
     }
 
