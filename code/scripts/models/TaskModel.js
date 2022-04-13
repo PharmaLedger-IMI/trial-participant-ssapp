@@ -26,48 +26,34 @@ function getTestTaskModel() {
         ],
         "item": [
             {
-                "task": "Prom",
+                "task": "Weekly",
                 "tag": "navigate:ediary-prom",
-                "schedule": [
-                    {
-                        "start-date": "2022-05-01",
-                        "end-date": "2022-08-01",
-                        "repeat-appointment": "weekly"
-                    }
-                ]
+                "schedule": {
+                            "startDate": "2022-04-1",
+                            "endDate": "2022-08-01",
+                            "repeatAppointment": "weekly"
+                            },
+                "showTask": ""
             },
             {
-                "task": "Prem",
+                "task": "Monthly",
                 "tag": "navigate:ediary-prem",
-                "schedule": [
-                    {
-                        "start-date": "2022-05-02",
-                        "end-date": "2022-08-02",
-                        "repeat-appointment": "weekly"
-                    }
-                ]
+                "schedule": {
+                    "startDate": "2022-04-1",
+                    "endDate": "2022-08-01",
+                    "repeatAppointment": "monthly"
+                },
+                "showTask": ""
             },
             {
-                "task": "Call",
-                "tag": "navigate:ediary-call",
-                "schedule": [
-                    {
-                        "start-date": "2022-05-01",
-                        "end-date": "2022-08-01",
-                        "repeat-appointment": "daily"
-                    }
-                ]
-            },
-            {
-                "task": "Visit",
-                "tag": "navigate:ediary-visit",
-                "schedule": [
-                    {
-                        "start-date": "2022-05-10",
-                        "end-date": "2022-08-10",
-                        "repeat-appointment": "monthly"
-                    }
-                ]
+                "task": "Daily",
+                "tag": "navigate:ediary-prom",
+                "schedule": {
+                    "startDate": "2022-04-1",
+                    "endDate": "2022-05-01",
+                    "repeatAppointment": "daily"
+                },
+                "showTask": ""
             }
         ]
     }

@@ -84,11 +84,13 @@ class CalendarController extends WebcController {
                 days.push({
                     type: "today",
                     month: this.months[this.date.getMonth()],
+                    year: this.date.getFullYear(),
                     value: i
                 });
             } else {
                 days.push({
                     month: this.months[this.date.getMonth()],
+                    year: this.date.getFullYear(),
                     value: i
                 });
             }

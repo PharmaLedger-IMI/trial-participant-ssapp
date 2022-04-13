@@ -33,14 +33,15 @@
         </div>
 
         <div data-for="@tasks.item">
-            <div class="button-group-wrapper">
-                <button class="general-button" data-tag="@tag" type="button">
-                    {{@task}}
-                </button>
+            <div data-if="@showTask">
+                    <div class="button-group-wrapper">
+                        <button class="general-button" data-tag="@tag" type="button">
+                            {{@task}}
+                        </button>
+                    </div>
+                    <br>
             </div>
-            <br>
         </div>
-
 
     </div>
 

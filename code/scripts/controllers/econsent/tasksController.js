@@ -14,9 +14,51 @@ export default class eDiaryController extends WebcController {
         this._attachHandlerPREMAndPROM();
         this.TaskService = new TaskService();
         this.model = this.getDefaultModel();
-        console.log(this.model.toObject());
+        this.renderTasks();
     }
 
+    renderTasks(){
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        for(let i = 0; i < this.model.tasks.item.length; i++){
+
+            const tasksItemList = this.model.toObject("tasks.item");
+            const {day, month, year} = this.model;
+
+            const startDate = new Date(tasksItemList[i].schedule.startDate);
+            const endDate = new Date(tasksItemList[i].schedule.endDate);
+            const clickedDate = new Date(year, months.indexOf(month), day);
+            const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
+
+            if((clickedDate >= startDate) && (clickedDate <= endDate)){
+                console.log((clickedDate-startDate) * (1000 * 60 * 60 * 24));
+                switch (repeatAppointment) {
+                    case "weekly":
+                        if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
+                            tasksItemList[i].showTask = true;
+                        }
+                        break;
+                    case "monthly":
+                        if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
+                            tasksItemList[i].showTask = true;
+                        }
+                        break;
+                    case "daily":
+                        tasksItemList[i].showTask = true;
+                        break;
+                }
+
+            } else {
+                tasksItemList[i].showTask = false;
+            }
+
+            this.model.tasks.item = JSON.parse(JSON.stringify(tasksItemList));
+
+        }
+    }
+
+    isInteger (num){
+        return num % 1 === 0;
+    }
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
@@ -43,7 +85,8 @@ export default class eDiaryController extends WebcController {
         const prevState = this.getState() || {};
         return {
             tasks: getTestTaskModel(),
-            ...prevState,
+            ...prevState
         }
     }
+
 }

@@ -25,6 +25,7 @@ export default class eDiaryController extends WebcController {
             let info = {
                 month: model.month,
                 day: model.value,
+                year: model.year,
                 today: model.type === "today"
             };
             console.log(model);
