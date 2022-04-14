@@ -1,7 +1,4 @@
 const commonServices = require('common-services');
-const Constants = commonServices.Constants;
-const BaseRepository = commonServices.BaseRepository;
-const DateTimeService = commonServices.DateTimeService;
 const {WebcController} = WebCardinal.controllers;
 import TaskService from "../../services/TaskService.js";
 import {getTestTaskModel} from "../../models/TaskModel.js"
@@ -14,14 +11,30 @@ export default class eDiaryController extends WebcController {
         this._attachHandlerPREMAndPROM();
         this.TaskService = new TaskService();
         this.model = this.getDefaultModel();
-        this.renderTasks();
+        this.initTaskList();
+    }
+
+    initTaskList(){
+        this.TaskService.getTasks((err, tasksList) => {
+            if(err || tasksList.length === 0){
+                // return this.TaskService.saveTasks(getTestTaskModel(), (err) =>{
+                //     if(err){
+                //         console.error(err);
+                //     }
+                // });
+                return console.error(err);
+            }
+            this.model.tasks = tasksList[0].item;
+            this.renderTasks();
+        });
     }
 
     renderTasks(){
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        for(let i = 0; i < this.model.tasks.item.length; i++){
 
-            const tasksItemList = this.model.toObject("tasks.item");
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        for(let i = 0; i < this.model.tasks.length; i++){
+
+            const tasksItemList = this.model.toObject("tasks");
             const {day, month, year} = this.model;
 
             const startDate = new Date(tasksItemList[i].schedule.startDate);
@@ -30,7 +43,6 @@ export default class eDiaryController extends WebcController {
             const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
 
             if((clickedDate >= startDate) && (clickedDate <= endDate)){
-                console.log((clickedDate-startDate) * (1000 * 60 * 60 * 24));
                 switch (repeatAppointment) {
                     case "weekly":
                         if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
@@ -51,7 +63,7 @@ export default class eDiaryController extends WebcController {
                 tasksItemList[i].showTask = false;
             }
 
-            this.model.tasks.item = JSON.parse(JSON.stringify(tasksItemList));
+            this.model.tasks = JSON.parse(JSON.stringify(tasksItemList));
 
         }
     }
@@ -84,8 +96,8 @@ export default class eDiaryController extends WebcController {
     getDefaultModel() {
         const prevState = this.getState() || {};
         return {
-            tasks: getTestTaskModel(),
-            ...prevState
+            ...prevState,
+            tasks: []
         }
     }
 

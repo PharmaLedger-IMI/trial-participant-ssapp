@@ -7,14 +7,12 @@ export default class TaskService extends DSUService {
         super ('/tasks');
     }
 
-    mount = (keySSI, callback) => this.mountEntity(keySSI, callback);
+    getTasks = (callback) => this.getEntities(callback);
 
-    getAllTasks = (callback) => this.getEntities(callback);
+    saveTasks = (data, callback) => {
+        this.saveEntity(data, callback)
+    };
 
-    getTask = (callback) => this.getEntity(uid, callback);
-
-    saveTask = (callback) => this.saveEntity(data, callback);
-
-    updateTask = (callback) => this.updateEntity(data, callback);
+    updateTasks = (data, callback) => this.updateEntity(data, callback);
 
 }
