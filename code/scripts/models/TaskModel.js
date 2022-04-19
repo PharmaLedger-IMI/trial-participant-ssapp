@@ -50,7 +50,7 @@ function getTestTaskModel() {
                 "tag": "navigate:ediary-prom",
                 "schedule": {
                     "startDate": "2022-04-1",
-                    "endDate": "2022-05-01",
+                    "endDate": "2022-08-01",
                     "repeatAppointment": "daily"
                 },
                 "showTask": ""

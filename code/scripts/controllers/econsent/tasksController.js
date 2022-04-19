@@ -17,20 +17,20 @@ export default class eDiaryController extends WebcController {
     initTaskList(){
         this.TaskService.getTasks((err, tasksList) => {
             if(err || tasksList.length === 0){
-                // return this.TaskService.saveTasks(getTestTaskModel(), (err) =>{
-                //     if(err){
-                //         console.error(err);
-                //     }
-                // });
-                return console.error(err);
+                return this.TaskService.saveTasks(getTestTaskModel(), (err, tasks) =>{
+                    if(err){
+                        return console.error(err);
+                    }
+                    this.renderTasks(tasks.item);
+                });
             }
-            this.model.tasks = tasksList[0].item;
-            this.renderTasks();
+            this.renderTasks(tasksList[0].item);
         });
     }
 
-    renderTasks(){
-
+    renderTasks(tasks){
+        this.model.tasks = tasks;
+        this.model.tasksLoaded = true;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         for(let i = 0; i < this.model.tasks.length; i++){
 
