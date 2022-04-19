@@ -1,5 +1,24 @@
-.btn.next, .btn.edit, .btn.delete {
-    border-radius: 1rem;
+/* css for ionic checkboxes */
+:root {
+	--ion-color-green: #008798;
+	--ion-color-green-rgb: 0,135,152;
+	--ion-color-green-contrast: #ffffff;
+	--ion-color-green-contrast-rgb: 255,255,255;
+	--ion-color-green-shade: #007786;
+	--ion-color-green-tint: #1a93a2;
+}
+
+.ion-color-green {
+	--ion-color-base: var(--ion-color-green);
+	--ion-color-base-rgb: var(--ion-color-green-rgb);
+	--ion-color-contrast: var(--ion-color-green-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-green-contrast-rgb);
+	--ion-color-shade: var(--ion-color-green-shade);
+	--ion-color-tint: var(--ion-color-green-tint);
+}
+
+.btn.next, .btn.edit, .btn.save, .btn.delete {
+    border-radius: 50%;
     background-color: #008798;
     width: 40%;
     color: white;
@@ -66,4 +85,130 @@
     text-align: center;
     line-height: 34px;
     margin: auto;
+}
+
+.share-did-label {
+    color: #008798;
+    text-align: center;
+}
+
+/* css for checkboxes (do not use with ionic components) */
+[type=checkbox] {
+    width: 1.3rem;
+    height: 1.3rem;
+    color: white;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    background: none;
+    border: 0;
+    outline: 0;
+    flex-grow: 0;
+    border-radius: 5px;
+    background-color: #008798;
+    transition: background 300ms;
+    cursor: pointer;
+  }
+  
+[type=checkbox]::before {
+    content: "";
+    color: transparent;
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: 5px;
+    border: 0;
+    background-color: transparent;
+    background-size: contain;
+    box-shadow: inset 0 0 0 1px #CCD3D8;
+  }
+  
+  [type=checkbox]:checked {
+    background-color: #008798;
+  }
+  
+  [type=checkbox]:checked::before {
+    box-shadow: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
+  }
+  
+  [type=checkbox]:disabled {
+    background-color: #CCD3D8;
+    opacity: 0.84;
+    cursor: not-allowed;
+  }
+
+/* switch button */
+
+.switch-button {
+    background: #d5d3d6;
+    border-radius: 30px;
+    overflow: hidden;
+    width: 240px;
+    height: 41px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: white;
+    position: relative;
+    padding-right: 120px;
+}
+
+.switch-button:before {
+    content: "No";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.switch-button-checkbox {
+    cursor: pointer;
+    position: absolute;
+    align-items: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+}
+
+.switch-button-checkbox:checked+.switch-button-label:before {
+    transform: translateX(120px);
+    transition: transform 300ms linear;
+}
+
+.switch-button-checkbox+.switch-button-label {
+    position: relative;
+    padding: 10px 0;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+    text-align: center;
+}
+
+.switch-button-checkbox+.switch-button-label:before {
+    content: "";
+    background: #008798;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 30px;
+    transform: translateX(0);
+    transition: transform 300ms;
+}
+
+.switch-button-checkbox+.switch-button-label .switch-button-label-span {
+    position: relative;
 }

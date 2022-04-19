@@ -1,39 +1,48 @@
-import ProfileModel from '../../models/ProfileModel.js';
+import DPModel from '../../models/DPModel.js';
+import DPService from '../../services/DPService.js';
 import ProfileService from '../../services/ProfileService.js';
-
 
 const commonServices = require('common-services');
 const DSUService = commonServices.DSUService;
 
-const {WebcController} = WebCardinal.controllers;
+const {WebcIonicController} = WebCardinal.controllers;
 
-export default class MyProfileController extends WebcController {
+export default class MyProfileController extends WebcIonicController {
     constructor(...props) {
         super(...props);
-        this.profileExists = false;
+
+        const prevState = this.getState() || {};
+
+        this.dpExists = false;
+        this.dpModel = new DPModel();
+        this.model = this.dpModel
+        this.model.did = prevState.did;
+
         this.profilePictureChanged = false;
-        this.profileModel = new ProfileModel();
         this.profileService = ProfileService.getProfileService();
-        this.profileService.getProfile((err, profileData) => {
-            if (err) {
+        this.profileService.getProfilePicture((err,data)=>{
+            this.model.profilePicture = data
+            console.log(this.model)
+        })
+
+        this.dpService = DPService.getDPService()
+      
+        this.dpService.getDP((err, dpData) => {
+                if (err) {
                 return console.log(err);
             }
-            if (profileData) {
-                this.profileExists = true;
-                this.profileData = profileData;
-                this.profileModel.setProfileModel(profileData)
+            if (dpData) {
+                this.dpExists = true;
+                this.dpData = dpData;
+                this.dpModel.setDPModel(dpData)
             }
             this.model = {
-                profileExists: this.profileExists,
-                profile: {
-                    ...this.profileModel.getProfileModel()
+                dpExists: this.dpExists,
+                dp: {
+                    ...this.dpModel.getDPModel()
                 }
             }
         });
-        
-        this.profileService.getProfilePicture((err,data)=>{
-            this.model.profilePicture = data
-        })
 
         this.addTagsListeners();
         this.addProfilePictureHandler();
@@ -42,17 +51,27 @@ export default class MyProfileController extends WebcController {
     addTagsListeners() {
 
         this.onTagClick('profile:save', () => {
-            let profile = this.model.profile;
-            let profileData = {
-                name: profile.name.value,
-                age: profile.age.value,
-                email: profile.email.value
+            let dp = this.model.dp;
+            let dpData = {
+                name: dp.name.value,
+                contactMe: dp.contactMe.value,
+                wantToShare: dp.wantToShare.value,
+                givePermisionEachTime: dp.givePermisionEachTime.value,
+                shareWithHospitals: dp.shareWithHospitals.value,
+                shareWithPharmas: dp.shareWithPharmas.value,
+                shareWithResearchers: dp.shareWithResearchers.value,
+                areaToParticipateCancer: dp.areaToParticipateCancer.value,
+                areaToParticipateDiabets: dp.areaToParticipateDiabets.value,
+                areaToParticipateCOPD: dp.areaToParticipateCOPD.value
             }
 
-            let profileCreatedOrUpdatedHandler = (err, profile) => {
+            let dpCreatedOrUpdatedHandler = (err, profile) => {
                 if (err) {
                     return console.log(err);
                 }
+
+                console.log(this.profilePictureChanged )
+
                 if (this.profilePictureChanged) {
                     this.profileService.saveProfilePicture(this.model.profilePicture, () =>{
                         this.navigateToPageTag("home");
@@ -60,39 +79,18 @@ export default class MyProfileController extends WebcController {
                 } else {
                     this.navigateToPageTag("home");
                 }
-                
             }
 
-            if (!this.profileExists) {
-                this.profileService.saveProfile(profileData, profileCreatedOrUpdatedHandler)
+            if (!this.dpExists) {
+                this.dpService.saveDP(dpData, dpCreatedOrUpdatedHandler)
             } else {
 
-                if (this.profileData) {
-                    this.profileData = {...this.profileData, ...profileData}
+                if (this.dpData) {
+                    this.dpData = {...this.dpData, ...dpData}
                 }
-                this.profileService.updateProfile(this.profileData, profileCreatedOrUpdatedHandler)
+                this.dpService.updateDP(this.dpData, dpCreatedOrUpdatedHandler)
             }
             
-        })
-
-        this.onTagClick('profile:delete', () => {
-            let profile = this.model.profile;
-            let profileData = {
-                name: profile.name.value,
-                age: profile.age.value,
-                email: profile.email.value
-            }
-          
-            let profileDeletedHandler = (err, profile) => {
-                if (err) {
-                    return console.log(err);
-                }
-             }
-
-            if (this.profileExists) {
-                this.profileService.deleteProfile(profileData, profileDeletedHandler)
-                this.navigateToPageTag("home");
-           }
         })
 
     }
