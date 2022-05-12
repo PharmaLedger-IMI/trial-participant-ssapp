@@ -16,9 +16,10 @@ export default class TrialController extends WebcController {
         this.model.econsentsAreLoaded = false;
         this.model.tpStatus = [];
         let receivedObject = this.history.win.history.state.state;
+
+        this.model.trials = receivedObject.trials;
         this.model.uid = receivedObject.uid;
         this.model.tpNumber = receivedObject.tpNumber;
-        this.model.tpDid = receivedObject.tpDid;
         this._initServices();
         this._initHandlers();
     }
@@ -33,14 +34,24 @@ export default class TrialController extends WebcController {
                 return console.log(err);
             }
             this.model.trialConsent = trialConsent;
-            this._initTrial();
+            this._initTrial()
         });
+        this.initTrialParticipant();
     }
 
     _initHandlers() {
         this._attachHandlerConsentClick();
         this._attachHandlerSiteClick();
         this._attachHandlerBack();
+    }
+
+    initTrialParticipant() {
+        this.TrialParticipantRepository.filter(`did == ${this.model.tpNumber}`, 'ascending', 30, (err, tps) => {
+
+            if (tps && tps.length > 0) {
+                this.model.trialParticipant = tps[0];
+            }
+        });
     }
 
     _initTrial() {
@@ -54,7 +65,7 @@ export default class TrialController extends WebcController {
             let lastAction = 'Consent required';
             let statusesMappedByConsent = {};
             let statuses = await this.EconsentsStatusRepository.findAllAsync();
-            statuses.filter(status => status.tpDid == this.model.tpDid);
+            statuses.filter(status => status.tpDid == this.model.tpNumber);
 
             statuses.forEach(status => {
                 statusesMappedByConsent[status.foreignConsentId] = status;
@@ -77,16 +88,30 @@ export default class TrialController extends WebcController {
                     .map(action => action.charAt(0).toUpperCase() + action.slice(1))
                     .join(" ");
 
+                let statusType;
                 let lastActionStatus = ConsentStatusMapper.getStatus(lastAction);
                 if (lastActionStatus !== undefined) {
                     lastAction = lastActionStatus.displayValue;
+                    if(lastAction !== 'Consent Signed') {
+                        statusType = 'warning';
+                    }
                 }
+
+                let econsentType;
+                if(econsent.type === 'Mandatory') {
+                    econsentType = 'mandatory';
+                } else {
+                    econsentType = 'optional'
+                }
+
                 return econsent.versions.length === 0 ? econsent : {
                     ...econsent,
                     versionDateAsString: DateTimeService.convertStringToLocaleDate(importantVersion.versionDate),
                     status: {
-                        name: lastAction
+                        name: lastAction,
+                        statusType: statusType
                     },
+                    econsentType: econsentType,
                     ...importantVersion
                 }
             })

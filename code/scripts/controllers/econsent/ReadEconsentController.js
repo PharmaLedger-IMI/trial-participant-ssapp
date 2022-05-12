@@ -328,6 +328,8 @@ export default class ReadEconsentController extends WebcController {
     }
 
     _finishActionSave() {
-        this.navigateToPageTag('econsent-trials-dashboard');
+        this.navigateToPageTag('trial', {
+            uid: this.model.historyData.trialuid
+        });
     }
 }

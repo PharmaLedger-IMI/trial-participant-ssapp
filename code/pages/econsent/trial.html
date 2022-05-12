@@ -31,6 +31,10 @@
                 </div>
             </div>
 
+            <div class="trial-infos">
+                <p class="trial-status-title">Trial participant status: {{@trialParticipant.status}}</p>
+            </div>
+
 
             <div class="trial-details">
                 <strong>Details</strong>
@@ -39,32 +43,37 @@
             </div>
 
             <div>
-                <hr>
+                <p class="consent-table-title">Consent List</p>
                 <div data-if="@hasConsents">
-                    <div data-for="@econsents" slot="true">
-                        <div class="consent-item"
-                             data="@keySSI" data-tag="go-to-econsent">
+                    <div data-for="@econsents" slot="true" class="consents-container">
+                        <div class="consent-item-container">
 
-                            <div class="consent-icon">
-                                <i class="fa-3x fa fa-file-text-o"></i>
-                            </div>
+                            <div class="consent-item"
+                                 data="@keySSI" data-tag="go-to-econsent">
 
-                            <div class="layout-content consent-details">
-                                <strong>
-                                    {{@name}}
-                                </strong>
-                                <div>
-                                    {{@version}} - {{@versionDateAsString}}
+                                <div class="layout-content consent-details">
+                                    <div>
+                                        <i class="fa fa-file-text-o"></i>
+                                        <strong>
+                                            {{@name}}
+                                        </strong>
+                                    </div>
+
+                                    <div>
+                                        {{@version}} - {{@versionDateAsString}}
+                                    </div>
+                                    <div data-status-type="@econsentType">
+                                        ({{@type}})
+                                    </div>
                                 </div>
-                                <div class="red-color">
-                                    ({{@type}})
+
+                                <div class="layout-content consent-status-container" data-status-type="@status.statusType">
+                                    {{@status.name}}
                                 </div>
                             </div>
 
-                            <div class="layout-content consent-status-container">
-                                {{@status.name}}
-                            </div>
                         </div>
+
                     </div>
                     <div slot="false">
                         <div class="alert alert-warning" role="alert">
@@ -75,6 +84,11 @@
 
             </div>
 
+            <div class="past-trials-container">
+                <p class="past-trials" data-tag="navigate:past-trials">
+                    Past Trials
+                </p>
+            </div>
         </div>
     </div>
     </div>

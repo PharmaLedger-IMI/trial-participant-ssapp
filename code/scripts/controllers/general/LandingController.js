@@ -27,15 +27,58 @@ export default class LandingController extends WebcController {
         });
     }
 
+    _initTrials() {
+        this.model.trials = [];
+        this.TrialService.getTrials((err, data) => {
+            if (err) {
+                return console.error(err);
+            }
+            this.model.trials = data;
+        });
+    }
+
+
+    //TO BE REMOVED/REFACTORED
+    _initTrialParticipant() {
+        this.model.tp = {};
+        this.TrialParticipantRepository.findAll((err, data) => {
+            if (err) {
+                return console.log(err);
+            }
+            if (data && data.length > 0) {
+                this.model.tp = data[data.length - 1];
+            }
+        });
+    }
+
+    _attachHandlerVisits() {
+        this.onTagClick('home:visits', (event) => {
+            this.navigateToPageTag('visits-procedures', {
+                tpDid: this.model.tp.did,
+                tpUid: this.model.trials[0].uid,
+            });
+        });
+    }
+
     addHandlers() {
+        this._attachHandlerVisits();
         this.onTagEvent("navigate:notifications", "click", () => {
             this.navigateToPageTag('notifications');
         });
         this.onTagEvent("navigate:my-profile", "click", () => {
             this.navigateToPageTag('my-profile');
         });
-        this.onTagEvent("navigate:econsent-trials-dashboard", "click", () => {
-            this.navigateToPageTag('econsent-trials-dashboard');
+        this.onTagEvent("navigate:consent-status", "click", (trial, target, event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+
+            if(this.model.trials.length) {
+                this.navigateToPageTag('trial', {
+                    tp: this.model.toObject('tp'),
+                    uid: this.model.trials[0].uid,
+                    tpNumber: this.model.did
+                });
+            }
         });
         this.onTagEvent("navigate:eDiary", "click", () => {
             this.navigateToPageTag('eDiary');
@@ -66,6 +109,9 @@ export default class LandingController extends WebcController {
         this.profileService.getProfilePicture((err,data)=>{
             this.model.profilePicture = data
         })
+
+        this._initTrials();
+        this._initTrialParticipant();
     }
 
     _attachMessageHandlers() {
@@ -200,6 +246,7 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
+            status: data.tpStatus,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }

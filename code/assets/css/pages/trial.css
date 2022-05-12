@@ -152,8 +152,33 @@
 }
 
 .trial-details {
-    margin: 10% 0;
+    margin: 5% 0;
 }
+
+.trial-status-title {
+    color: #008798;
+}
+
+.trial-infos {
+    display:flex;
+    flex-direction: column;
+    font-size: 1.5rem;
+    color:#00345b;
+}
+
+.consent-table-title {
+    border-bottom: 1px #D0D0D0 solid;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+
+[data-status-type="warning"] { color: red; }
+
+[data-status-type="normal"] { color: green; }
+
+[data-status-type="mandatory"] { color: red; }
+
+[data-status-type="optional"] { color: green; }
 
 .layout-content {
     margin-left: 5px;
@@ -241,4 +266,28 @@
 .trial-card .trial-status-item *{
     margin: 0;
     padding: 0.5rem;
+}
+
+.consents-container {
+    margin-top: 10px;
+}
+
+.consents-container div.consent-item-container:nth-child(odd) {
+    background: #cfe8eb;
+    margin-top: 5px;
+}
+
+.consents-container div.consent-item-container:nth-child(even) {
+    background: #c2ced8;
+    margin-top: 5px;
+}
+
+.past-trials-container {
+    margin-top: 3rem;
+    color: #008798;
+}
+
+.past-trials {
+    padding-top: 10px;
+    border-top: 1px #008798 solid;
 }
