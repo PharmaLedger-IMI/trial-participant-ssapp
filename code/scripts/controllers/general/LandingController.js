@@ -12,6 +12,8 @@ const usecases = WebCardinal.USECASES;
 
 const CONSTANTS = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
+const {QuestionnaireService} = commonServices;
+
 
 export default class LandingController extends WebcController {
     constructor(...props) {
@@ -51,6 +53,7 @@ export default class LandingController extends WebcController {
 
     async initServices() {
         this._attachMessageHandlers();
+        this.QuestionnaireService = new QuestionnaireService();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
@@ -125,6 +128,14 @@ export default class LandingController extends WebcController {
                 }
                 case CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT: {
                     await this._mountICFAndSaveConsentStatuses(data);
+                    break;
+                }
+                case "CLINICAL-SITE-QUESTIONNAIRE":{
+                    this.QuestionnaireService.mount(data.ssi, (err, questionnaire)=> {
+                        if (err){
+                            console.log(err);
+                        }
+                    });
                     break;
                 }
             }
