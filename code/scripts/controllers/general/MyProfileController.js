@@ -17,6 +17,7 @@ export default class MyProfileController extends WebcIonicController {
         this.dpModel = new DPModel();
         this.model = this.dpModel
         this.model.did = prevState.did;
+        this.model.name = prevState.name;
 
         this.profilePictureChanged = false;
         this.profileService = ProfileService.getProfileService();

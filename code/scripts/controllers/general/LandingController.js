@@ -66,7 +66,9 @@ export default class LandingController extends WebcController {
             this.navigateToPageTag('notifications');
         });
         this.onTagEvent("navigate:my-profile", "click", () => {
-            this.navigateToPageTag('my-profile');
+            this.navigateToPageTag('my-profile', {
+                name: this.model.tp.subjectName
+            });
         });
         this.onTagEvent("navigate:consent-status", "click", (trial, target, event) => {
             event.preventDefault();
@@ -247,6 +249,7 @@ export default class LandingController extends WebcController {
             did: data.tpDid,
             site: data.site,
             status: data.tpStatus,
+            subjectName: data.subjectName,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }
