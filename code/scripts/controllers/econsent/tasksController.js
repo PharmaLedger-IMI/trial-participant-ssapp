@@ -74,7 +74,7 @@ export default class eDiaryController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('eDiary');
+            this.navigateToPageTag('task-calendar');
         });
     }
 

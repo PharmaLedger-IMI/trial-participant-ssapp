@@ -3,12 +3,21 @@ const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const DateTimeService  = commonServices.DateTimeService;
 const { WebcController } = WebCardinal.controllers;
+const {QuestionnaireService} = commonServices;
 
-export default class eDiaryController extends WebcController {
+
+export default class TaskCalendar extends WebcController {
     constructor(...props) {
         super(...props);
         this._attachHandlerBack();
         this._attachHandlerShowTasks();
+        this.QuestionnaireService = new QuestionnaireService();
+        this.QuestionnaireService.getAllQuestionnaires((err, data ) => {
+            if (err) {
+                return reject(err);
+            }
+            console.log(data[0]);
+        })
     }
 
     _attachHandlerBack() {

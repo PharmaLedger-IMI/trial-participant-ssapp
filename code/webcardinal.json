@@ -15,10 +15,10 @@
             "tag": "econsent-trials-dashboard"
         },
         {
-            "name": "eDiary",
-            "path": "/eDiary",
-            "src": "econsent/eDiary.html",
-            "tag": "eDiary"
+            "name": "Task Calendar",
+            "path": "/task-calendar",
+            "src": "econsent/task-calendar.html",
+            "tag": "task-calendar"
         },
         {
             "name": "tasks",
