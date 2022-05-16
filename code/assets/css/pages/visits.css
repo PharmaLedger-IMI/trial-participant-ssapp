@@ -1,5 +1,5 @@
-.left-image{
-    float:left;
+.left-image {
+    float: left;
 }
 
 .consent-block {
@@ -17,9 +17,11 @@
     font-weight: bold;
     font-size: 20px;
 }
+
 .padding-sides {
     padding: 20px;
 }
+
 .padding-10 {
     padding: 10px;
 }
@@ -27,6 +29,7 @@
 .display-flex {
     display: flex;
 }
+
 .date-div {
     margin-bottom: 20px;
 }
@@ -74,7 +77,7 @@
     border-radius: 10px;
 }
 
-.go-back-link  {
+.go-back-link {
     font-size: 25px;
     margin-right: 10px;
 }
@@ -89,7 +92,7 @@
     margin-left: 10%;
     border-radius: 50%;
     height: 30px;
-    background-color:  #595959;
+    background-color: #595959;
 }
 
 .padding-sides {
@@ -110,18 +113,18 @@
     height: 30px;
 }
 
-.status{
+.status {
     margin: 10px 0;
 }
 
-.consent-actions{
+.consent-actions {
     margin-top: 3px;
-    display:block;
+    display: block;
     margin-left: 10px;
     height: 70px;
 }
 
-.consent-read{
+.consent-read {
     display: inline-flex;
     justify-content: center;
     background-color: #00345b;
@@ -163,17 +166,17 @@
     text-align: left;
     font-size: 13px;
     color: #00345b !important;
-    border-top: 1px solid black!important;
+    border-top: 1px solid black !important;
     padding-left: 30px !important;
     width: 90%;
     margin-left: 5%;
 }
 
-.long-button  red{
+.long-button red {
     color: red !important;
 }
 
-.long-button  green{
+.long-button green {
     color: green !important;
 }
 
@@ -216,8 +219,7 @@
 
 .centred-button,
 .title,
-.layout-content
-{
+.layout-content {
     color: #00345B;
 }
 
@@ -243,4 +245,43 @@
     text-align: left;
     font-size: 16px;
     color: #2F80ED;
+}
+
+.invitation {
+    display: flex;
+}
+
+.item1 {
+    margin-top: 10px;
+}
+
+.invitations-container {
+    border-bottom: 1px solid gray;
+}
+
+.fa-calendar {
+    font-size: 4rem;
+}
+
+.fa-star {
+    color: #DA22BC;
+    padding-right: 10px;
+}
+
+.buttons-container {
+    font-style: italic;
+}
+
+.buttons-container button, .buttons-container label {
+    color: #26C28A;
+}
+
+.date-star-container {
+    display: flex;
+}
+
+.calendar-icon-container {
+    margin: auto;
+    margin-left: 20px;
+    margin-right: 20px;
 }

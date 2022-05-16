@@ -248,7 +248,6 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
-            status: data.tpStatus,
             subjectName: data.subjectName,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity

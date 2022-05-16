@@ -172,13 +172,9 @@
     margin-bottom: 0px;
 }
 
-[data-status-type="warning"] { color: red; }
+[data-status-type="warning"], [data-status-type="mandatory"] { color: red; }
 
-[data-status-type="normal"] { color: green; }
-
-[data-status-type="mandatory"] { color: red; }
-
-[data-status-type="optional"] { color: green; }
+[data-status-type="normal"], [data-status-type="optional"] { color: green; }
 
 .layout-content {
     margin-left: 5px;

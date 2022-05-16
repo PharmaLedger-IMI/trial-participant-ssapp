@@ -29,6 +29,17 @@ export default class VisitsAndProceduresController extends WebcController {
         this._initServices();
         this._initHandlers();
         this._initVisits();
+        this._attacheHandlers();
+    }
+
+    _attacheHandlers() {
+        this._attachHandlerRescheduleInvitation();
+    }
+
+    _attachHandlerRescheduleInvitation() {
+        this.onTagClick('reschedule-invitation', (model) => {
+            console.log('reschedule-invitation', model);
+        });
     }
 
     _initHandlers() {
@@ -52,6 +63,7 @@ export default class VisitsAndProceduresController extends WebcController {
             .map(visit => {
                 return {
                     ...visit,
+                    proposedDate: new Date(visit.proposedDate).toLocaleDateString(),
                     toShowDate: DateTimeService.convertStringToLocaleDate(visit.date)
                 }
             });
