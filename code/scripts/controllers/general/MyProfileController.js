@@ -4,6 +4,8 @@ import ProfileService from '../../services/ProfileService.js';
 
 const commonServices = require('common-services');
 const DSUService = commonServices.DSUService;
+const BaseRepository = commonServices.BaseRepository;
+
 
 const {WebcIonicController} = WebCardinal.controllers;
 
@@ -16,8 +18,6 @@ export default class MyProfileController extends WebcIonicController {
         this.dpExists = false;
         this.dpModel = new DPModel();
         this.model = this.dpModel
-        this.model.did = prevState.did;
-        this.model.name = prevState.name;
 
         this.profilePictureChanged = false;
         this.profileService = ProfileService.getProfileService();
@@ -44,9 +44,18 @@ export default class MyProfileController extends WebcIonicController {
                 }
             }
         });
-
+        this.getParticipantName();
         this.addTagsListeners();
         this.addProfilePictureHandler();
+
+        this._attachHandlerBack();
+    }
+
+    async getParticipantName() {
+        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+
+        let tps = await this.TrialParticipantRepository.findAllAsync();
+        this.model.name = tps[tps.length-1].subjectName;
     }
 
     addTagsListeners() {
@@ -94,6 +103,12 @@ export default class MyProfileController extends WebcIonicController {
             
         })
 
+    }
+
+    _attachHandlerBack() {
+        this.onTagClick('back', () => {
+            this.navigateToPageTag('home');
+        });
     }
 
     addProfilePictureHandler() {

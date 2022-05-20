@@ -1,3 +1,5 @@
+import TaskService from "../../services/TaskService.js";
+
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
@@ -6,13 +8,14 @@ const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService} = commonServices;
 
+
 let getInitModel = () => {
     return {
         visits: []
     };
 };
 
-export default class VisitsAndProceduresController extends WebcController {
+export default class TaskCalendarController extends WebcController {
     constructor(...props) {
         super(...props);
         this.setModel({
@@ -33,27 +36,29 @@ export default class VisitsAndProceduresController extends WebcController {
 
         this._attachHandlerShowTasks();
         this.QuestionnaireService = new QuestionnaireService();
-        this.QuestionnaireService.getAllQuestionnaires((err, data ) => {
+        this.QuestionnaireService.getAllQuestionnaires((err, data) => {
             if (err) {
                 return reject(err);
             }
             console.log(data[0]);
         })
 
+        this.taskService = TaskService.getTaskService();
+
     }
 
-    _attachHandlerShowTasks(){
+    _attachHandlerShowTasks() {
         this.onTagClick('day', (model) => {
-            if(model.disabled === true){
+            if (model.disabled === true) {
                 return;
             }
             let info = {
                 month: model.month,
                 day: model.value,
                 year: model.year,
-                today: model.type === "today"
+                today: model.type === "today",
+                visits: this.model.toObject('visits')
             };
-            console.log(model);
             this.navigateToPageTag('econsent-tasks', info);
         });
     }
@@ -71,7 +76,7 @@ export default class VisitsAndProceduresController extends WebcController {
 
     _initServices() {
         this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
-        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance()
     }
 
@@ -87,7 +92,7 @@ export default class VisitsAndProceduresController extends WebcController {
 
         if (this.model.visits && this.model.visits.length > 0) {
             let tps = await this.TrialParticipantRepository.findAllAsync();
-            this.model.tp = tps[tps.length-1];
+            this.model.tp = tps[tps.length - 1];
         }
     }
 
@@ -121,6 +126,7 @@ export default class VisitsAndProceduresController extends WebcController {
 
         });
     }
+
     _attachHandlerViewProcedures() {
         this.onTagEvent('procedures:view', 'click', (model, target, event) => {
             event.preventDefault();
@@ -162,6 +168,7 @@ export default class VisitsAndProceduresController extends WebcController {
     }
 
     _attachHandlerConfirm() {
+        console.log('model', this.model.toObject());
         this.onTagEvent('visit:confirm', 'click', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -174,6 +181,28 @@ export default class VisitsAndProceduresController extends WebcController {
                         model.declined = false;
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
+
+                        let visit = {
+                            task: "Visit",
+                            tag: "visit-details",
+                            schedule: {
+                                startDate: model.proposedDate,
+                                endDate: model.proposedDate,
+                                repeatAppointment: "daily"
+                            },
+                            showTask: "",
+                            details: {
+                                name: model.name,
+                                procedures: model.procedures,
+                            }
+                        }
+                        this.taskService.addTask(visit, (err, tasks) => {
+                            if (err) {
+                                return console.error(err);
+                            }
+                        });
+
+                        this.send('new-task',visit, {capture:true});
                     }
                 },
                 (event) => {
@@ -207,7 +236,7 @@ export default class VisitsAndProceduresController extends WebcController {
                     }
                     this.model.selectedVisit.model = model;
                     this._updateVisit(model);
-                    if(accepted) {
+                    if (accepted) {
                         return this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
                     }
                     this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_DECLINED);

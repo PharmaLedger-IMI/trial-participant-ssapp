@@ -1,3 +1,5 @@
+import TaskService from "../../scripts/services/TaskService.js";
+
 const { WebcController } = WebCardinal.controllers;
 
 class CalendarController extends WebcController {
@@ -22,7 +24,31 @@ class CalendarController extends WebcController {
         this.date = new Date();
         this._attachHandlerPrev();
         this._attachHandlerNext();
-        this.model = this.getDaysModel();
+
+        this.taskService =  TaskService.getTaskService();
+        this.initTaskList((err,invitations) => {
+            if(err) {
+                return console.error(err);
+            }
+            this.model = this.getDaysModel();
+        });
+
+        window.addEventListener("new-task", (event) => {
+            const response = event.detail;
+            console.log('response',response)
+        }, {capture: true});
+
+    }
+
+    initTaskList(callback){
+        this.taskService.getTasks((err, tasks) => {
+            if(err) {
+                return console.error(err);
+            }
+            this.model.invitations = tasks.item;
+            console.log('this.model.invitations', this.model.invitations);
+            callback(undefined, this.model.invitations);
+        });
     }
 
     _attachHandlerPrev(){
@@ -100,9 +126,29 @@ class CalendarController extends WebcController {
             days.push({
                 type : "next",
                 disabled: true,
-                value: j
+                value: j,
+                year: this.date.getMonth() < 11 ? this.date.getFullYear() : this.date.getFullYear()+1,
+                month: this.months[(this.date.getMonth()+1)%12]
             });
         }
+
+        let invitations = this.model.toObject('invitations');
+        console.log('invitations',invitations);
+
+        if(invitations) {
+            days.forEach(day => {
+                let calendarDate = Date.parse(`${day.value} ${day.month} ${day.year}`);
+                for(let invitation of invitations) {
+                    let visitDate = new Date(invitation.schedule.startDate).getTime();
+                    if (visitDate === calendarDate) {
+                        day.dayType = 'invitation'; // modify to visit
+                    }
+                }
+            })
+        }
+
+        console.log('days',days)
+
         return{
             monthName: this.months[this.date.getMonth()],
             fullYear: this.date.getFullYear(),

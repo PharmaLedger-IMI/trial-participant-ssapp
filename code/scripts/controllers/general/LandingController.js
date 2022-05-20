@@ -51,24 +51,12 @@ export default class LandingController extends WebcController {
         });
     }
 
-    _attachHandlerVisits() {
-        this.onTagClick('home:visits', (event) => {
-            this.navigateToPageTag('visits-procedures', {
-                tpDid: this.model.tp.did,
-                tpUid: this.model.trials[0].uid,
-            });
-        });
-    }
-
     addHandlers() {
-        this._attachHandlerVisits();
         this.onTagEvent("navigate:notifications", "click", () => {
             this.navigateToPageTag('notifications');
         });
         this.onTagEvent("navigate:my-profile", "click", () => {
-            this.navigateToPageTag('my-profile', {
-                name: this.model.tp.subjectName
-            });
+            this.navigateToPageTag('my-profile');
         });
         this.onTagEvent("navigate:consent-status", "click", (trial, target, event) => {
             event.preventDefault();
@@ -83,7 +71,12 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:task-calendar", "click", () => {
-            this.navigateToPageTag('task-calendar');
+            if(this.model.trials.length && this.model.tp){
+                this.navigateToPageTag('task-calendar', {
+                    tpDid: this.model.tp.did,
+                    tpUid: this.model.trials[0].uid,
+                });
+            }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
             this.navigateToPageTag('iot-devices');

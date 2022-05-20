@@ -189,6 +189,7 @@
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
+    margin-top: 20px;
     color: #00345B;
 }
 
@@ -272,15 +273,41 @@
     font-style: italic;
 }
 
-.buttons-container button, .buttons-container label {
+.buttons-container button, .buttons-container label, .visit-state {
     color: #26C28A;
+}
+
+.procedures-btn, .date-container {
+    color: #008798;
+}
+
+.others-title {
+    border-top: 1px solid gray;
 }
 
 .date-star-container {
     display: flex;
 }
 
+.visits-schedule {
+    display:flex;
+}
+
+.visits-schedule h1, .visits-schedule i {
+    color: #6B7879;
+}
+
+.item1 h1 {
+    margin-top: 10px;
+}
+
+.schedule-visits-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .calendar-icon-container {
+    color: #008798;
     margin: auto;
     margin-left: 20px;
     margin-right: 20px;

@@ -207,7 +207,7 @@ label.home-title {
     border-radius: 5px;
     height: 55px;
     width: 130px;
-    position: absolute;
+    /*position: absolute;*/
     bottom: 130px;
 }
 

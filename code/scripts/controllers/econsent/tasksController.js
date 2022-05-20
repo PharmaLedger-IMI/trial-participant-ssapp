@@ -9,22 +9,19 @@ export default class eDiaryController extends WebcController {
         super(...props);
         this._attachHandlerBack();
         this._attachHandlerPREMAndPROM();
-        this.TaskService = new TaskService();
+        this._attachHandlerVisitDetails();
+        this.taskService = TaskService.getTaskService();
         this.model = this.getDefaultModel();
+        console.log('model', this.model.toObject())
         this.initTaskList();
     }
 
     initTaskList(){
-        this.TaskService.getTasks((err, tasksList) => {
-            if(err || tasksList.length === 0){
-                return this.TaskService.saveTasks(getTestTaskModel(), (err, tasks) =>{
-                    if(err){
-                        return console.error(err);
-                    }
-                    this.renderTasks(tasks.item);
-                });
+        this.taskService.getTasks((err, tasksList) => {
+            if(err){
+                return console.error(err);
             }
-            this.renderTasks(tasksList[0].item);
+            this.renderTasks(tasksList.item);
         });
     }
 
@@ -75,6 +72,16 @@ export default class eDiaryController extends WebcController {
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
             this.navigateToPageTag('task-calendar');
+        });
+    }
+
+    _attachHandlerVisitDetails() {
+        this.onTagClick('visit-details', (model) => {
+            let visitsInfo = {
+                ...model,
+                visits: this.model.toObject('visits')
+            }
+            this.navigateToPageTag('visit-details', visitsInfo);
         });
     }
 

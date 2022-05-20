@@ -9,12 +9,6 @@
             "tag": "home"
         },
         {
-            "name": "Trials Dashboard",
-            "path": "/trials-dashboard",
-            "src": "econsent/trials-dashboard.html",
-            "tag": "econsent-trials-dashboard"
-        },
-        {
             "name": "Task Calendar",
             "path": "/task-calendar",
             "src": "econsent/task-calendar.html",
@@ -25,6 +19,12 @@
             "path": "/tasks",
             "src": "econsent/tasks.html",
             "tag": "econsent-tasks"
+        },
+        {
+            "name": "Visit Details",
+            "path": "/visit-details",
+            "src": "econsent/visit-details.html",
+            "tag": "visit-details"
         },
         {
             "name": "Trial",
