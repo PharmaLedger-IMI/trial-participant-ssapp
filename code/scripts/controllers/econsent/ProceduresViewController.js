@@ -6,6 +6,16 @@ export default class ProceduresViewController extends WebcController {
         this.setModel({
             ...this.history.win.history.state.state,
         });
+
+        this._attachHandlerBack();
+    }
+
+    _attachHandlerBack() {
+        this.onTagEvent('back', 'click', (model, target, event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            window.history.back();
+        });
     }
 
 

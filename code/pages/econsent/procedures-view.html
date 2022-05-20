@@ -3,23 +3,24 @@
     <div class="container-child">
         <div class="title">Procedures</div>
 
-        <div class="trial-table">
-            <psk-layout columns="2" class="justify-content-center align-items-center table-row">
-                <psk-label class="table-cell">Name</psk-label>
-                <psk-label class="table-cell">Completed</psk-label>
-            </psk-layout>
-            <hr/>
-        </div>
-        <div class="trial-table body" data-for="@procedures">
-            <psk-layout columns="2" class="justify-content-center align-items-center table-row">
-                <psk-label class="table-cell">{{@name}}</psk-label>
-                <div>
-                    <psk-label data-if="@completed" class="table-cell">X</psk-label>
+        <div class="procedures-table">
+            <div class="procedures-header">
+                    <label class="table-cell-header"></label>
+                    <label class="table-cell-header">Completed</label>
+                <hr/>
+            </div>
+            <div class="procedures-content-container" data-for="@procedures">
+                <div class="procedures-content-item">
+                    <label class="table-cell-content">{{@name}}</label>
+                    <div class="table-cell-content">
+                        <label data-if="@checked">X</label>
+                    </div>
                 </div>
-            </psk-layout>
+            </div>
         </div>
 
         <button class="back-button" data-tag="back">Back</button>
+
     </div>
     </div>
 </webc-container>

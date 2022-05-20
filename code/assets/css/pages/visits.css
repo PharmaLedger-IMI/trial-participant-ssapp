@@ -312,3 +312,30 @@
     margin-left: 20px;
     margin-right: 20px;
 }
+
+.procedures-content-container {
+    display:flex;
+    flex-direction: column;
+}
+
+.procedures-content-item {
+    display:flex;
+    flex-direction: row;
+}
+
+.procedures-header {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid gray;
+    margin-bottom: 20px;
+}
+
+.table-cell-header ,.table-cell-content{
+    width: 50%;
+    font-size: 18px;
+}
+
+.table-cell-header {
+    font-weight: 700;
+}
+

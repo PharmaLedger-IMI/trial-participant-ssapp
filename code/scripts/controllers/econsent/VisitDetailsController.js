@@ -27,7 +27,11 @@ export default class VisitDetailsController extends WebcController {
         this.onTagClick('navigate:procedures', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('procedures-view', this.model.procedures);
+            let details = this.model.toObject('details');
+            let info = {
+                procedures: details.procedures
+            }
+            this.navigateToPageTag('procedures-view', info);
         });
     }
 }
