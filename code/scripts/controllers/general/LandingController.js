@@ -62,7 +62,7 @@ export default class LandingController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
 
-            if(this.model.trials.length) {
+            if (this.model.trials.length) {
                 this.navigateToPageTag('trial', {
                     tp: this.model.toObject('tp'),
                     uid: this.model.trials[0].uid,
@@ -71,7 +71,7 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:task-calendar", "click", () => {
-            if(this.model.trials.length && this.model.tp){
+            if (this.model.trials.length && this.model.tp) {
                 this.navigateToPageTag('task-calendar', {
                     tpDid: this.model.tp.did,
                     tpUid: this.model.trials[0].uid,
@@ -94,14 +94,14 @@ export default class LandingController extends WebcController {
         this.QuestionnaireService = new QuestionnaireService();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
-        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS,this.DSUStorage);
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES,this.DSUStorage);
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS,this.DSUStorage);
-        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS,this.DSUStorage);
+        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS, this.DSUStorage);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
+        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS, this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
         this.profileService = ProfileService.getProfileService();
-        this.profileService.getProfilePicture((err,data)=>{
+        this.profileService.getProfilePicture((err, data) => {
             this.model.profilePicture = data
         })
 
@@ -110,11 +110,7 @@ export default class LandingController extends WebcController {
     }
 
     _attachMessageHandlers() {
-        MessageHandlerService.init(async (err, data) =>{
-
-        if (err) {
-                return console.error(err);
-            }
+        MessageHandlerService.init(async (data) => {
 
             data = JSON.parse(data);
 
@@ -171,9 +167,9 @@ export default class LandingController extends WebcController {
                     await this._mountICFAndSaveConsentStatuses(data);
                     break;
                 }
-                case "CLINICAL-SITE-QUESTIONNAIRE":{
-                    this.QuestionnaireService.mount(data.ssi, (err, questionnaire)=> {
-                        if (err){
+                case "CLINICAL-SITE-QUESTIONNAIRE": {
+                    this.QuestionnaireService.mount(data.ssi, (err, questionnaire) => {
+                        if (err) {
                             console.log(err);
                         }
                     });
@@ -259,7 +255,7 @@ export default class LandingController extends WebcController {
             uid: message.ssi,
             viewed: false,
             date: Date.now(),
-            type:type
+            type: type
         }
         await this.NotificationsRepository.createAsync(notification, () => {
         });
