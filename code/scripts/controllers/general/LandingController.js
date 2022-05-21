@@ -12,7 +12,7 @@ const usecases = WebCardinal.USECASES;
 
 const CONSTANTS = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
-const {QuestionnaireService} = commonServices;
+const {QuestionnaireService, DeviceAssignationService} = commonServices;
 
 
 export default class LandingController extends WebcController {
@@ -92,6 +92,7 @@ export default class LandingController extends WebcController {
     async initServices() {
         this._attachMessageHandlers();
         this.QuestionnaireService = new QuestionnaireService();
+        this.DeviceAssignationService = new DeviceAssignationService();
         this.TrialService = new TrialService();
         this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS, this.DSUStorage);
@@ -169,6 +170,14 @@ export default class LandingController extends WebcController {
                 }
                 case "CLINICAL-SITE-QUESTIONNAIRE": {
                     this.QuestionnaireService.mount(data.ssi, (err, questionnaire) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    break;
+                }
+                case "HealthDataDsu": {
+                    this.DeviceAssignationService.mount(data.seedSSI, (err, deviceAssignation) => {
                         if (err) {
                             console.log(err);
                         }
