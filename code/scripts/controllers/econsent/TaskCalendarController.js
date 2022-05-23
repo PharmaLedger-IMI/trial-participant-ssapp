@@ -233,9 +233,16 @@ export default class TaskCalendarController extends WebcController {
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
                 'econsent/reschedule-invitation',
-                (event) => {
+                async (event) => {
                     const response = event.detail;
-                    console.log('response',response);
+                    if(response) {
+                        model.rescheduled = true;
+                        model.rescheduledDate = new Date(response.desiredDate).toLocaleDateString();
+                        this._updateVisit(model);
+                        this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
+                        await this._initVisits();
+                    }
+
                 },
                 (event) => {
                     const response = event.detail;
@@ -284,6 +291,7 @@ export default class TaskCalendarController extends WebcController {
                     unit: visit.unit,
                     accepted: visit.accepted,
                     declined: visit.declined,
+                    rescheduled: visit.rescheduled,
                     id: visit.uid
                 },
             },

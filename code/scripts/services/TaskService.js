@@ -41,7 +41,6 @@ class TaskService extends DSUService {
             if(!tasks.item) {
                 tasks.item = [];
             }
-            debugger;
             tasks.item.push(task);
             this.updateTasks(tasks,callback);
         });
