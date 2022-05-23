@@ -12,7 +12,6 @@ export default class eDiaryController extends WebcController {
         this._attachHandlerVisitDetails();
         this.taskService = TaskService.getTaskService();
         this.model = this.getDefaultModel();
-        console.log('model', this.model.toObject())
         this.initTaskList();
     }
 

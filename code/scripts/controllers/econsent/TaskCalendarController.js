@@ -57,7 +57,7 @@ export default class TaskCalendarController extends WebcController {
                 day: model.value,
                 year: model.year,
                 today: model.type === "today",
-                visits: this.model.toObject('visits')
+                visits: this.model.toObject('allVisits')
             };
             this.navigateToPageTag('econsent-tasks', info);
         });
@@ -67,7 +67,6 @@ export default class TaskCalendarController extends WebcController {
         this._attachHandlerBack();
         this._attachHandlerDetails();
         this._attachHandlerAcceptVisit();
-        this._attachHandlerChangeSelectedVisit();
         this._attachHandlerDecline();
         this._attachHandlerConfirm();
         this._attachHandlerViewProcedures();
@@ -81,7 +80,8 @@ export default class TaskCalendarController extends WebcController {
     }
 
     async _initVisits() {
-        this.model.visits = (await this.VisitsAndProceduresRepository.findAllAsync())
+
+        this.model.allVisits = (await this.VisitsAndProceduresRepository.findAllAsync())
             .map(visit => {
                 return {
                     ...visit,
@@ -89,6 +89,18 @@ export default class TaskCalendarController extends WebcController {
                     toShowDate: DateTimeService.convertStringToLocaleDate(visit.date)
                 }
             });
+
+        function filterVisits(visit) {
+            if(visit.declined ===true ) {
+                return;
+            }
+            if(visit.accepted === true) {
+                return;
+            }
+            return visit;
+        }
+
+        this.model.visits = this.model.toObject('allVisits').filter(filterVisits);
 
         if (this.model.visits && this.model.visits.length > 0) {
             let tps = await this.TrialParticipantRepository.findAllAsync();
@@ -104,12 +116,6 @@ export default class TaskCalendarController extends WebcController {
     _attachHandlerBack() {
         this.onTagClick('back', () => {
             this.navigateToPageTag('home');
-        });
-    }
-
-    _attachHandlerRescheduleInvitation() {
-        this.onTagClick('reschedule-invitation', (model) => {
-            console.log('reschedule-invitation', model);
         });
     }
 
@@ -145,13 +151,15 @@ export default class TaskCalendarController extends WebcController {
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
                 'general/confirmation-alert',
-                (event) => {
+                async (event) => {
                     const response = event.detail;
                     if (response) {
                         model.accepted = false;
                         model.declined = true;
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_DECLINED);
+
+                        await this._initVisits();
                     }
                 },
                 (event) => {
@@ -168,13 +176,12 @@ export default class TaskCalendarController extends WebcController {
     }
 
     _attachHandlerConfirm() {
-        console.log('model', this.model.toObject());
         this.onTagEvent('visit:confirm', 'click', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
                 'general/confirmation-alert',
-                (event) => {
+                async (event) => {
                     const response = event.detail;
                     if (response) {
                         model.accepted = true;
@@ -202,7 +209,9 @@ export default class TaskCalendarController extends WebcController {
                             }
                         });
 
-                        this.send('new-task',visit, {capture:true});
+                        this.send('new-task', visit, {capture: true});
+
+                        await this._initVisits();
                     }
                 },
                 (event) => {
@@ -218,36 +227,27 @@ export default class TaskCalendarController extends WebcController {
         });
     }
 
-    _attachHandlerChangeSelectedVisit() {
-        this.onTagEvent('accept-or-decline-visit', 'click', (model, target, event) => {
+    _attachHandlerRescheduleInvitation() {
+        this.onTagEvent('reschedule-invitation', 'click', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'econsent/visit-accept-or-decline',
+                'econsent/reschedule-invitation',
                 (event) => {
-                    let accepted = event.detail.accepted;
-                    model = this.model.selectedVisit.model;
-                    let status = accepted ? 'Accepted' : 'Declined';
-                    model = {
-                        ...model,
-                        accepted: accepted,
-                        declined: !accepted,
-                        status: status
-                    }
-                    this.model.selectedVisit.model = model;
-                    this._updateVisit(model);
-                    if (accepted) {
-                        return this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
-                    }
-                    this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_DECLINED);
+                    const response = event.detail;
+                    console.log('response',response);
                 },
                 (event) => {
+                    const response = event.detail;
                 },
                 {
-                    controller: 'econsent/VisitAcceptOrDeclineController',
+                    controller: 'modals/RescheduleInvitationController',
                     disableExpanding: false,
-                    disableBackdropClosing: false
-                });
+                    disableBackdropClosing: true,
+                    question: 'Are you sure you want to reschedule this visit?',
+                    title: 'Reschedule visit',
+                }
+            );
         });
     }
 

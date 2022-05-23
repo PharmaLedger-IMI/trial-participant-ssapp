@@ -45,7 +45,6 @@ class TaskService extends DSUService {
             tasks.item.push(task);
             this.updateTasks(tasks,callback);
         });
-
     }
 
     saveTasks = (data, callback) => {

@@ -36,6 +36,14 @@ class CalendarController extends WebcController {
         window.addEventListener("new-task", (event) => {
             const response = event.detail;
             console.log('response',response)
+            if(response) {
+                this.initTaskList((err,invitations) => {
+                    if(err) {
+                        return console.error(err);
+                    }
+                    this.model = this.getDaysModel();
+                });
+            }
         }, {capture: true});
 
     }
@@ -46,7 +54,6 @@ class CalendarController extends WebcController {
                 return console.error(err);
             }
             this.model.invitations = tasks.item;
-            console.log('this.model.invitations', this.model.invitations);
             callback(undefined, this.model.invitations);
         });
     }
