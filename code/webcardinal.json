@@ -104,6 +104,12 @@
             "tag": "iot-feedback"
         },
         {
+            "name": "View Feedback",
+            "path": "/iot-view-feedback",
+            "src": "iot/view-feedback.html",
+            "tag": "view-feedback"
+        },
+        {
             "name": "Devices",
             "path": "/iot-devices",
             "src": "iot/devices.html",

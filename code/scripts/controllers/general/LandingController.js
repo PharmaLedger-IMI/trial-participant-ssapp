@@ -1,6 +1,7 @@
 import TrialService from "../../services/TrialService.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 import ProfileService from '../../services/ProfileService.js';
+import FeedbackService from "../../services/FeedbackService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -15,6 +16,7 @@ const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService, DeviceAssignationService} = commonServices;
 
 
+
 export default class LandingController extends WebcController {
     constructor(...props) {
         super(...props);
@@ -25,6 +27,8 @@ export default class LandingController extends WebcController {
             await this.initServices();
             this.addHandlers();
         });
+
+        this.FeedbackService = new FeedbackService();
     }
 
     _initTrials() {
@@ -152,6 +156,19 @@ export default class LandingController extends WebcController {
                 case CONSTANTS.MESSAGES.PATIENT.QUESTION_RESPONSE: {
                     //this.saveNotification(data);
                     this._updateQuestion(data.useCaseSpecifics)
+                    break;
+                }
+                case CONSTANTS.NOTIFICATIONS_TYPE.NEW_FEEDBACK : {
+                    this.FeedbackService.mount(data.ssi, (err,data) => {
+                        if(err) {
+                            return console.error(err);
+                        }
+                        this.FeedbackService.getFeedbacks((err,feedbacks) => {
+                            if(err) {
+                                return console.error(err);
+                            }
+                        })
+                    });
                     break;
                 }
                 case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
