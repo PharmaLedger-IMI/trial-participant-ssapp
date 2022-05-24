@@ -2,6 +2,8 @@ const commonServices = require('common-services');
 const {WebcController} = WebCardinal.controllers;
 import TaskService from "../../services/TaskService.js";
 import {getTestTaskModel} from "../../models/TaskModel.js"
+const {QuestionnaireService} = commonServices;
+
 
 export default class eDiaryController extends WebcController {
 
@@ -10,57 +12,56 @@ export default class eDiaryController extends WebcController {
         this._attachHandlerBack();
         this._attachHandlerPREMAndPROM();
         this._attachHandlerVisitDetails();
-        this.taskService = TaskService.getTaskService();
+        //this.taskService = TaskService.getTaskService();
+
+        this.QuestionnaireService = new QuestionnaireService();
+
         this.model = this.getDefaultModel();
         this.initTaskList();
     }
 
+
     initTaskList(){
-        this.taskService.getTasks((err, tasksList) => {
-            if(err){
-                return console.error(err);
+        this.QuestionnaireService.getAllQuestionnaires((err, data) => {
+            if (err) {
+                return reject(err);
             }
-            this.renderTasks(tasksList.item);
-        });
+            this.model.questionnaire = data[0];
+            this.renderTasks([...this.model.questionnaire.prom, ...this.model.questionnaire.prem]);
+        })
     }
 
     renderTasks(tasks){
         this.model.tasks = tasks;
-        this.model.tasksLoaded = true;
+        this.model.showTasks = false;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        for(let i = 0; i < this.model.tasks.length; i++){
-
-            const tasksItemList = this.model.toObject("tasks");
-            const {day, month, year} = this.model;
-
-            const startDate = new Date(tasksItemList[i].schedule.startDate);
-            const endDate = new Date(tasksItemList[i].schedule.endDate);
-            const clickedDate = new Date(year, months.indexOf(month), day);
-            const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
-
-            if((clickedDate >= startDate) && (clickedDate <= endDate)){
-                switch (repeatAppointment) {
-                    case "weekly":
-                        if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
-                            tasksItemList[i].showTask = true;
-                        }
-                        break;
-                    case "monthly":
-                        if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
-                            tasksItemList[i].showTask = true;
-                        }
-                        break;
-                    case "daily":
-                        tasksItemList[i].showTask = true;
-                        break;
-                }
-
-            } else {
-                tasksItemList[i].showTask = false;
+        const {day, month, year} = this.model;
+        let startDate = new Date(this.model.questionnaire.schedule.startDate)
+        startDate.setHours(0,0,0);
+        let endDate = new Date(this.model.questionnaire.schedule.endDate)
+        endDate.setHours(0,0,0);
+        let clickedDate = new Date(year, months.indexOf(month), day)
+        let repeatAppointment = this.model.questionnaire.schedule.repeatAppointment;
+        if((clickedDate >= startDate) && (clickedDate <= endDate)){
+            switch (repeatAppointment) {
+                case "weekly":
+                    if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
+                        this.model.showTasks = true;
+                    }
+                    break;
+                case "monthly":
+                    if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
+                        this.model.showTasks = true;
+                    }
+                    break;
+                case "daily":
+                    this.model.showTasks = true;
+                    break;
+                case "yearly":
+                    if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf() && startDate.getMonth()===clickedDate.getMonth()){
+                        this.model.showTasks = true;
+                    }
             }
-
-            this.model.tasks = JSON.parse(JSON.stringify(tasksItemList));
-
         }
     }
 

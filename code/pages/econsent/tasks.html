@@ -33,25 +33,21 @@
         </div>
 
 
-        <div data-if="@tasksLoaded">
-            <webc-spinner slot="loading"></webc-spinner>
-            <div data-for="@tasks" slot="true">
-                <div data-if="@showTask">
+        <div data-if="@showTasks" slot="true">
+
+            <div data-for="@tasks">
+
                     <div class="button-group-wrapper">
                         <button class="general-button" data-tag="@tag" type="button">
-                            {{@task}}
+                            question
                         </button>
                     </div>
                     <br>
-                </div>
-                <div slot="no-data">
-                    <p>
-                        No tasks or appointments for today.
-                    </p>
-                </div>
             </div>
+
         </div>
 
     </div>
+
 
 </webc-container>
