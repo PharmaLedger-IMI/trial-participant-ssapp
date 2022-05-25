@@ -1,0 +1,28 @@
+<webc-container controller="iot/CompletedStudiesController">
+
+    <div class="container-child">
+
+        <header>
+            <div class="header-title">
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>Completed Studies</h3>
+            </div>
+        </header>
+
+        <div class="completed-studies-container">
+            <div data-for="@studies">
+                <div class="study-container">
+                    <p class="study-title">{{@value}}</p>
+                    <button type="button" data-tag="view-study-details" class="link option">View</button>
+                    <button type="button" data-tag="navigate:feedback" class="link option">Feedback</button>
+                    <button type="button" data-tag="navigate:evidence" class="link option">Evidence</button>
+                    <button type="button" data-tag="navigate:permissions" class="link option">Permissions</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</webc-container>

@@ -14,6 +14,11 @@ export default class HealthStudiesController extends WebcController {
         this.onTagClick("pending-invitations",()=>{
             this.navigateToPageTag("pending-invitations");
         });
+
+        this.onTagClick("completed-studies",()=>{
+            this.navigateToPageTag("completed-studies");
+        });
+
     }
 
     async initServices() {

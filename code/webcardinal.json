@@ -110,6 +110,12 @@
             "tag": "view-feedback"
         },
         {
+            "name": "Completed Studies",
+            "path": "iot/completed-studies",
+            "src": "iot/completed-studies.html",
+            "tag": "completed-studies"
+        },
+        {
             "name": "Devices",
             "path": "/iot-devices",
             "src": "iot/devices.html",
