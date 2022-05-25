@@ -33,7 +33,8 @@ export default class eDiaryController extends WebcController {
 
     renderTasks(tasks){
         this.model.tasks = tasks;
-        this.model.showTasks = false;
+        this.model.showProms = false;
+        this.model.showPrems = false;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const {day, month, year} = this.model;
         let startDate = new Date(this.model.questionnaire.schedule.startDate)
@@ -46,21 +47,26 @@ export default class eDiaryController extends WebcController {
             switch (repeatAppointment) {
                 case "weekly":
                     if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
-                        this.model.showTasks = true;
+                        if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
+                        if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     }
                     break;
                 case "monthly":
                     if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
-                        this.model.showTasks = true;
+                        if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
+                        if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     }
                     break;
                 case "daily":
-                    this.model.showTasks = true;
+                    if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
+                    if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     break;
                 case "yearly":
                     if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf() && startDate.getMonth()===clickedDate.getMonth()){
-                        this.model.showTasks = true;
+                        if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
+                        if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     }
+                    break;
             }
         }
     }

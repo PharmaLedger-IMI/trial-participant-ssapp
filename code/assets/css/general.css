@@ -223,6 +223,18 @@ label.home-title {
     width: 130px;
 }
 
+.prom-prem-button{
+    background-color: #008798;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    height: 80px;
+    width: 200px;
+}
+
 .left-image-eu img {
     max-width: 100%;
 }
