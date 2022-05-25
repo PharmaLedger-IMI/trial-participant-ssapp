@@ -9,7 +9,7 @@ const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
-
+import {getTPService} from "../../services/TPService.js";
 
 const CONSTANTS = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
@@ -42,17 +42,15 @@ export default class LandingController extends WebcController {
     }
 
 
-    //TO BE REMOVED/REFACTORED
+
     _initTrialParticipant() {
         this.model.tp = {};
-        this.TrialParticipantRepository.findAll((err, data) => {
-            if (err) {
-                return console.log(err);
+        this.TPService.getTp((err, tp)=>{
+            if(err){
+                return console.log("Participant not added to a trial yet");
             }
-            if (data && data.length > 0) {
-                this.model.tp = data[data.length - 1];
-            }
-        });
+            this.model.tp = tp;
+        })
     }
 
     addHandlers() {
@@ -98,7 +96,7 @@ export default class LandingController extends WebcController {
         this.QuestionnaireService = new QuestionnaireService();
         this.DeviceAssignationService = new DeviceAssignationService();
         this.TrialService = new TrialService();
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.TPService = getTPService();
         this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS, this.DSUStorage);
         this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
         this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
@@ -139,22 +137,26 @@ export default class LandingController extends WebcController {
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
-                    this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
+                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
                     this._saveVisit(data.useCaseSpecifics.visit);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_VISIT : {
-                    this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_UPDATE);
+                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_UPDATE);
                     this._updateVisit(data.useCaseSpecifics.visit);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER: {
-                    this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
-                    this._updateTrialParticipant(data.useCaseSpecifics);
+                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
+                    this._updateTrialParticipant(data.useCaseSpecifics,(err)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                    });
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.QUESTION_RESPONSE: {
-                    //this.saveNotification(data);
+                    //await this.saveNotification(data);
                     this._updateQuestion(data.useCaseSpecifics)
                     break;
                 }
@@ -267,12 +269,17 @@ export default class LandingController extends WebcController {
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }
-        this.model.tp = await this.TrialParticipantRepository.createAsync(trialParticipant);
+        this.TPService.createTp(trialParticipant, (err,tp)=>{
+            if(err){
+                return console.log(err);
+            }
+            this.model.tp = tp
+        })
     }
 
-    async _updateTrialParticipant(data) {
+    _updateTrialParticipant(data, callback) {
         this.model.tp.number = data.number;
-        await this.TrialParticipantRepository.updateAsync(this.model.tp.uid, this.model.tp);
+        this.TPService.updateTp(this.model.tp, callback)
     }
 
     async saveNotification(message, type) {
@@ -299,7 +306,10 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.tp.hasNewVisits = true;
-            this.TrialParticipantRepository.update(this.model.tp.uid, this.model.tp, () => {
+            this.TPService.updateTp(this.model.tp, (err)=>{
+                if(err){
+                    console.log(err);
+                }
             })
         })
     }
@@ -316,7 +326,7 @@ export default class LandingController extends WebcController {
 
 
     async _handleAddToTrial(data, notificationType) {
-        this.saveNotification(data, notificationType);
+        await this.saveNotification(data, notificationType);
         let hcoIdentity = data.senderIdentity;
         await this._saveTrialParticipantInfo(hcoIdentity, data.useCaseSpecifics);
         await this.mountTrial(data.useCaseSpecifics.trialSSI);

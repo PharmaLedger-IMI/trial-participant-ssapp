@@ -5,6 +5,7 @@ import TrialConsentService from "../../services/TrialConsentService.js";
 const commonServices = require('common-services');
 const DateTimeService = commonServices.DateTimeService;
 const BaseRepository = commonServices.BaseRepository;
+import {getTPService}  from "../../services/TPService.js"
 
 const {WebcController} = WebCardinal.controllers;
 
@@ -25,9 +26,9 @@ export default class TrialController extends WebcController {
     }
 
     async _initServices() {
+        this.TPService = getTPService();
         this.TrialService = new TrialService();
         this.EconsentsStatusRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
@@ -46,12 +47,12 @@ export default class TrialController extends WebcController {
     }
 
     initTrialParticipant() {
-        this.TrialParticipantRepository.filter(`did == ${this.model.tpNumber}`, 'ascending', 30, (err, tps) => {
-
-            if (tps && tps.length > 0) {
-                this.model.trialParticipant = tps[0];
+        this.TPService.getTp((err, tp)=>{
+            if(err){
+                return console.log("Trial Participant not added to a trial");
             }
-        });
+            this.model.trialParticipant = tp;
+        })
     }
 
     _initTrial() {
@@ -119,17 +120,13 @@ export default class TrialController extends WebcController {
             if (consents.length > 0) {
                 this.model.econsents[0].isMain = true;
             }
-
-            this.TrialParticipantRepository.findAll((err, data) => {
-                if (err) {
+            this.TPService.getTp((err, tp)=>{
+                if(err){
                     return console.log(err);
                 }
-                if (data && data.length > 0) {
-                    this.model.site = data [0].site;
-                }
+                this.model.site = tp.site;
                 this.model.econsentsAreLoaded = true;
-            });
-
+            })
         });
     }
 

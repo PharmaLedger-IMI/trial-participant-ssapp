@@ -6,7 +6,7 @@ const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
-
+import {getTPService}  from "../../services/TPService.js"
 const {WebcController} = WebCardinal.controllers;
 
 
@@ -29,11 +29,11 @@ export default class AsqQuestionController extends WebcController {
     }
 
     _initServices() {
+        this.TPService = getTPService();
         this.TrialService = new TrialService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.EcosentService = new EconsentService();
         this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS, this.DSUStorage);
     }
 
@@ -113,35 +113,31 @@ export default class AsqQuestionController extends WebcController {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
-        this.TrialParticipantRepository.findAll((err, data) => {
-
+        this.TPService.getTp((err, tp) => {
             if (err) {
                 return console.log(err);
             }
+            this.model.tp = tp;
+            question.patient = this.model.tp.did;
+            question.ecoVersion = this.model.historyData.ecoVersion;
+            let sendObject = {
+                operation: 'ask-question',
+                ssi: ssi,
+                useCaseSpecifics: {
+                    trialSSI: this.model.historyData.trialuid,
+                    tpNumber: this.model.tp.number,
+                    tpDid: this.model.tp.did,
+                    version: this.model.historyData.ecoVersion,
 
-            if (data && data.length > 0) {
-                this.model.tp = data[data.length - 1];
-                question.patient = this.model.tp.did;
-                question.ecoVersion = this.model.historyData.ecoVersion;
-                let sendObject = {
-                    operation: 'ask-question',
-                    ssi: ssi,
-                    useCaseSpecifics: {
-                        trialSSI: this.model.historyData.trialuid,
-                        tpNumber: this.model.tp.number,
-                        tpDid: this.model.tp.did,
-                        version: this.model.historyData.ecoVersion,
-
-                        question: {
-                            ...question
-                        },
+                    question: {
+                        ...question
                     },
-                    shortDescription: shortMessage,
-                };
+                },
+                shortDescription: shortMessage,
+            };
 
-                this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
-                this.navigateToPageTag('econsent-trials-dashboard');
-            }
+            this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
+            this.navigateToPageTag('econsent-trials-dashboard');
         });
     }
 

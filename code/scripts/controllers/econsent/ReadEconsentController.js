@@ -7,13 +7,13 @@ const BaseRepository = commonServices.BaseRepository;
 const CommunicationService = commonServices.CommunicationService;
 const FileDownloaderService = commonServices.FileDownloaderService;
 const Constants = commonServices.Constants;
+import {getTPService} from "../../services/TPService.js";
 
 const {WebcController} = WebCardinal.controllers;
 
 export default class ReadEconsentController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({});
         this.model.econsent = {};
         this._initServices();
         this.model.historyData = this.history.win.history.state.state;
@@ -31,9 +31,9 @@ export default class ReadEconsentController extends WebcController {
 
     async _initServices() {
         this.TrialService = new TrialService();
+        this.TPService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
@@ -196,12 +196,12 @@ export default class ReadEconsentController extends WebcController {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
-        this.TrialParticipantRepository.findAll((err, data) => {
-            if (err) {
+        this.TPService.getTp((err, tp)=>{
+            if(err){
                 return console.log(err);
             }
-            if (data && data.length > 0) {
-                this.model.tp = data[data.length - 1];
+
+                this.model.tp = tp;
                 let sendObject = {
                     operation: Constants.MESSAGES.HCO.UPDATE_ECOSENT,
                     ssi: ssi,
@@ -220,7 +220,6 @@ export default class ReadEconsentController extends WebcController {
                     shortDescription: shortMessage,
                 };
                 this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
-            }
         });
     }
 

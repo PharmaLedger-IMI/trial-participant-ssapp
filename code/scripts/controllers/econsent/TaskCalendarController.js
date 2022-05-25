@@ -7,6 +7,7 @@ const DateTimeService = commonServices.DateTimeService;
 const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService} = commonServices;
+import {getTPService}  from "../../services/TPService.js"
 
 
 let getInitModel = () => {
@@ -75,7 +76,7 @@ export default class TaskCalendarController extends WebcController {
 
     _initServices() {
         this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
-        this.TrialParticipantRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.TPService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance()
     }
 
@@ -103,14 +104,22 @@ export default class TaskCalendarController extends WebcController {
         this.model.visits = this.model.toObject('allVisits').filter(filterVisits);
 
         if (this.model.visits && this.model.visits.length > 0) {
-            let tps = await this.TrialParticipantRepository.findAllAsync();
-            this.model.tp = tps[tps.length - 1];
+            this.TPService.getTp((err, tp) => {
+                if (err) {
+                    return console.log(err);
+                }
+                this.model.tp = tp;
+            })
         }
     }
 
     _updateTrialParticipant() {
         this.model.tp.visits = this.model.visits;
-        this.TrialParticipantRepository.updateAsync(this.model.tp.uid, this.model.tp);
+        this.TPService.updateTp(this.model.tp,(err)=>{
+            if(err){
+                console.log(err);
+            }
+        })
     }
 
     _attachHandlerBack() {

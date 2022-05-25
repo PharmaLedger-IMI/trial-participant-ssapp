@@ -1,10 +1,7 @@
 import DPModel from '../../models/DPModel.js';
 import DPService from '../../services/DPService.js';
 import ProfileService from '../../services/ProfileService.js';
-
-const commonServices = require('common-services');
-const DSUService = commonServices.DSUService;
-const BaseRepository = commonServices.BaseRepository;
+import {getTPService} from "../../services/TPService.js";
 
 
 const {WebcIonicController} = WebCardinal.controllers;
@@ -52,10 +49,14 @@ export default class MyProfileController extends WebcIonicController {
     }
 
     async getParticipantName() {
-        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        const tpService = getTPService();
+        tpService.getTp((err, tp)=>{
+            if(err){
+                return console.log(err);
+            }
+            this.model.name = tp.subjectName;
+        })
 
-        let tps = await this.TrialParticipantRepository.findAllAsync();
-        this.model.name = tps[tps.length-1].subjectName;
     }
 
     addTagsListeners() {

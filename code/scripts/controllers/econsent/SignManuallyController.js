@@ -7,7 +7,7 @@ const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const FileDownloader = commonServices.FileDownloader;
 const BaseRepository = commonServices.BaseRepository;
-
+import {getTPService}  from "../../services/TPService.js"
 const {WebcController} = WebCardinal.controllers;
 
 export default class SignManuallyController extends WebcController {
@@ -34,7 +34,7 @@ export default class SignManuallyController extends WebcController {
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
         this.EcosentService = new EconsentService();
-        this.TrialParticipantRepository =  BaseRepository.getInstance(BaseRepository.identities.PATIENT.TRIAL_PARTICIPANT, this.DSUStorage);
+        this.TPService = getTPService();
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
@@ -136,14 +136,11 @@ export default class SignManuallyController extends WebcController {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
-        this.TrialParticipantRepository.findAll((err, data) => {
-
+        this.TPService.getTp((err, tp) => {
             if (err) {
                 return console.log(err);
             }
-
-            if (data && data.length > 0) {
-                this.model.tp = data[data.length - 1];
+            this.model.tp = tp;
                 let sendObject = {
                     operation: 'update-econsent',
                     ssi: ssi,
@@ -165,7 +162,6 @@ export default class SignManuallyController extends WebcController {
                     shortDescription: shortMessage,
                 };
                 this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
-            }
         });
     }
 
