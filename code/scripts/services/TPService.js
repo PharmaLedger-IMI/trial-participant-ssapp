@@ -41,6 +41,12 @@ class TPService extends DSUService {
     updateTp(tp, callback){
         this.updateEntity(tp, callback)
     }
+   async updateTpAsync(tp){
+       return this.asyncMyFunction(this.updateTp, [...arguments]);
+    }
+    async createTpAsync(tp){
+        return this.asyncMyFunction(this.createTp, [...arguments]);
+    }
 }
 
 let instance = null

@@ -2,6 +2,7 @@ import TrialService from "../../services/TrialService.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 import ProfileService from '../../services/ProfileService.js';
 import FeedbackService from "../../services/FeedbackService.js";
+import {getTPService} from "../../services/TPService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -9,7 +10,6 @@ const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
 const usecases = WebCardinal.USECASES;
-import {getTPService} from "../../services/TPService.js";
 
 const CONSTANTS = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
@@ -138,7 +138,7 @@ export default class LandingController extends WebcController {
                 }
                 case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
                     await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
-                    this._saveVisit(data.useCaseSpecifics.visit);
+                    await this._saveVisit(data.useCaseSpecifics.visit);
                     break;
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_VISIT : {
@@ -174,7 +174,7 @@ export default class LandingController extends WebcController {
                     break;
                 }
                 case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
-                    this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
+                    await this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
                     this._mountHCODSUAndSaveConsentStatuses(data, (err, data) => {
                         if (err) {
                             return console.log(err);
@@ -229,8 +229,7 @@ export default class LandingController extends WebcController {
 
 
     async _mountICFAndSaveConsentStatuses(data) {
-        let trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
-        this.model.trialConsent = trialConsent;
+        this.model.trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
         await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc, data.useCaseSpecifics.did);
     }
 
@@ -269,12 +268,7 @@ export default class LandingController extends WebcController {
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }
-        this.TPService.createTp(trialParticipant, (err,tp)=>{
-            if(err){
-                return console.log(err);
-            }
-            this.model.tp = tp
-        })
+        this.model.tp = await this.TPService.createTpAsync(trialParticipant);
     }
 
     _updateTrialParticipant(data, callback) {
@@ -290,8 +284,7 @@ export default class LandingController extends WebcController {
             date: Date.now(),
             type: type
         }
-        await this.NotificationsRepository.createAsync(notification, () => {
-        });
+        return await this.NotificationsRepository.createAsync(notification.uid, notification);
     }
 
     async mountTrial(trialSSI) {
@@ -300,18 +293,11 @@ export default class LandingController extends WebcController {
     }
 
 
-    _saveVisit(visitToBeAdded) {
-        this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded, (err, visitCreated) => {
-            if (err) {
-                return console.error(err);
-            }
-            this.model.tp.hasNewVisits = true;
-            this.TPService.updateTp(this.model.tp, (err)=>{
-                if(err){
-                    console.log(err);
-                }
-            })
-        })
+    async _saveVisit(visitToBeAdded) {
+        const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded);
+        this.model.tp.hasNewVisits = true;
+        await this.TPService.updateTpAsync(this.model.tp)
+        return visitCreated;
     }
 
     _updateVisit(visitToBeUpdated) {
@@ -329,7 +315,7 @@ export default class LandingController extends WebcController {
         await this.saveNotification(data, notificationType);
         let hcoIdentity = data.senderIdentity;
         await this._saveTrialParticipantInfo(hcoIdentity, data.useCaseSpecifics);
-        await this.mountTrial(data.useCaseSpecifics.trialSSI);
+        return await this.mountTrial(data.useCaseSpecifics.trialSSI);
     }
 
     _updateQuestion(data) {
