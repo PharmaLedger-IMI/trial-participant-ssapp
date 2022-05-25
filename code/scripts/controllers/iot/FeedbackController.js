@@ -49,7 +49,7 @@ export default class FeedbackController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('home');
+            this.navigateToPageTag('completed-studies');
         });
     }
 }

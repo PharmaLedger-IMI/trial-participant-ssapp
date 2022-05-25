@@ -25,7 +25,7 @@ export default class CompletedStudiesController extends WebcController {
         })
 
         this.onTagClick('navigate:evidence', (model) => {
-            this.navigateToPageTag('view-study-evidence')
+            this.navigateToPageTag('evidences-list')
         })
 
         this.onTagClick("navigate:feedback", () => {

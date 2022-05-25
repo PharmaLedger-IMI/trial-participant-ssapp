@@ -116,6 +116,18 @@
             "tag": "completed-studies"
         },
         {
+            "name": "Evidences List",
+            "path": "/iot-evidences-list",
+            "src": "iot/evidences-list.html",
+            "tag": "evidences-list"
+        },
+        {
+            "name": "View Evidence",
+            "path": "/iot-view-evidence",
+            "src": "iot/view-evidence.html",
+            "tag": "view-evidence"
+        },
+        {
             "name": "Devices",
             "path": "/iot-devices",
             "src": "iot/devices.html",
