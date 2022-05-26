@@ -33,6 +33,18 @@
             "tag": "trial"
         },
         {
+            "name": "Site Consent History",
+            "path": "/site-consent-history",
+            "src": "econsent/site-consent-history.html",
+            "tag": "site-consent-history"
+        },
+        {
+            "name": "Consent Preview",
+            "path": "/consent-preview",
+            "src": "econsent/consent-preview.html",
+            "tag": "consent-preview"
+        },
+        {
             "name": "My Profile",
             "path": "/my-profile",
             "src": "general/my-profile.html",

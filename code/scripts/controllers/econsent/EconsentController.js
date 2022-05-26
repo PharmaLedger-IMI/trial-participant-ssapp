@@ -105,11 +105,7 @@ export default class EconsentController extends WebcController {
         this.onTagClick('econsent:versions', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('econsent-versions', {
-                trialSSI: this.model.historyData.trialuid,
-                econsentSSI: this.model.historyData.ecoId,
-                tpDid: this.model.historyData.tpDid
-            });
+            this.navigateToPageTag('site-consent-history');
         });
     }
 
@@ -137,7 +133,7 @@ export default class EconsentController extends WebcController {
                     return console.log(err);
                 }
                 if (response) {
-                    this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
+                    this.model.status.actions.push({name: 'withdraw', version: this.currentVersion.version});
                     this.model.status.latest = 'Withdraw';
                 }
                 this.EconsentsStatusRepository.update(this.model.status.uid, this.model.status, (err, response) => {
@@ -150,7 +146,7 @@ export default class EconsentController extends WebcController {
     }
 
     getEconsentFilePath(econsent, currentVersion) {
-        return this.TrialConsentService.PATH  + '/' + this.model.trialConsent.uid + '/ifc/'
+        return this.TrialConsentService.PATH + '/' + this.model.trialConsent.uid + '/ifc/'
             + econsent.uid + '/versions/' + currentVersion.version;
     }
 

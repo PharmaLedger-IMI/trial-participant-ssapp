@@ -1,0 +1,33 @@
+<webc-container controller="econsent/SiteConsentHistoryController">
+    <div class="container-child">
+        <header>
+            <div class="header-title">
+
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+
+                <h3>Site Consent History</h3>
+            </div>
+        </header>
+
+        <div class="consent-state">
+            <h1 class="consent-name">{{@consentName}}</h1>
+            <h3>{{@consentDate}}</h3>
+            <h1 class="consent-status" status-type="@statusType">{{@lastAction}}</h1>
+        </div>
+
+        <div class="versions-container" data-for="@versions">
+            <div class="version-container">
+                <div class="icon-text-container">
+                    <i class="fa fa-file-text-o"></i>
+                    <p class="version-name">{{@consentName}} v{{@version}}</p>
+                </div>
+                <div class="button-container">
+                    <button class="button-link-option" data-tag="navigation:preview">Preview</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</webc-container>
