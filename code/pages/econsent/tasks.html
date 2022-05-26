@@ -32,10 +32,14 @@
             </div>
         </div>
 
+        <div class="alert alert-warning" role="alert">
+            Pending Questionnaires
+        </div>
+
         <div data-if="@showProms" slot="true">
                     <div class="button-group-wrapper">
-                <button class="prom-prem-button" data-tag="@tag" type="button">
-                    Patient-Reported Outcome Measures (PROMs)
+                <button class="prom-prem-button" data-tag="navigate:ediary-prom" type="button">
+                    Health questions
                 </button>
             </div>
             <br>
@@ -43,8 +47,8 @@
 
         <div data-if="@showPrems" slot="true">
             <div class="button-group-wrapper">
-                <button class="prom-prem-button" data-tag="@tag" type="button">
-                    Patient-Reported Experience Measures (PREMs)
+                <button class="prom-prem-button" data-tag="navigate:ediary-prem" type="button">
+                    Rate your experience
                 </button>
             </div>
             <br>
