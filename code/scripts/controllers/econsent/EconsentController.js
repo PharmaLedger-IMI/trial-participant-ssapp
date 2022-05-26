@@ -54,12 +54,12 @@ export default class EconsentController extends WebcController {
         }
         let ecoVersion = this.model.historyData.ecoVersion;
         this.model.econsent = econsent;
-        let currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
-        this.model.econsentFilePath = this.getEconsentFilePath(econsent, currentVersion);
-        this.model.econsentFilename = currentVersion.attachment;
+        this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
+        this.model.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
+        this.model.econsentFilename = this.currentVersion.attachment;
         this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
-        this.model.econsent.versionDate = new Date(currentVersion.versionDate).toLocaleDateString('sw');
-        this.model.econsent.version = currentVersion.version;
+        this.model.econsent.versionDate = new Date(this.currentVersion.versionDate).toLocaleDateString('sw');
+        this.model.econsent.version = this.currentVersion.version;
 
         this.EconsentsStatusRepository.findAll((err, data) => {
             if (err) {
@@ -137,7 +137,7 @@ export default class EconsentController extends WebcController {
                     return console.log(err);
                 }
                 if (response) {
-                    this.model.status.actions.push({name: 'withdraw'});
+                    this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
                     this.model.status.latest = 'Withdraw';
                 }
                 this.EconsentsStatusRepository.update(this.model.status.uid, this.model.status, (err, response) => {
