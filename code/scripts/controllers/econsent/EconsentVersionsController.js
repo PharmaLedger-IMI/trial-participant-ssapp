@@ -1,4 +1,5 @@
 import TrialService from '../../services/TrialService.js';
+import TrialConsentService from "../../services/TrialConsentService.js";
 const commonServices = require('common-services');
 const BaseRepository = commonServices.BaseRepository;
 const {WebcController} = WebCardinal.controllers;
@@ -34,14 +35,22 @@ export default class EconsentVersionsController extends WebcController {
             }
             this.model.trial = trial;
         });
-        this.TrialService.getEconsent(this.model.trialSSI, this.model.econsentSSI, (err, data) => {
+        this.TrialConsentService = new TrialConsentService();
+        this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
                 return console.log(err);
             }
-            this.model.econsent = data;
-
-            this.model.versions = data.versions;
+            this.model.trialConsent = trialConsent;
         });
+
+        // this.TrialService.getEconsent(this.model.trialSSI, this.model.econsentSSI, (err, data) => {
+        //     if (err) {
+        //         return console.log(err);
+        //     }
+        //     this.model.econsent = data;
+        //
+        //     this.model.versions = data.versions;
+        // });
     }
 
 

@@ -48,10 +48,10 @@ export default class ReadEconsentController extends WebcController {
         let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.model.historyData.ecoId)
         let ecoVersion = this.model.historyData.ecoVersion;
         this.model.econsent = econsent;
-        let currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
-        let econsentFilePath = this.getEconsentFilePath(econsent, currentVersion);
+        this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
+        let econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
         this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
-        this._downloadFile(econsentFilePath, currentVersion.attachment);
+        this._downloadFile(econsentFilePath, this.currentVersion.attachment);
         this.EconsentsStatusRepository.findAll((err, data) => {
             if (err) {
                 return console.error(err);
@@ -96,7 +96,7 @@ export default class ReadEconsentController extends WebcController {
                 (event) => {
                     const response = event.detail;
                     if (response) {
-                        this.model.status.actions.push({name: 'signed'});
+                        this.model.status.actions.push({name: 'signed', version:this.currentVersion.version});
                         this._saveStatus('sign');
                     }
                 },
@@ -125,7 +125,7 @@ export default class ReadEconsentController extends WebcController {
                     if (response) {
                         let operation = ConsentStatusMapper.consentStatuses.decline.name;
                         let message = ConsentStatusMapper.consentStatuses.decline.details;
-                        this.model.status.actions.push({name: ConsentStatusMapper.consentStatuses.decline.name});
+                        this.model.status.actions.push({name: ConsentStatusMapper.consentStatuses.decline.name, version:this.currentVersion.version});
                         this._saveStatus(operation);
                     }
                 },
@@ -152,9 +152,9 @@ export default class ReadEconsentController extends WebcController {
                     let operation = 'withdraw';
                     let message = 'TP withdraw consent.';
                     if (response.withdraw) {
-                        this.model.status.actions.push({name: 'withdraw'});
+                        this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
                     } else if (response.withdrawIntention) {
-                        this.model.status.actions.push({name: 'withdraw-intention'});
+                        this.model.status.actions.push({name: 'withdraw-intention',  version:this.currentVersion.version});
                         operation = 'withdraw-intention';
                         message = 'TP withdraw intention consent.';
                     }

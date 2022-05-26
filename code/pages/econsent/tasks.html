@@ -32,19 +32,22 @@
             </div>
         </div>
 
-
-        <div data-if="@showTasks" slot="true">
-
-            <div data-for="@tasks">
-
+        <div data-if="@showProms" slot="true">
                     <div class="button-group-wrapper">
-                        <button class="general-button" data-tag="@tag" type="button">
-                            question
-                        </button>
-                    </div>
-                    <br>
+                <button class="prom-prem-button" data-tag="@tag" type="button">
+                    Patient-Reported Outcome Measures (PROMs)
+                </button>
             </div>
+            <br>
+         </div>
 
+        <div data-if="@showPrems" slot="true">
+            <div class="button-group-wrapper">
+                <button class="prom-prem-button" data-tag="@tag" type="button">
+                    Patient-Reported Experience Measures (PREMs)
+                </button>
+            </div>
+            <br>
         </div>
 
     </div>
