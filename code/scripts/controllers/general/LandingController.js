@@ -9,6 +9,7 @@ const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
+const healthDataService = commonServices.HealthDataService;
 const usecases = WebCardinal.USECASES;
 import {getTPService} from "../../services/TPService.js";
 
@@ -211,10 +212,12 @@ export default class LandingController extends WebcController {
                     break;
                 }
                 case "HealthDataDsu": {
-                    this.DeviceAssignationService.mount(data.seedSSI, (err, deviceAssignation) => {
+                    this.healthDataService.mount(data.sReadSSI, (err, healthData) => {
                         if (err) {
                             console.log(err);
                         }
+                        console.log("****************** Health Data ******************************")
+                        console.log(healthData)
                     });
                     break;
                 }
