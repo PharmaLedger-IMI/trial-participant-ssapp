@@ -266,6 +266,8 @@
 
 .consents-container {
     margin-top: 10px;
+    overflow: scroll;
+    max-height: 400px;
 }
 
 .consents-container div.consent-item-container:nth-child(odd) {
