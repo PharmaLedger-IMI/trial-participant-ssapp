@@ -6,6 +6,7 @@ export default class DevicesController extends WebcController {
     constructor(...props) {
         super(...props);
         this.attachHandlers();
+        this._attachHandlerBack();
         this.initServices();
     }
 
@@ -14,7 +15,12 @@ export default class DevicesController extends WebcController {
         this.profileService.getProfilePicture((err,data)=>{
             this.model.profilePicture = data
         })
+    }
 
+    _attachHandlerBack() {
+        this.onTagClick('navigation:go-back', () => {
+            this.navigateToPageTag('home');
+        });
     }
 
     attachHandlers(){

@@ -41,6 +41,9 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.trials = data;
+            if(this.model.trials.length) {
+                this.model.notAssigned = false;
+            } else this.model.notAssigned = true;
         });
     }
 
@@ -67,7 +70,7 @@ export default class LandingController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
 
-            if (this.model.trials.length) {
+            if(!this.model.notAssigned) {
                 this.navigateToPageTag('trial', {
                     tp: this.model.toObject('tp'),
                     uid: this.model.trials[0].uid,
@@ -76,7 +79,7 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:task-calendar", "click", () => {
-            if (this.model.trials.length && this.model.tp) {
+            if (!this.model.notAssigned) {
                 this.navigateToPageTag('task-calendar', {
                     tpDid: this.model.tp.did,
                     tpUid: this.model.trials[0].uid,
@@ -84,13 +87,19 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
-            this.navigateToPageTag('iot-devices');
+            if(!this.model.notAssigned) {
+                this.navigateToPageTag('iot-devices');
+            }
         });
         this.onTagEvent("navigate:health-studies", "click", () => {
-            this.navigateToPageTag('iot-health-studies');
+            if(!this.model.notAssigned) {
+                this.navigateToPageTag('iot-health-studies');
+            }
         });
         this.onTagEvent("navigate:iot-feedback", "click", () => {
-            this.navigateToPageTag('iot-feedback');
+            if(!this.model.notAssigned) {
+                this.navigateToPageTag('iot-feedback');
+            }
         });
     }
 

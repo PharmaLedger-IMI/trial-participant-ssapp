@@ -7,6 +7,8 @@ export default class HealthStudiesController extends WebcController {
         super(...props);
         this.initServices();
 
+        this._attachHandlerBack();
+
         this.onTagClick("participating-studies",()=>{
             this.navigateToPageTag("participating-studies");
         });
@@ -17,6 +19,12 @@ export default class HealthStudiesController extends WebcController {
 
         this.onTagClick("completed-studies",()=>{
             this.navigateToPageTag("completed-studies");
+        });
+    }
+
+    _attachHandlerBack() {
+        this.onTagClick('navigation:go-back', () => {
+            this.navigateToPageTag('home');
         });
     }
 

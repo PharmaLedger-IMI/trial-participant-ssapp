@@ -162,6 +162,7 @@ label.home-title {
     border-width: 10px 10px 0 10px;
     background: #FFFFFF;
     border-radius: 20px;
+    width: 100%;
 }
 
 .trial-row{
