@@ -127,6 +127,7 @@ export default class LandingController extends WebcController {
             }
 
             console.log("OPERATION:", data.operation);
+            window.WebCardinal.loader.hidden = false;
             switch (data.operation) {
                 case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
                     await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
@@ -211,6 +212,7 @@ export default class LandingController extends WebcController {
                     break;
                 }
             }
+            window.WebCardinal.loader.hidden = true;
         });
     }
 
