@@ -11,15 +11,14 @@
         <div class="form-group">
             <div class="avatar-upload">
                 <div class="avatar-edit">
-                  <form action="" method="post" id="form-image">
-                    <input type='file' id="profileImageUpload" accept=".png, .jpg, .jpeg" />
+                    <input type='file' id="profileImageUpload" accept=".png, .jpg, .jpeg"/>
                     <label for="profileImageUpload"></label>
-                  </form>
                 </div>
                 <div class="avatar-preview">
-                    <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="@profilePicture" alt="User profile picture">
+                    <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="@profilePicture"
+                         alt="User profile picture">
                 </div>
-              </div>
+            </div>
         </div>
         <div class="p-1 text-center">
             <h2 class="title">Subject Name: {{@name}}</h2>
@@ -28,86 +27,24 @@
         <h4 class="share-did-label">{{@did}}</h4>
 
         <div class="form-group">
-            <label class="col-form-label">Would you like to be contacted to donate/use your data for clinical studies?</label>
-                <div class="d-flex flex-row justify-content-center align-items-center">
-                    <div class="switch-button">
-                        <input class="switch-button-checkbox" type="checkbox" checked="@dp.contactMe.value"  value="@dp.contactMe.value"/>
-                        <label class="switch-button-label"><span class="switch-button-label-span">Yes</span></label>
-                    </div>
+            <label class="col-form-label">Would you like to be contacted to donate/use your data for clinical
+                studies?</label>
+            <div class="d-flex flex-row justify-content-center align-items-center">
+                <ion-item>
+                    <ion-label>Yes, I want to receive studies invites</ion-label>
+                    <ion-toggle class="p-2" color="green" slot="start" checked="@dp.contactMe.value"
+                                value="@dp.contactMe.value"></ion-toggle>
+                </ion-item>
+
             </div>
-            </div>
+        </div>
 
-            <label class="col-form-label">Do you want to share your own data at a time or donate it?
-                <div class="d-flex flex-row justify-content-left align-items-left">
-                    <ion-grid>
-                        <ion-row>
-                            <div>
-                                <ion-checkbox slot="start" color="green" checked="@dp.wantToShare.value" value="@dp.wantToShare.value"></ion-checkbox>
-                                <ion-label>Donate</ion-label>
-                            </div>
-                        </ion-row>
-                        <ion-row>
-                            <div >
-                                <ion-checkbox slot="end" color="green" checked="@dp.givePermisionEachTime.value" value="@dp.givePermisionEachTime.value"></ion-checkbox>
-                                <ion-label> Give permission each time</ion-label>
-                            </div>
-                        </ion-row>
-                    </ion-grid>
-                </div>
-            </label>
+        <div data-if="@dp.contactMe.value">
+            <webc-template data-view-model="@" template="dp-template">
+            </webc-template>
+        </div>
 
-            <label class="col-form-label">Do you want to share your data with the stakeholders? Which one? Select all of them.
-                <div class="d-flex flex-row justify-content-left align-items-left">
-                    <ion-grid>
-                        <ion-row>
-                            <div>
-                                <ion-checkbox slot="end" color="green" checked="@dp.shareWithHospitals.value" value="@dp.shareWithHospitals.value"></ion-checkbox>
-                                <ion-label> Hospitals</ion-label>
-                            </div>
-                        </ion-row>
-                        <ion-row>
-                            <div>
-                                <ion-checkbox slot="end" color="green" checked="@dp.shareWithPharmas.value" value="@dp.shareWithPharmas.value"></ion-checkbox>
-                                <ion-label> Pharmas</ion-label>
-                            </div>
-                        </ion-row>
-                        <ion-row>
-                            <div>
-                                <ion-checkbox slot="end" color="green" checked="@dp.shareWithResearchers.value" value="@dp.shareWithResearchers.value"></ion-checkbox>
-                                <ion-label> Researchers</ion-label>
-                            </div>
-                        </ion-row>
-                    </ion-grid>
-               </div>
-           </label>
-
-
-           <label class="col-form-label">In wich areas do you want to participate?
-            <div class="d-flex flex-row justify-content-left align-items-left">
-                <ion-grid>
-                    <ion-row>
-                        <div>
-                            <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateCancer.value" value="@dp.areaToParticipateCancer.value"></ion-checkbox>
-                            <ion-label> Cancer</ion-label>
-                        </div>
-                    </ion-row>
-                    <ion-row>
-                        <div>
-                            <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateDiabets.value" value="@dp.areaToParticipateDiabets.value"></ion-checkbox>
-                            <ion-label> Diabets</ion-label>
-                        </div>
-                    </ion-row>
-                    <ion-row>
-                        <div>
-                            <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateCOPD.value" value="@dp.areaToParticipateCOPD.value"></ion-checkbox>
-                            <ion-label> COPD</ion-label>
-                        </div>
-                    </ion-row>
-                </ion-grid>
-           </div>
-       </label>
-
-       <div class="button-group-wrapper text-center p-1">
+        <div class="button-group-wrapper text-center p-1">
             <div class="d-flex justify-content-between">
                 <button class="general-button" data-tag="profile:save">Save</button>
             </div>
