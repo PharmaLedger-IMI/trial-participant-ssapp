@@ -247,10 +247,10 @@ export default class LandingController extends WebcController {
 
     async _mountICFAndSaveConsentStatuses(data) {
         this.model.trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
-        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc, data.useCaseSpecifics.did);
+        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
     }
 
-    async _saveConsentsStatuses(consents, did) {
+    async _saveConsentsStatuses(consents) {
         if (consents === undefined) {
             consents = [];
         }
@@ -273,7 +273,7 @@ export default class LandingController extends WebcController {
                     version: consent.versions[consent.versions.length - 1].version
                 });
                 consent.foreignConsentId = consent.uid;
-                consent.tpDid = did;
+                consent.tpDid = this.model.did;
                 await this.EconsentsStatusRepository.createAsync(consent);
             } else {
                 const lastVersion = consentStatus.actions[consentStatus.actions.length - 1].version;
@@ -293,7 +293,7 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
-            subjectName: data.subjectName,
+            subjectName: data.tp.subjectName,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }
