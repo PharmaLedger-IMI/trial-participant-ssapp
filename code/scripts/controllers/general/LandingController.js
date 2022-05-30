@@ -41,9 +41,7 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.trials = data;
-            if(this.model.trials.length) {
-                this.model.notAssigned = false;
-            } else this.model.notAssigned = true;
+            this.model.notAssigned = !this.model.trials.length;
         });
     }
 
@@ -195,6 +193,7 @@ export default class LandingController extends WebcController {
                             return console.log(err);
                         }
                         this._sendTrialConsentToHCO(hcoIdentity);
+                        this._initTrials();
                     });
                     break;
                 }
