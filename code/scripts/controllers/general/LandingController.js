@@ -297,7 +297,12 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
-            subjectName: data.subjectName,
+            tp: {
+                subjectName: data.tp.subjectName,
+                gender: data.tp.gender,
+                birthdate: data.tp.birthdate,
+                anonymizedDid: data.tp.anonymizedDid
+            },
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }

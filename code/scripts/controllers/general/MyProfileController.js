@@ -50,21 +50,64 @@ export default class MyProfileController extends WebcIonicController {
 
     async getParticipantName() {
         const tpService = getTPService();
-        tpService.getTp((err, tp)=>{
-            if(err){
+        tpService.getTp((err, participant) => {
+            if (err) {
                 return console.log(err);
             }
-            this.model.name = tp.subjectName;
+            this.model.tp = participant.tp;
         })
+    }
 
+    findAgeGroup(date) {
+        const ageGroups = ['Age 10-30', "Age 30-40", "Age 40-50", "Age 50-60", "Age 60+"];
+
+        const getAge = dateString => {
+            let today = new Date();
+            let birthDate = new Date(dateString);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            let m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        let age = getAge(date);
+
+        switch (true) {
+            case (age >= 10) && (age <= 30):
+                return ageGroups[0];
+                break;
+            case age > 30 && age <= 40:
+                return ageGroups[1];
+                break;
+            case age > 40 && age <= 50:
+                return ageGroups[2];
+                break;
+            case age > 50 && age <= 60:
+                return ageGroups[3];
+                break;
+            case age > 60:
+                return ageGroups[4];
+                break;
+            default:
+                break;
+        }
     }
 
     addTagsListeners() {
         this.onTagClick('profile:save', () => {
             let dp = this.model.dp;
+            let ageGroup = this.findAgeGroup(this.model.tp.birthdate);
             let dpData = {
                 name: dp.name.value,
                 contactMe: dp.contactMe.value,
+                tp: {
+                    subjectName: this.model.tp.subjectName,
+                    gender: this.model.tp.gender,
+                    did: this.model.tp.anonymizedDid,
+                    ageGroup: ageGroup
+                }
             };
             if (this.model.dp.contactMe.value === false) {
                 dpData.perm = {
@@ -127,15 +170,16 @@ export default class MyProfileController extends WebcIonicController {
     addProfilePictureHandler() {
         const profilePictureUpload = this.querySelector('#profileImageUpload')
 
-        profilePictureUpload.addEventListener('change',(data)=>{
+        profilePictureUpload.addEventListener('change', (data) => {
             this.profilePictureChanged = true;
             let imageFile = data.target.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(imageFile);
 
-            reader.onload = (evt)=>{
+            reader.onload = (evt) => {
                 this.model.profilePicture = evt.target.result
-            }})
+            }
+        })
     }
 
 }
