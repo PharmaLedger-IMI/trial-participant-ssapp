@@ -24,6 +24,9 @@ export default class DevicesController extends WebcController {
         this.onTagClick("navigate:iot-questionnaire",()=>{
             this.navigateToPageTag("iot-questionnaire");
         })
+        this.onTagClick("navigate:iot-data-selection",()=>{
+            this.navigateToPageTag("iot-data-selection");
+        })
     }
 
 

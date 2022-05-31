@@ -1,0 +1,43 @@
+<webc-container controller="iot/SelectHealthDataController">
+    <div class="container-child">
+
+        <div class="header-title">
+            <button class="navigate-back" data-tag="navigation:go-back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h3>Health Data Selection</h3>
+        </div>
+
+        <div class="container justify-content-start">
+            <main>
+                <div class="form-row font-weight-bold">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <header>
+                                <div class="row-wrapper grid-equal">
+                                    <label>List of Health Data</label>
+                                </div>
+                            </header>
+                            <main class="form-container">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="col-form-label">{{@selectObservation.label}}</label>
+                                        <select class="form-control" data-for="@selectObservation.options" value="@selectObservation.value">
+                                            <option value="@value">{{@label}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </main>
+                            <br>
+                            <br>
+                            <div class="button-group-wrapper">
+                                <button class="general-button action-btn" data-tag="go-back">Back</button>
+                                <button class="general-button action-btn" data-tag="view-iot-data">Show Data</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</webc-container>

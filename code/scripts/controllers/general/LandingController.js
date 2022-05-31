@@ -10,7 +10,7 @@ const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const DidService = commonServices.DidService;
 const MessageHandlerService = commonServices.MessageHandlerService;
-const healthDataService = commonServices.HealthDataService;
+const HealthDataService = commonServices.HealthDataService;
 const usecases = WebCardinal.USECASES;
 
 const CONSTANTS = commonServices.Constants;
@@ -32,6 +32,7 @@ export default class LandingController extends WebcController {
 
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
+        this.healthDataService = new HealthDataService();
     }
 
     _initTrials() {
@@ -84,7 +85,9 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
-            this.navigateToPageTag('iot-devices');
+            // this.navigateToPageTag('iot-devices');
+            this.navigateToPageTag("iot-data-selection");
+
         });
         this.onTagEvent("navigate:health-studies", "click", () => {
             this.navigateToPageTag('iot-health-studies');
@@ -200,13 +203,13 @@ export default class LandingController extends WebcController {
                     });
                     break;
                 }
-                case "HealthDataDsu": {
-                    this.healthDataService.mount(data.sReadSSI, (err, healthData) => {
+                case "HealthData": {
+                    this.healthDataService.mountObservation(data.sReadSSI, (err, healthData) => {
                         if (err) {
                             console.log(err);
                         }
                         console.log("****************** Health Data ******************************")
-                        console.log(healthData)
+                        console.log(healthData);
                     });
                     break;
                 }

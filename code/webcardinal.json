@@ -152,6 +152,18 @@
             "tag": "iot-health-studies"
         },
         {
+            "name": "Patient Health Data Selection",
+            "path": "/iot-data-selection",
+            "src": "iot/iotData/selectHealthData.html",
+            "tag": "iot-data-selection"
+        },
+        {
+            "name": "Patient Health Data",
+            "path": "/helath-data",
+            "src": "iot/iotData/healthData.html",
+            "tag": "iot-helath-data"
+        },
+        {
             "name": "Participating Studies",
             "path": "/participating-studies",
             "src": "iot/participating-studies.html",
