@@ -3,6 +3,10 @@ import DPService from '../../services/DPService.js';
 import ProfileService from '../../services/ProfileService.js';
 import {getTPService} from "../../services/TPService.js";
 
+const commonServices = require("common-services");
+const {getCommunicationServiceInstance} = commonServices.CommunicationService;
+const Constants = commonServices.Constants;
+
 
 const {WebcIonicController} = WebCardinal.controllers;
 
@@ -98,17 +102,18 @@ export default class MyProfileController extends WebcIonicController {
     addTagsListeners() {
         this.onTagClick('profile:save', () => {
             let dp = this.model.dp;
-            let ageGroup = this.findAgeGroup(this.model.tp.birthdate);
             let dpData = {
-                name: dp.name.value,
                 contactMe: dp.contactMe.value,
-                tp: {
-                    subjectName: this.model.tp.subjectName,
+            };
+            if (this.model.tp) {
+                let ageGroup = this.findAgeGroup(this.model.tp.birthdate);
+                dpData.tp = {
+                    name: this.model.tp.subjectName,
                     gender: this.model.tp.gender,
                     did: this.model.tp.anonymizedDid,
                     ageGroup: ageGroup
                 }
-            };
+            }
             if (this.model.dp.contactMe.value === false) {
                 dpData.perm = {
                     wantToShare: false,
@@ -147,8 +152,23 @@ export default class MyProfileController extends WebcIonicController {
                 }
             }
 
+            const communicationService = getCommunicationServiceInstance();
+
             if (!this.dpExists) {
-                this.dpService.saveDP(dpData, dpCreatedOrUpdatedHandler)
+                this.dpService.saveDP(dpData, async (err, profile) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log('profile', profile);
+
+                    await communicationService.sendMessageToIotAdaptor({
+                        operation: Constants.MESSAGES.PATIENT.PROFILE_CREATED,
+                        sReadSSI: profile.sReadSSI
+                    });
+
+                    dpCreatedOrUpdatedHandler();
+                })
+
             } else {
 
                 if (this.dpData) {
