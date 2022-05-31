@@ -18,15 +18,15 @@ export default class MyProfileController extends WebcIonicController {
 
         this.profilePictureChanged = false;
         this.profileService = ProfileService.getProfileService();
-        this.profileService.getProfilePicture((err,data)=>{
+        this.profileService.getProfilePicture((err, data) => {
             this.model.profilePicture = data
             console.log(this.model)
         })
 
         this.dpService = DPService.getDPService()
-      
+
         this.dpService.getDP((err, dpData) => {
-                if (err) {
+            if (err) {
                 return console.log(err);
             }
             if (dpData) {
@@ -60,20 +60,34 @@ export default class MyProfileController extends WebcIonicController {
     }
 
     addTagsListeners() {
-
         this.onTagClick('profile:save', () => {
             let dp = this.model.dp;
             let dpData = {
                 name: dp.name.value,
                 contactMe: dp.contactMe.value,
-                wantToShare: dp.wantToShare.value,
-                givePermisionEachTime: dp.givePermisionEachTime.value,
-                shareWithHospitals: dp.shareWithHospitals.value,
-                shareWithPharmas: dp.shareWithPharmas.value,
-                shareWithResearchers: dp.shareWithResearchers.value,
-                areaToParticipateCancer: dp.areaToParticipateCancer.value,
-                areaToParticipateDiabets: dp.areaToParticipateDiabets.value,
-                areaToParticipateCOPD: dp.areaToParticipateCOPD.value
+            };
+            if (this.model.dp.contactMe.value === false) {
+                dpData.perm = {
+                    wantToShare: false,
+                    givePermisionEachTime: false,
+                    shareWithHospitals: false,
+                    shareWithPharmas: false,
+                    shareWithResearchers: false,
+                    areaToParticipateCancer: false,
+                    areaToParticipateDiabets: false,
+                    areaToParticipateCOPD: false
+                }
+            } else {
+                dpData.perm = {
+                    wantToShare: dp.perm.wantToShare.value,
+                    givePermisionEachTime: dp.perm.givePermisionEachTime.value,
+                    shareWithHospitals: dp.perm.shareWithHospitals.value,
+                    shareWithPharmas: dp.perm.shareWithPharmas.value,
+                    shareWithResearchers: dp.perm.shareWithResearchers.value,
+                    areaToParticipateCancer: dp.perm.areaToParticipateCancer.value,
+                    areaToParticipateDiabets: dp.perm.areaToParticipateDiabets.value,
+                    areaToParticipateCOPD: dp.perm.areaToParticipateCOPD.value
+                }
             }
 
             let dpCreatedOrUpdatedHandler = (err, profile) => {
@@ -81,10 +95,8 @@ export default class MyProfileController extends WebcIonicController {
                     return console.log(err);
                 }
 
-                console.log(this.profilePictureChanged )
-
                 if (this.profilePictureChanged) {
-                    this.profileService.saveProfilePicture(this.model.profilePicture, () =>{
+                    this.profileService.saveProfilePicture(this.model.profilePicture, () => {
                         this.navigateToPageTag("home");
                     })
                 } else {
@@ -101,7 +113,7 @@ export default class MyProfileController extends WebcIonicController {
                 }
                 this.dpService.updateDP(this.dpData, dpCreatedOrUpdatedHandler)
             }
-            
+
         })
 
     }
@@ -120,10 +132,10 @@ export default class MyProfileController extends WebcIonicController {
             let imageFile = data.target.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(imageFile);
-        
+
             reader.onload = (evt)=>{
                 this.model.profilePicture = evt.target.result
-            }}) 
+            }})
     }
 
 }

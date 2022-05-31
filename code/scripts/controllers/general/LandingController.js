@@ -30,6 +30,8 @@ export default class LandingController extends WebcController {
             this.addHandlers();
         });
 
+        this.model.notAssignedMessage = 'This Patient is not assigned to any trail!';
+
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
         this.healthDataService = new HealthDataService();
@@ -295,7 +297,7 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
-            subjectName: data.tp.subjectName,
+            subjectName: data.subjectName,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }
