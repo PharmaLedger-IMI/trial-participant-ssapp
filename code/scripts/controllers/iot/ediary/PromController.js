@@ -1,6 +1,8 @@
 const CommunicationService = require("common-services").CommunicationService;
 import PromService from "../../../services/iot/PromService.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
+const commonServices = require('common-services');
+const {QuestionnaireService} = commonServices;
 
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
@@ -28,6 +30,8 @@ export default class PromController extends WebcIonicController {
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.PromService = new PromService();
         this.ResponsesService = new ResponsesService();
+        this.QuestionnaireService = new QuestionnaireService();
+
 
         this.updateProm();
         this._attachHandlers();
@@ -48,46 +52,58 @@ export default class PromController extends WebcIonicController {
     }
 
     updateProm() {
-        this.PromService.getProms((err, questionnaire) => {
-           
+
+        this.QuestionnaireService.getAllQuestionnaires((err, data) => {
             if (err) {
-                return console.log(err);
-            }          
-            this.model.questions = questionnaire
+                return reject(err);
+            }
+            this.model.questionnaire = data[0];
+
+            this.model.questions = this.model.questionnaire.prom
                 .map((prom, i) => {
+
+                    if (prom.type==="slider") prom.type="range";
+                    if (prom.type==="checkbox") prom.type="radio";
+
                     let templateType = 'question-' + prom.type + '-template';
 
                     let questionModel = {
-                        
+
                         uid: prom.uid,
                         type: prom.type,
-                        
+
                         title: prom.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
 
-
                     if (prom.type === "range") {
-                        questionModel['range']=prom.range;
-                    }else{
-                        questionModel['options']=prom.options;
+                        questionModel['range']=
+
+                            {   "min": prom.minLabel,
+                                "value": prom.minLabel,
+                                "steps": prom.steps,
+                                "max": prom.maxLabel,
+                                "minLabel": prom.minLabel,
+                                "maxLabel": prom.maxLabel};
+
+                    }
+                    else {
+                        questionModel['options'] = prom.options;
+                        questionModel.element = "";
                         questionModel.value = "";
 
                         this.model.onChange("questions." + i, (changeDetails) => {
-                           
                         });
-
                     }
 
                     return questionModel;
                 })
-                this.model.questions[this.model.questionIndex].visible = true;
-                this.fillProgress();                
-              
+            this.model.questions[this.model.questionIndex].visible = true;
+            this.fillProgress();
         })
+
     }
 
-    
     _attachHandlers() {
         this.onTagClick('prev', (event) => {
             let currentIndexSelected = this.model.questionIndex;
@@ -109,38 +125,23 @@ export default class PromController extends WebcIonicController {
 
         this.onTagClick('send-feedback', (event) => {
             this.model.fillMode = false;
-
+            console.log(this.model)
+            console.log(this)
             const questionResponse = this.model.questions.map((question) => {
-
-
                 return {
-
-                    text: question.title,
+                    question: question,
+                    questionId: question.uid,
                     responseDate: new Date().getTime(),
- 
-
-
-                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.value}]
-                    
-                   
+                    answer: question.type === "range"? question.range.value : question.value
                 }
- 
             });
-
-
-
-            
             this.ResponsesService.saveResponse(questionResponse, (err, data) => {
                 if (err) {
-                    return console.log('eroare!'+err);
+                    return console.log(err);
                 }
-              
                 console.log(data);
-                //TODO
-                //this.sendMessageToProfessional('questionnaire-response', data.uid);
             });
         });
-
 
         this.onTagClick('finish-questionnaire', (event) => {
             this.navigateToPageTag('home');
