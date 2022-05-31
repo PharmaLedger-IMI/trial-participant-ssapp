@@ -42,6 +42,7 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.trials = data;
+            this.model.notAssigned = !this.model.trials.length;
         });
     }
 
@@ -68,7 +69,7 @@ export default class LandingController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
 
-            if (this.model.trials.length) {
+            if(!this.model.notAssigned) {
                 this.navigateToPageTag('trial', {
                     tp: this.model.toObject('tp'),
                     uid: this.model.trials[0].uid,
@@ -77,7 +78,7 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:task-calendar", "click", () => {
-            if (this.model.trials.length && this.model.tp) {
+            if (!this.model.notAssigned) {
                 this.navigateToPageTag('task-calendar', {
                     tpDid: this.model.tp.did,
                     tpUid: this.model.trials[0].uid,
@@ -85,15 +86,20 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
-            // this.navigateToPageTag('iot-devices');
-            this.navigateToPageTag("iot-data-selection");
-
+            if(!this.model.notAssigned) {
+                // this.navigateToPageTag('iot-devices');
+                this.navigateToPageTag("iot-data-selection");
+            }
         });
         this.onTagEvent("navigate:health-studies", "click", () => {
-            this.navigateToPageTag('iot-health-studies');
+            if(!this.model.notAssigned) {
+                this.navigateToPageTag('iot-health-studies');
+            }
         });
         this.onTagEvent("navigate:iot-feedback", "click", () => {
-            this.navigateToPageTag('iot-feedback');
+            if(!this.model.notAssigned) {
+                this.navigateToPageTag('iot-feedback');
+            }
         });
     }
 
@@ -130,6 +136,7 @@ export default class LandingController extends WebcController {
             }
 
             console.log("OPERATION:", data.operation);
+            window.WebCardinal.loader.hidden = false;
             switch (data.operation) {
                 case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
                     await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
@@ -188,6 +195,7 @@ export default class LandingController extends WebcController {
                             return console.log(err);
                         }
                         this._sendTrialConsentToHCO(hcoIdentity);
+                        this._initTrials();
                     });
                     break;
                 }
@@ -214,6 +222,7 @@ export default class LandingController extends WebcController {
                     break;
                 }
             }
+            window.WebCardinal.loader.hidden = true;
         });
     }
 
@@ -240,10 +249,10 @@ export default class LandingController extends WebcController {
 
     async _mountICFAndSaveConsentStatuses(data) {
         this.model.trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
-        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc, data.useCaseSpecifics.did);
+        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
     }
 
-    async _saveConsentsStatuses(consents, did) {
+    async _saveConsentsStatuses(consents) {
         if (consents === undefined) {
             consents = [];
         }
@@ -266,7 +275,7 @@ export default class LandingController extends WebcController {
                     version: consent.versions[consent.versions.length - 1].version
                 });
                 consent.foreignConsentId = consent.uid;
-                consent.tpDid = did;
+                consent.tpDid = this.model.did;
                 await this.EconsentsStatusRepository.createAsync(consent);
             } else {
                 const lastVersion = consentStatus.actions[consentStatus.actions.length - 1].version;
@@ -286,7 +295,7 @@ export default class LandingController extends WebcController {
             name: data.tpName,
             did: data.tpDid,
             site: data.site,
-            subjectName: data.subjectName,
+            subjectName: data.tp.subjectName,
             hcoIdentity: hcoIdentity,
             sponsorIdentity: data.sponsorIdentity
         }

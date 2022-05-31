@@ -47,9 +47,9 @@
 
 .avatar-upload .avatar-edit {
     position: absolute;
-    right: 40px;
+    right: 0;
     z-index: 1;
-    top: 90px;
+    bottom: 0;
 }
 
 .avatar-upload .avatar-edit input {
@@ -136,79 +136,3 @@
     opacity: 0.84;
     cursor: not-allowed;
   }
-
-/* switch button */
-
-.switch-button {
-    background: #d5d3d6;
-    border-radius: 30px;
-    overflow: hidden;
-    width: 240px;
-    height: 41px;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    color: white;
-    position: relative;
-    padding-right: 120px;
-}
-
-.switch-button:before {
-    content: "No";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 120px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.switch-button-checkbox {
-    cursor: pointer;
-    position: absolute;
-    align-items: center;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 2;
-}
-
-.switch-button-checkbox:checked+.switch-button-label:before {
-    transform: translateX(120px);
-    transition: transform 300ms linear;
-}
-
-.switch-button-checkbox+.switch-button-label {
-    position: relative;
-    padding: 10px 0;
-    display: block;
-    user-select: none;
-    pointer-events: none;
-    text-align: center;
-}
-
-.switch-button-checkbox+.switch-button-label:before {
-    content: "";
-    background: #008798;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 30px;
-    transform: translateX(0);
-    transition: transform 300ms;
-}
-
-.switch-button-checkbox+.switch-button-label .switch-button-label-span {
-    position: relative;
-}

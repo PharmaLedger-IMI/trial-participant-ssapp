@@ -1,0 +1,69 @@
+<label class="col-form-label">Do you want to share your own data at a time or donate it?
+    <div class="d-flex flex-row justify-content-left align-items-left">
+        <ion-grid>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="start" color="green" checked="@dp.wantToShare.value" value="@dp.wantToShare.value"></ion-checkbox>
+                    <ion-label>Donate</ion-label>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div >
+                    <ion-checkbox slot="end" color="green" checked="@dp.givePermisionEachTime.value" value="@dp.givePermisionEachTime.value"></ion-checkbox>
+                    <ion-label> Give permission each time</ion-label>
+                </div>
+            </ion-row>
+        </ion-grid>
+    </div>
+</label>
+
+<label class="col-form-label">Do you want to share your data with the stakeholders? Which one? Select all of them.
+    <div class="d-flex flex-row justify-content-left align-items-left">
+        <ion-grid>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.shareWithHospitals.value" value="@dp.shareWithHospitals.value"></ion-checkbox>
+                    <ion-label> Hospitals</ion-label>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.shareWithPharmas.value" value="@dp.shareWithPharmas.value"></ion-checkbox>
+                    <ion-label> Pharmas</ion-label>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.shareWithResearchers.value" value="@dp.shareWithResearchers.value"></ion-checkbox>
+                    <ion-label> Researchers</ion-label>
+                </div>
+            </ion-row>
+        </ion-grid>
+    </div>
+</label>
+
+
+<label class="col-form-label">In wich areas do you want to participate?
+    <div class="d-flex flex-row justify-content-left align-items-left">
+        <ion-grid>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateCancer.value" value="@dp.areaToParticipateCancer.value"></ion-checkbox>
+                    <ion-label> Cancer</ion-label>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateDiabets.value" value="@dp.areaToParticipateDiabets.value"></ion-checkbox>
+                    <ion-label> Diabets</ion-label>
+                </div>
+            </ion-row>
+            <ion-row>
+                <div>
+                    <ion-checkbox slot="end" color="green" checked="@dp.areaToParticipateCOPD.value" value="@dp.areaToParticipateCOPD.value"></ion-checkbox>
+                    <ion-label> COPD</ion-label>
+                </div>
+            </ion-row>
+        </ion-grid>
+    </div>
+</label>
