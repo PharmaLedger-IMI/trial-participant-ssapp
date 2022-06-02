@@ -17,10 +17,12 @@
         <share-did class="w-50"></share-did>
         <div class="main-navigation">
 
-            <div class="not-assigned-message" data-if="@notAssigned">
-                <p>
-                    {{@notAssignedMessage}}
-                </p>
+
+            <div data-if="@notAssigned">
+                <div class="alert alert-warning m-2 text-center" role="alert">
+                    <i class="fa-solid fa-house-medical-circle-exclamation"></i>
+                    You are not assigned to any trial yet
+                </div>
             </div>
 
             <div class="container">

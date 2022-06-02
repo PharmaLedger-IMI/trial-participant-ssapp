@@ -18,7 +18,6 @@ const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService, DeviceAssignationService} = commonServices;
 
 
-
 export default class LandingController extends WebcController {
     constructor(...props) {
         super(...props);
@@ -29,8 +28,6 @@ export default class LandingController extends WebcController {
             await this.initServices();
             this.addHandlers();
         });
-
-        this.model.notAssignedMessage = 'This Patient is not assigned to any trail!';
 
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
