@@ -291,8 +291,7 @@ export default class LandingController extends WebcController {
 
     async _saveTrialParticipantInfo(hcoIdentity, data) {
         let trialParticipant = {
-            name: data.tpName,
-            did: data.tpDid,
+            did: data.tp.did,
             site: data.site,
             tp: {
                 subjectName: data.tp.subjectName,

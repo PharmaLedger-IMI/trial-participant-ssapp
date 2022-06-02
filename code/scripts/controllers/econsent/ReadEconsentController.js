@@ -200,7 +200,6 @@ export default class ReadEconsentController extends WebcController {
             if(err){
                 return console.log(err);
             }
-
                 this.model.tp = tp;
                 let sendObject = {
                     operation: Constants.MESSAGES.HCO.UPDATE_ECOSENT,
