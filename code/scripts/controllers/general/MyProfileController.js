@@ -161,8 +161,8 @@ export default class MyProfileController extends WebcIonicController {
                     }
                     console.log('profile', profile);
 
-                    await communicationService.sendMessageToIotAdapter({
-                        operation: Constants.MESSAGES.PATIENT.PROFILE_CREATED,
+                    await communicationService.sendMessageToIotAdaptor({
+                        operation: Constants.MESSAGES.PATIENT.CREATE_DP,
                         sReadSSI: profile.sReadSSI
                     });
 
