@@ -1,7 +1,6 @@
 const CommunicationService = require("common-services").CommunicationService;
+import PremService from "../../../services/iot/PremService.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
-const commonServices = require('common-services');
-const {QuestionnaireService} = commonServices;
 
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
@@ -20,16 +19,15 @@ const getInitModel = () => {
     };
 }
 
-export default class PromController extends WebcIonicController {
+export default class PremController extends WebcIonicController {
     constructor(...props) {
         super(...props);
 
         this.setModel(getInitModel());
 
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
+        this.PremService = new PremService();
         this.ResponsesService = new ResponsesService();
-        this.QuestionnaireService = new QuestionnaireService();
-
 
         this.updatePrem();
         this._attachHandlers();
@@ -50,62 +48,44 @@ export default class PromController extends WebcIonicController {
     }
 
     updatePrem() {
-
-        this.QuestionnaireService.getAllQuestionnaires((err, data) => {
+        this.PremService.getPrems((err, questionnaire) => {
             if (err) {
-                return reject(err);
+                return console.log(err);
             }
-            this.model.questionnaire = data[0];
-
-            this.model.questions = this.model.questionnaire.prem
-                .map((prom, i) => {
-
-                    // Cast to these types
-                    // tempo fix change the model of questionnaire in clinical site //
-                    if (prom.type==="slider") prom.type="range";
-                    if (prom.type==="checkbox") {
-                        prom.type="radio";
-                        prom.options.forEach(option => option['value'] = option['element'])
-                        prom.options.forEach(option => delete option.element)
-                    }
-                    if (prom.type==="free text") prom.type="string";
-                    // tempo fix change the model of questionnaire in clinical site //
-
-                    let templateType = 'question-' + prom.type + '-template';
-
+            this.model.questions = questionnaire
+                .map((prem, i) => {
+                    let templateType = 'question-' + prem.type + '-template';
+                    
                     let questionModel = {
 
-                        uid: prom.uid,
-                        type: prom.type,
+                        uid: prem.uid,
+                        type: prem.type,
 
-                        title: prom.question,
+                        title: prem.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
 
-                    if (prom.type === "range") {
-                        questionModel['range']=
-                            {   "min": prom.minLabel,
-                                "value": prom.minLabel,
-                                "steps": prom.steps,
-                                "max": prom.maxLabel,
-                                "minLabel": prom.minLabel,
-                                "maxLabel": prom.maxLabel};
-                    }
-                    else {
-                        questionModel['options'] = prom.options;
+                    if (prem.type === "range") {
+                        questionModel['range'] = prem.range;
+                    } else {
+                        questionModel['options'] = prem.options;
                         questionModel.value = "";
 
                         this.model.onChange("questions." + i, (changeDetails) => {
+                            
                         });
+
                     }
 
                     return questionModel;
                 })
             this.model.questions[this.model.questionIndex].visible = true;
             this.fillProgress();
-        })
 
+
+        })
     }
+
 
     _attachHandlers() {
         this.onTagClick('prev', (event) => {
@@ -129,19 +109,37 @@ export default class PromController extends WebcIonicController {
         this.onTagClick('send-feedback', (event) => {
             this.model.fillMode = false;
 
+            console.log(this.model.questions);
+
+            
             const questionResponse = this.model.questions.map((question) => {
+
+
                 return {
-                    question: question,
+
+                    text: question.title,
                     responseDate: new Date().getTime(),
-                    answer: question.type === "range"? question.range.value : question.value
+
+
+
+
+
+                    answers: [{"questionId":question.uid,"responseValue":question.type === "range"? question.range.value : question.value}]
+                   
+                   
+                   
                 }
             });
+
 
             this.ResponsesService.saveResponse(questionResponse, (err, data) => {
                 if (err) {
                     return console.log(err);
                 }
+
                 console.log(data);
+                //TODO
+                //this.sendMessageToProfessional('questionnaire-response', data.uid);
             });
         });
 

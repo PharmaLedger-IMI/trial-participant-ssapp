@@ -1,5 +1,4 @@
 const CommunicationService = require("common-services").CommunicationService;
-import PromService from "../../../services/iot/PromService.js";
 import ResponsesService from "../../../services/iot/ResponsesService.js";
 const commonServices = require('common-services');
 const {QuestionnaireService} = commonServices;
@@ -28,7 +27,6 @@ export default class PromController extends WebcIonicController {
         this.setModel(getInitModel());
 
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
-        this.PromService = new PromService();
         this.ResponsesService = new ResponsesService();
         this.QuestionnaireService = new QuestionnaireService();
 
@@ -62,8 +60,16 @@ export default class PromController extends WebcIonicController {
             this.model.questions = this.model.questionnaire.prom
                 .map((prom, i) => {
 
+                    // Cast to these types
+                    // tempo fix change the model of questionnaire in clinical site //
                     if (prom.type==="slider") prom.type="range";
-                    if (prom.type==="checkbox") prom.type="radio";
+                    if (prom.type==="checkbox") {
+                        prom.type="radio";
+                        prom.options.forEach(option => option['value'] = option['element'])
+                        prom.options.forEach(option => delete option.element)
+                    }
+                    if (prom.type==="free text") prom.type="string";
+                    // tempo fix change the model of questionnaire in clinical site //
 
                     let templateType = 'question-' + prom.type + '-template';
 
@@ -78,18 +84,15 @@ export default class PromController extends WebcIonicController {
 
                     if (prom.type === "range") {
                         questionModel['range']=
-
                             {   "min": prom.minLabel,
                                 "value": prom.minLabel,
                                 "steps": prom.steps,
                                 "max": prom.maxLabel,
                                 "minLabel": prom.minLabel,
                                 "maxLabel": prom.maxLabel};
-
                     }
                     else {
                         questionModel['options'] = prom.options;
-                        questionModel.element = "";
                         questionModel.value = "";
 
                         this.model.onChange("questions." + i, (changeDetails) => {
@@ -125,16 +128,15 @@ export default class PromController extends WebcIonicController {
 
         this.onTagClick('send-feedback', (event) => {
             this.model.fillMode = false;
-            console.log(this.model)
-            console.log(this)
+
             const questionResponse = this.model.questions.map((question) => {
                 return {
                     question: question,
-                    questionId: question.uid,
                     responseDate: new Date().getTime(),
                     answer: question.type === "range"? question.range.value : question.value
                 }
             });
+
             this.ResponsesService.saveResponse(questionResponse, (err, data) => {
                 if (err) {
                     return console.log(err);
