@@ -1,7 +1,4 @@
-seed
-/node_modules
-/code/constitution
+/.idea
+node_modules
 /code/scripts/bundles
 /temp
-/builds
-/.idea
