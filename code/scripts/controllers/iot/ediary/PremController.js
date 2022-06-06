@@ -1,8 +1,7 @@
 const CommunicationService = require("common-services").CommunicationService;
-import ResponsesService from "../../../services/iot/ResponsesService.js";
 const commonServices = require('common-services');
-const {QuestionnaireService} = commonServices;
-
+const {QuestionnaireService, ResponsesService} = commonServices;
+const {getDidServiceInstance} = commonServices.DidService;
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
 const getInitModel = () => {
@@ -30,6 +29,10 @@ export default class PromController extends WebcIonicController {
         this.ResponsesService = new ResponsesService();
         this.QuestionnaireService = new QuestionnaireService();
 
+        this.didService = getDidServiceInstance();
+        this.didService.getDID().then(did => {
+            this.model.patientDID = did;
+        });
 
         this.updatePrem();
         this._attachHandlers();
@@ -56,6 +59,7 @@ export default class PromController extends WebcIonicController {
                 return reject(err);
             }
             this.model.questionnaire = data[0];
+            this.model.siteDID = this.model.questionnaire.siteDID;
 
             this.model.questions = this.model.questionnaire.prem
                 .map((prom, i) => {
@@ -133,6 +137,7 @@ export default class PromController extends WebcIonicController {
                 return {
                     question: question,
                     responseDate: new Date().getTime(),
+                    patientDID: this.model.patientDID,
                     answer: question.type === "range"? question.range.value : question.value
                 }
             });
@@ -142,6 +147,7 @@ export default class PromController extends WebcIonicController {
                     return console.log(err);
                 }
                 console.log(data);
+                this.sendMessageToClinicalSite(this.model.siteDID, "questionnaire-responses", data.sReadSSI, "")
             });
         });
 
@@ -154,10 +160,11 @@ export default class PromController extends WebcIonicController {
         });
     }
 
-    sendMessageToProfessional(operation, ssi) {
-        this.CommunicationService.sendMessage(CommunicationService.identities.IOT.PROFESSIONAL_IDENTITY, {
+    sendMessageToClinicalSite(siteDID, operation, ssi, shortMessage) {
+        this.CommunicationService.sendMessage(siteDID, {
             operation: operation,
-            ssi: ssi
+            ssi: ssi,
+            shortDescription: shortMessage,
         });
     }
 
