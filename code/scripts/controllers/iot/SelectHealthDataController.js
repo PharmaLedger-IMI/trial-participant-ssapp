@@ -16,26 +16,9 @@ export default class SelectHealthDataController extends WebcController {
                 var result = data[0];
                 var selected = this.model.selectObservation.value;
                 var pageValue = [];
-                console.log(result)
                 console.log(selected)
-                if(selected == "SpO2"){
-                    pageValue.push(result[0]);
-                }
-                else if(selected == "DiaBP"){
-                    pageValue.push(result[1]);
-                }
-                else if(selected == "SysBP"){
-                    pageValue.push(result[2]);
-                }
-                else if(selected == "Age"){
-                    pageValue.push(result[3]);
-                }
-                else if(selected == "Weight"){
-                    pageValue.push(result[4]);
-                }
-                else if(selected == "Height"){
-                    pageValue.push(result[5]);
-                }
+                let tempVal =  result.filter(o => o.code.text.includes(selected));
+                pageValue.push(tempVal[0]);
                 this.navigateToPageTag('iot-helath-data', pageValue);
 
             });
@@ -57,11 +40,11 @@ export default class SelectHealthDataController extends WebcController {
                 options: [
                     {
                         label: "Systolic Blood Pressure",
-                        value: 'SysBP'
+                        value: 'Systolic Blood Pressure'
                     },
                     {
                         label: "Diastolic Blood Pressure",
-                        value: 'DiaBP'
+                        value: 'Diastolic Blood Pressure'
                     },
                     {
                         label: "SpO2",
