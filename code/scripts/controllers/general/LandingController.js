@@ -46,11 +46,10 @@ export default class LandingController extends WebcController {
     }
 
 
-
     _initTrialParticipant() {
         this.model.tp = {};
-        this.TPService.getTp((err, tp)=>{
-            if(err){
+        this.TPService.getTp((err, tp) => {
+            if (err) {
                 return console.log("Participant not added to a trial yet");
             }
             this.model.tp = tp;
@@ -68,7 +67,7 @@ export default class LandingController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
 
-            if(!this.model.notAssigned) {
+            if (!this.model.notAssigned) {
                 this.navigateToPageTag('trial', {
                     tp: this.model.toObject('tp'),
                     uid: this.model.trials[0].uid,
@@ -85,18 +84,18 @@ export default class LandingController extends WebcController {
             }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
-            if(!this.model.notAssigned) {
+            if (!this.model.notAssigned) {
                 // this.navigateToPageTag('iot-devices');
                 this.navigateToPageTag("iot-data-selection");
             }
         });
         this.onTagEvent("navigate:health-studies", "click", () => {
-            if(!this.model.notAssigned) {
+            if (!this.model.notAssigned) {
                 this.navigateToPageTag('iot-health-studies');
             }
         });
         this.onTagEvent("navigate:iot-feedback", "click", () => {
-            if(!this.model.notAssigned) {
+            if (!this.model.notAssigned) {
                 this.navigateToPageTag('iot-feedback');
             }
         });
@@ -124,6 +123,50 @@ export default class LandingController extends WebcController {
     }
 
     _attachMessageHandlers() {
+        this.TPService = getTPService();
+        this.TPService.getTp((err, tp) => {
+            if (err) {
+                return console.log(err);
+            }
+            this.model.tp = tp;
+            if (this.model.tp.tp.anonymizedDid) {
+                let did = this.model.tp.tp.anonymizedDid;
+                MessageHandlerService.initCustomMessageHandler(did, async (data) => {
+                    data = JSON.parse(data);
+
+                    let hcoIdentity = data.senderIdentity;
+
+                    if (typeof hcoIdentity === "undefined") {
+                        throw new Error("Sender identity is undefined. Did you forgot to add it?")
+                    }
+
+                    window.WebCardinal.loader.hidden = false;
+                    switch (data.operation) {
+                        case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
+                            await this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
+                            let communicationService = CommunicationService.getExtraCommunicationService(did);
+                            communicationService.listenForMessages(async (err, message) => {
+                                if (err) {
+                                    return console.error(err);
+                                }
+                                console.log('message received for anonymized did', message);
+                            })
+
+                            this._mountHCODSUAndSaveConsentStatuses(data, (err, data) => {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                                this._sendTrialConsentToHCO(hcoIdentity);
+                                this._initTrials();
+                            });
+                            break;
+                        }
+                    }
+                    window.WebCardinal.loader.hidden = true;
+                })
+            }
+        })
+
         MessageHandlerService.init(async (data) => {
 
             data = JSON.parse(data);
@@ -149,8 +192,8 @@ export default class LandingController extends WebcController {
                 }
                 case CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER: {
                     await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
-                    this._updateTrialParticipant(data.useCaseSpecifics,(err)=>{
-                        if(err){
+                    this._updateTrialParticipant(data.useCaseSpecifics, (err) => {
+                        if (err) {
                             console.log(err);
                         }
                     });
@@ -162,12 +205,12 @@ export default class LandingController extends WebcController {
                     break;
                 }
                 case CONSTANTS.NOTIFICATIONS_TYPE.NEW_FEEDBACK : {
-                    this.FeedbackService.mount(data.ssi, (err,data) => {
-                        if(err) {
+                    this.FeedbackService.mount(data.ssi, (err, data) => {
+                        if (err) {
                             return console.error(err);
                         }
-                        this.FeedbackService.getFeedbacks((err,feedbacks) => {
-                            if(err) {
+                        this.FeedbackService.getFeedbacks((err, feedbacks) => {
+                            if (err) {
                                 return console.error(err);
                             }
                         })
@@ -175,12 +218,12 @@ export default class LandingController extends WebcController {
                     break;
                 }
                 case CONSTANTS.NOTIFICATIONS_TYPE.NEW_EVIDENCE : {
-                    this.EvidenceService.mount(data.ssi, (err,data) => {
-                        if(err) {
+                    this.EvidenceService.mount(data.ssi, (err, data) => {
+                        if (err) {
                             return console.error(err);
                         }
-                        this.EvidenceService.getEvidences((err,evidences) => {
-                            if(err) {
+                        this.EvidenceService.getEvidences((err, evidences) => {
+                            if (err) {
                                 return console.error(err);
                             }
                         });
@@ -189,6 +232,16 @@ export default class LandingController extends WebcController {
                 }
                 case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
                     await this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
+
+                    if (data.useCaseSpecifics.tp.anonymizedDid) {
+                        let communicationService = CommunicationService.getExtraCommunicationService(data.useCaseSpecifics.tp.anonymizedDid);
+                        communicationService.listenForMessages(async (err, message) => {
+                            if (err) {
+                                return console.error(err);
+                            }
+                            console.log('message received for anonymized did', message);
+                        })
+                    }
                     this._mountHCODSUAndSaveConsentStatuses(data, (err, data) => {
                         if (err) {
                             return console.log(err);
@@ -223,6 +276,7 @@ export default class LandingController extends WebcController {
             }
             window.WebCardinal.loader.hidden = true;
         });
+
     }
 
     _sendTrialConsentToHCO(hcoIdentity) {
