@@ -50,7 +50,8 @@ async function _saveTrialParticipantInfo(hcoIdentity, data) {
             subjectName: data.tp.subjectName,
             gender: data.tp.gender,
             birthdate: data.tp.birthdate,
-            anonymizedDid: data.tp.anonymizedDid
+            anonymizedDid: data.tp.anonymizedDid,
+            did: data.tp.did
         },
         hcoIdentity: hcoIdentity,
         sponsorIdentity: data.sponsorIdentity

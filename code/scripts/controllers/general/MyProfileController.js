@@ -110,8 +110,9 @@ export default class MyProfileController extends WebcIonicController {
                 dpData.tp = {
                     name: this.model.tp.subjectName,
                     gender: this.model.tp.gender,
-                    did: this.model.tp.anonymizedDid,
-                    ageGroup: ageGroup
+                    anonymizedDid: this.model.tp.anonymizedDid,
+                    ageGroup: ageGroup,
+                    did: this.model.tp.did
                 }
             }
             if (this.model.dp.contactMe.value === false) {
@@ -161,7 +162,7 @@ export default class MyProfileController extends WebcIonicController {
                     }
                     console.log('profile', profile);
 
-                    await communicationService.sendMessageToIotAdaptor({
+                    await communicationService.sendMessageToIotAdapter({
                         operation: Constants.MESSAGES.PATIENT.CREATE_DP,
                         sReadSSI: profile.sReadSSI
                     });
