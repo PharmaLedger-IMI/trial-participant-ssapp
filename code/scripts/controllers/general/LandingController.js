@@ -4,6 +4,8 @@ import ProfileService from '../../services/ProfileService.js';
 import FeedbackService from "../../services/FeedbackService.js";
 import EvidenceService from "../../services/EvidenceService.js";
 import {getTPService} from "../../services/TPService.js";
+import {getOperationsHookRegistry} from '../../services/operations/operationsHookRegistry.js';
+import handlerOperations from "../../services/MessageHandlerStrategy.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -16,7 +18,6 @@ const usecases = WebCardinal.USECASES;
 const CONSTANTS = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService, DeviceAssignationService} = commonServices;
-
 
 export default class LandingController extends WebcController {
     constructor(...props) {
@@ -32,6 +33,7 @@ export default class LandingController extends WebcController {
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
         this.healthDataService = new HealthDataService();
+        this.OperationsHookRegistry = getOperationsHookRegistry();
     }
 
     _initTrials() {
@@ -107,10 +109,10 @@ export default class LandingController extends WebcController {
         this.DeviceAssignationService = new DeviceAssignationService();
         this.TrialService = new TrialService();
         this.TPService = getTPService();
-        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS, this.DSUStorage);
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
-        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS, this.DSUStorage);
+        this.NotificationsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.NOTIFICATIONS);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
+        this.QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
         this.TrialConsentService = new TrialConsentService();
         this.model.trialConsent = await this.TrialConsentService.getOrCreateAsync();
         this.profileService = ProfileService.getProfileService();
@@ -123,6 +125,56 @@ export default class LandingController extends WebcController {
     }
 
     _attachMessageHandlers() {
+        this.OperationsHookRegistry.register('send_hco_dsu_to_patient', (err, data) => {
+            if (err) {
+                return console.error(err);
+            }
+            this.model.tp = data.trialData.tp;
+            let hcoIdentity = data.trialData.tp.hcoIdentity;
+            if (data.originalMessage.useCaseSpecifics.tp.anonymizedDid) {
+                let communicationService = CommunicationService.getExtraCommunicationService(data.originalMessage.useCaseSpecifics.tp.anonymizedDid);
+                communicationService.listenForMessages(async (err, message) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log('message received for anonymized did', message);
+                })
+            }
+            this._mountHCODSUAndSaveConsentStatuses(data.originalMessage, (err, data) => {
+                if (err) {
+                    return console.log(err);
+                }
+                this._sendTrialConsentToHCO(hcoIdentity);
+                this._initTrials();
+            });
+        });
+
+        this.OperationsHookRegistry.register('send_refresh_consents', async (err, data) => {
+            if(err) {
+                console.error(err);
+            }
+            this.model.trialConsent = data.trialConsent;
+            await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
+        });
+
+        this.OperationsHookRegistry.register('update_tpNumber', (err, data) => {
+            if(err) {
+                console.error(err);
+            }
+            this._updateTrialParticipant(data.useCaseSpecifics, (err) => {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        });
+
+        this.OperationsHookRegistry.register('schedule_visit', async(err, data) => {
+            if(err) {
+                console.error(err);
+            }
+            await this._saveVisit(data.useCaseSpecifics.visit);
+        });
+
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {
             if (err) {
@@ -131,151 +183,11 @@ export default class LandingController extends WebcController {
             this.model.tp = tp;
             if (this.model.tp.tp.anonymizedDid) {
                 let did = this.model.tp.tp.anonymizedDid;
-                MessageHandlerService.initCustomMessageHandler(did, async (data) => {
-                    data = JSON.parse(data);
-
-                    let hcoIdentity = data.senderIdentity;
-
-                    if (typeof hcoIdentity === "undefined") {
-                        throw new Error("Sender identity is undefined. Did you forgot to add it?")
-                    }
-
-                    window.WebCardinal.loader.hidden = false;
-                    switch (data.operation) {
-                        case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
-                            await this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
-                            let communicationService = CommunicationService.getExtraCommunicationService(did);
-                            communicationService.listenForMessages(async (err, message) => {
-                                if (err) {
-                                    return console.error(err);
-                                }
-                                console.log('message received for anonymized did', message);
-                            })
-
-                            this._mountHCODSUAndSaveConsentStatuses(data, (err, data) => {
-                                if (err) {
-                                    return console.log(err);
-                                }
-                                this._sendTrialConsentToHCO(hcoIdentity);
-                                this._initTrials();
-                            });
-                            break;
-                        }
-                    }
-                    window.WebCardinal.loader.hidden = true;
-                })
+                MessageHandlerService.initCustomMessageHandler(did, handlerOperations(this.OperationsHookRegistry));
             }
-        })
-
-        MessageHandlerService.init(async (data) => {
-
-            data = JSON.parse(data);
-
-            let hcoIdentity = data.senderIdentity;
-
-            if (typeof hcoIdentity === "undefined") {
-                throw new Error("Sender identity is undefined. Did you forgot to add it?")
-            }
-
-            console.log("OPERATION:", data.operation);
-            window.WebCardinal.loader.hidden = false;
-            switch (data.operation) {
-                case CONSTANTS.MESSAGES.PATIENT.SCHEDULE_VISIT : {
-                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
-                    await this._saveVisit(data.useCaseSpecifics.visit);
-                    break;
-                }
-                case CONSTANTS.MESSAGES.PATIENT.UPDATE_VISIT : {
-                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_UPDATE);
-                    await this._updateVisit(data.useCaseSpecifics.visit);
-                    break;
-                }
-                case CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER: {
-                    await this.saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
-                    this._updateTrialParticipant(data.useCaseSpecifics, (err) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
-                    break;
-                }
-                case CONSTANTS.MESSAGES.PATIENT.QUESTION_RESPONSE: {
-                    //await this.saveNotification(data);
-                    this._updateQuestion(data.useCaseSpecifics)
-                    break;
-                }
-                case CONSTANTS.NOTIFICATIONS_TYPE.NEW_FEEDBACK : {
-                    this.FeedbackService.mount(data.ssi, (err, data) => {
-                        if (err) {
-                            return console.error(err);
-                        }
-                        this.FeedbackService.getFeedbacks((err, feedbacks) => {
-                            if (err) {
-                                return console.error(err);
-                            }
-                        })
-                    });
-                    break;
-                }
-                case CONSTANTS.NOTIFICATIONS_TYPE.NEW_EVIDENCE : {
-                    this.EvidenceService.mount(data.ssi, (err, data) => {
-                        if (err) {
-                            return console.error(err);
-                        }
-                        this.EvidenceService.getEvidences((err, evidences) => {
-                            if (err) {
-                                return console.error(err);
-                            }
-                        });
-                    })
-                    break;
-                }
-                case CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT: {
-                    await this._handleAddToTrial(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
-
-                    if (data.useCaseSpecifics.tp.anonymizedDid) {
-                        let communicationService = CommunicationService.getExtraCommunicationService(data.useCaseSpecifics.tp.anonymizedDid);
-                        communicationService.listenForMessages(async (err, message) => {
-                            if (err) {
-                                return console.error(err);
-                            }
-                            console.log('message received for anonymized did', message);
-                        })
-                    }
-                    this._mountHCODSUAndSaveConsentStatuses(data, (err, data) => {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        this._sendTrialConsentToHCO(hcoIdentity);
-                        this._initTrials();
-                    });
-                    break;
-                }
-                case CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT: {
-                    await this._mountICFAndSaveConsentStatuses(data);
-                    break;
-                }
-                case "CLINICAL-SITE-QUESTIONNAIRE": {
-                    this.QuestionnaireService.mount(data.ssi, (err, questionnaire) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
-                    break;
-                }
-                case "HealthData": {
-                    this.healthDataService.mountObservation(data.sReadSSI, (err, healthData) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log("****************** Health Data ******************************")
-                        console.log(healthData);
-                    });
-                    break;
-                }
-            }
-            window.WebCardinal.loader.hidden = true;
         });
+
+        MessageHandlerService.init(handlerOperations(this.OperationsHookRegistry));
 
     }
 
@@ -297,12 +209,6 @@ export default class LandingController extends WebcController {
             this.model.trialConsent = trialConsent;
             callback(err, trialConsent);
         })
-    }
-
-
-    async _mountICFAndSaveConsentStatuses(data) {
-        this.model.trialConsent = await this.TrialConsentService.mountIFCAsync(data.ssi);
-        await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
     }
 
     async _saveConsentsStatuses(consents) {
@@ -343,74 +249,16 @@ export default class LandingController extends WebcController {
         }
     }
 
-    async _saveTrialParticipantInfo(hcoIdentity, data) {
-        let trialParticipant = {
-            did: data.tp.did,
-            site: data.site,
-            tp: {
-                subjectName: data.tp.subjectName,
-                gender: data.tp.gender,
-                birthdate: data.tp.birthdate,
-                anonymizedDid: data.tp.anonymizedDid
-            },
-            hcoIdentity: hcoIdentity,
-            sponsorIdentity: data.sponsorIdentity
-        }
-        this.model.tp = await this.TPService.createTpAsync(trialParticipant);
-    }
-
     _updateTrialParticipant(data, callback) {
         this.model.tp.number = data.number;
         this.TPService.updateTp(this.model.tp, callback)
     }
-
-    async saveNotification(message, type) {
-        let notification = {
-            ...message,
-            uid: message.ssi,
-            viewed: false,
-            date: Date.now(),
-            type: type
-        }
-        return await this.NotificationsRepository.createAsync(notification.uid, notification);
-    }
-
-    async mountTrial(trialSSI) {
-        let trial = await this.TrialService.mountTrialAsync(trialSSI);
-        this.model.trials?.push(trial);
-    }
-
 
     async _saveVisit(visitToBeAdded) {
         const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded);
         this.model.tp.hasNewVisits = true;
         await this.TPService.updateTpAsync(this.model.tp)
         return visitCreated;
-    }
-
-    _updateVisit(visitToBeUpdated) {
-        this.VisitsAndProceduresRepository.filter(`id == ${visitToBeUpdated.id}`, 'ascending', 1, (err, visits) => {
-            if (err || visits.length === 0) {
-                return;
-            }
-            this.VisitsAndProceduresRepository.update(visits[0].pk, visitToBeUpdated, () => {
-            })
-        })
-    }
-
-
-    async _handleAddToTrial(data, notificationType) {
-        await this.saveNotification(data, notificationType);
-        let hcoIdentity = data.senderIdentity;
-        await this._saveTrialParticipantInfo(hcoIdentity, data.useCaseSpecifics);
-        return await this.mountTrial(data.useCaseSpecifics.trialSSI);
-    }
-
-    _updateQuestion(data) {
-        if (data.question) {
-            this.QuestionsRepository.update(data.question.pk, data.question, () => {
-            })
-        }
     }
 
 }

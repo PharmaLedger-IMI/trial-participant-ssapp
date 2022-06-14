@@ -38,7 +38,7 @@ export default class SiteConsentHistoryController extends WebcController {
     }
 
     async getConsentStatus() {
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
 
         let statuses = await this.EconsentsStatusRepository.findAllAsync();
         let status = statuses[0];

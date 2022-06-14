@@ -75,7 +75,7 @@ export default class TaskCalendarController extends WebcController {
     }
 
     _initServices() {
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
         this.TPService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance()
     }

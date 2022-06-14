@@ -33,7 +33,7 @@ export default class ReadEconsentController extends WebcController {
         this.TrialService = new TrialService();
         this.TPService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
-        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES, this.DSUStorage);
+        this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
         this.TrialConsentService = new TrialConsentService();
         this.TrialConsentService.getOrCreate((err, trialConsent) => {
             if (err) {
