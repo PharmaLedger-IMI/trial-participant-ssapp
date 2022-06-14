@@ -8,6 +8,8 @@ class DPService extends DSUService {
         super('/dynamic-permision');
     }
 
+    mount = (keySSI, callback) => this.mountEntity(keySSI, callback);
+
     getDP(callback) {
         this.getEntities((err, dp) => {
             if (err) {

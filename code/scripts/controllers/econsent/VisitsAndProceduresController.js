@@ -70,7 +70,7 @@ export default class VisitsAndProceduresController extends WebcController {
     }
 
     _initServices() {
-        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS, this.DSUStorage);
+        this.VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
         this.TpService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance()
     }
