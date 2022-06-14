@@ -8,6 +8,12 @@ export default class SelectHealthDataController extends WebcController {
     constructor(...props) {
         super(...props);
         // this.initServices();
+        // options = []
+        // this.healthDataService.getAllObservations((err, data)=>{
+        //     var result = data[0];
+            
+        // });
+
         this.healthDataService = new HealthDataService();
         this.model.header = "Select IoT Health Data";
         this.model = this.getSelectHealthDataViewModel();
