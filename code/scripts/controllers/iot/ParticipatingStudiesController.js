@@ -1,30 +1,53 @@
+const commonServices = require('common-services');
+const {DPService} = commonServices;
 const { WebcController } = WebCardinal.controllers;
+
 
 export default class ParticipatingStudiesController extends WebcController {
     constructor(...props) {
         super(...props);
 
-        this.model.studies = [
-            {
-                value: 'Medication from Oviedo Hospital'
-            },
-            {
-                value: 'Vital signals at La Paz Hospital'
-            },
-            {
-                value: 'All records with Monte Sinai'
+        this.dpService = DPService.getDPService();
+        this.model.participating_studies = [];
+        this.model.has_participating_studies = false;
+
+        const getParticipatingStudies = () => {
+            return new Promise ((resolve, reject) => {
+                this.dpService.getDPs((err, dPermission) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    resolve(dPermission)
+                })
+            })
+        }
+
+        getParticipatingStudies().then(data => {
+            let DP = data && data.length > 0 ? data[0] : undefined
+            if (DP){
+                if( ("matches" in DP) && (DP.matches.length>0)) {
+                    console.log("Found %d matches.", DP.matches.length);
+                    DP.matches.forEach(match => {
+                        if (match.dpermission===true) {
+                            this.model.has_participating_studies = true;
+                            this.model.participating_studies.push(match.study);
+                        };
+                    })
+                    console.log("Found %d participating studies.", this.model.participating_studies.length);
+                }
             }
-        ];
+        });
 
         this.onTagClick('view-study-details', (model) => {
-            let studyState = {
+            let invitationState = {
                 pageType: 'participating-study',
-                title: model,
-                description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu 
-                fugiat nulla pariatur.Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`
+                study: model
             }
-            this.navigateToPageTag('view-study-details', studyState)
-        })
+            this.navigateToPageTag('view-study-details', invitationState)
+        });
+
+        this.onTagClick('navigation:go-back', () => {
+            this.navigateToPageTag('iot-health-studies')
+        });
     }
 }

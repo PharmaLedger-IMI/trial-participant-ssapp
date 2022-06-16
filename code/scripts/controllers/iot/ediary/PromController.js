@@ -81,7 +81,7 @@ export default class PromController extends WebcIonicController {
 
                         uid: prom.uid,
                         type: prom.type,
-
+                        task: "prom",
                         title: prom.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }

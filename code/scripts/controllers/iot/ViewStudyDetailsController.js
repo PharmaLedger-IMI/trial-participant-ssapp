@@ -1,4 +1,7 @@
+const commonServices = require('common-services');
+const {DPService} = commonServices;
 const {WebcController} = WebCardinal.controllers;
+
 
 export default class ViewStudyDetailsController extends WebcController {
     constructor(...props) {
@@ -7,11 +10,36 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = prevState;
 
         this.onTagClick('confirm', (model) => {
-            let studyState = {
-                confirmationMessage: `Hello User ID! Thanks for accepting the request. 
-                Are you willing to give permission to hospitals/pharmas/stakeholders to re-use your data?`
-            }
-            this.navigateToPageTag('user-permission', studyState)
-        })
+            this.dpservice = DPService.getDPService();
+            this.dpservice.getDPs((err, DPs) => {
+                if (err) {
+                    return console.log(err);
+                }
+                let DP = DPs && DPs.length > 0 ? DPs[0] : undefined
+                if((DP.matches) && (DP.matches.length>0)) {
+                    let studyIndex = DP.matches.findIndex(match => match.study.uid === this.model.study.uid);
+                    DP.matches[studyIndex].dpermission = true;
+                    DP.matches[studyIndex].dpermissionDate = new Date();
+                    DP.matches[studyIndex].study.acceptedDate = new Date();
+                }
+                this.dpservice.updateDP(DP, (err, data) => {
+                    if (err){
+                        console.log(err);
+                    }
+                    console.log(data);
+                    console.log("DPermission added!");
+                })
+            });
+            this.navigateToPageTag('home')
+        });
+
+        this.onTagClick('navigation:go-back', () => {
+            this.navigateToPageTag('iot-health-studies');
+        });
+
+        this.onTagClick('reject', (model) => {
+            console.log("create the dynamic permission in the same object of DP")
+            this.navigateToPageTag('pending-invitations');
+        });
     }
 }
