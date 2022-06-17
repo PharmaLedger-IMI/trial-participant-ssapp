@@ -110,9 +110,10 @@ export default class MyProfileController extends WebcIonicController {
                 dpData.tp = {
                     name: this.model.tp.subjectName,
                     gender: this.model.tp.gender,
-                    anonymizedDid: this.model.tp.anonymizedDid,
-                    ageGroup: ageGroup,
                     did: this.model.tp.did
+                }
+                if(ageGroup) {
+                    dpData.tp.ageGroup = ageGroup;
                 }
             }
             if (this.model.dp.contactMe.value === false) {

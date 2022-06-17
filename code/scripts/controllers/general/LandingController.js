@@ -44,9 +44,9 @@ export default class LandingController extends WebcController {
             }
             this.model.trials = data;
             this.model.notAssigned = !this.model.trials.length;
+            this._initTrialParticipant();
         });
     }
-
 
     _initTrialParticipant() {
         this.model.tp = {};
@@ -55,6 +55,8 @@ export default class LandingController extends WebcController {
                 return console.log("Participant not added to a trial yet");
             }
             this.model.tp = tp;
+            MessageHandlerService.initCustomMessageHandler(this.model.tp.did, handlerOperations(this.OperationsHookRegistry));
+
         })
     }
 
@@ -125,7 +127,7 @@ export default class LandingController extends WebcController {
     }
 
     _attachMessageHandlers() {
-        this.OperationsHookRegistry.register('send_hco_dsu_to_patient', (err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT, (err, data) => {
             if (err) {
                 return console.error(err);
             }
@@ -149,42 +151,30 @@ export default class LandingController extends WebcController {
             });
         });
 
-        this.OperationsHookRegistry.register('send_refresh_consents', async (err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT, async (err, data) => {
             if(err) {
-                console.error(err);
+                return console.error(err);
             }
             this.model.trialConsent = data.trialConsent;
             await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
         });
 
-        this.OperationsHookRegistry.register('update_tpNumber', (err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER, (err, data) => {
             if(err) {
-                console.error(err);
+                return console.error(err);
             }
             this._updateTrialParticipant(data.useCaseSpecifics, (err) => {
                 if (err) {
-                    console.log(err);
+                    return console.log(err);
                 }
             });
         });
 
-        this.OperationsHookRegistry.register('schedule_visit', async(err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED, async(err, data) => {
             if(err) {
-                console.error(err);
+                return console.error(err);
             }
             await this._saveVisit(data.useCaseSpecifics.visit);
-        });
-
-        this.TPService = getTPService();
-        this.TPService.getTp((err, tp) => {
-            if (err) {
-                return console.log(err);
-            }
-            this.model.tp = tp;
-            if (this.model.tp.tp.anonymizedDid) {
-                let did = this.model.tp.tp.anonymizedDid;
-                MessageHandlerService.initCustomMessageHandler(did, handlerOperations(this.OperationsHookRegistry));
-            }
         });
 
         MessageHandlerService.init(handlerOperations(this.OperationsHookRegistry));
