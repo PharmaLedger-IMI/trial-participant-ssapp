@@ -29,6 +29,7 @@ export default class LandingController extends WebcController {
             await this.initServices();
             this.addHandlers();
         });
+        this.model.numberOfNewConsents = 0;
 
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
@@ -156,6 +157,12 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.trialConsent = data.trialConsent;
+
+            if(this.model.trialConsent.volatile?.ifc.length) {
+                this.model.numberOfNewConsents++;
+                this.model.consentsReceived = true;
+            } else this.model.consentsReceived = false;
+
             await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
         });
 
