@@ -1,5 +1,6 @@
 const commonServices = require('common-services');
 const {DPService} = commonServices;
+const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
 const {WebcController} = WebCardinal.controllers;
 
 
@@ -10,6 +11,7 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = prevState;
 
         this.onTagClick('confirm', (model) => {
+            this.CommunicationService = getCommunicationServiceInstance();
             this.dpservice = DPService.getDPService();
             this.dpservice.getDPs((err, DPs) => {
                 if (err) {
@@ -28,6 +30,11 @@ export default class ViewStudyDetailsController extends WebcController {
                     }
                     console.log(data);
                     console.log("DPermission added!");
+                    this.CommunicationService.sendMessageToIotAdapter({
+                        operation: "dp_updated",
+                        studyUID: this.model.study.uid,
+                        dpUID: data.uid
+                    })
                 })
             });
             this.navigateToPageTag('home')
