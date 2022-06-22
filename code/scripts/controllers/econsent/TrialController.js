@@ -151,7 +151,7 @@ export default class TrialController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.history.goBack();
+            this.navigateToPageTag('home');
         });
     }
 

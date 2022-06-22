@@ -86,16 +86,13 @@ export default class TaskCalendarController extends WebcController {
             .map(visit => {
                 return {
                     ...visit,
-                    proposedDate: new Date(visit.proposedDate).toLocaleDateString(),
+                    proposedDate: visit.proposedDate,
                     toShowDate: DateTimeService.convertStringToLocaleDate(visit.date)
                 }
             });
 
         function filterVisits(visit) {
-            if(visit.declined ===true ) {
-                return;
-            }
-            if(visit.accepted === true) {
+            if(visit.declined ===true || visit.accepted === true || visit.rescheduled === true) {
                 return;
             }
             return visit;
@@ -195,6 +192,9 @@ export default class TaskCalendarController extends WebcController {
                     if (response) {
                         model.accepted = true;
                         model.declined = false;
+                        if(model.confirmedDate) {
+                            delete model.confirmedDate;
+                        }
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
 
@@ -246,7 +246,7 @@ export default class TaskCalendarController extends WebcController {
                     const response = event.detail;
                     if(response) {
                         model.rescheduled = true;
-                        model.rescheduledDate = new Date(response.desiredDate).toLocaleDateString();
+                        model.proposedDate = response.desiredDate;
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
                         await this._initVisits();
@@ -301,6 +301,9 @@ export default class TaskCalendarController extends WebcController {
                     accepted: visit.accepted,
                     declined: visit.declined,
                     rescheduled: visit.rescheduled,
+                    proposedDate: visit.proposedDate,
+                    confirmedDate: visit.confirmedDate,
+                    confirmed: visit.confirmed,
                     id: visit.uid
                 },
             },
