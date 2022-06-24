@@ -19,12 +19,22 @@ export default class SelectHealthDataController extends WebcController {
         this.model = this.getSelectHealthDataViewModel();
         this.onTagClick("view-iot-data",()=>{
             this.healthDataService.getAllObservations((err, data)=>{
-                var result = data[0];
-                var selected = this.model.selectObservation.value;
+                if(err){
+                    console.log(err);
+                }
                 var pageValue = [];
-                console.log(selected)
-                let tempVal =  result.filter(o => o.code.text.includes(selected));
-                pageValue.push(tempVal[0]);
+                console.log(data);
+                if(data.length){
+                    var result = data[0];
+                    var selected = this.model.selectObservation.value;
+                    console.log(selected)
+                    let tempVal =  result.filter(o => o.code.text.includes(selected));
+                    pageValue.push(tempVal[0]);
+                }
+                else {
+                    console.log("Didn't find any value!");
+                }
+                
                 this.navigateToPageTag('iot-helath-data', pageValue);
 
             });

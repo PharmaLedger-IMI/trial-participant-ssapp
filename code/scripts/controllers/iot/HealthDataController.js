@@ -10,9 +10,12 @@ export default class HealthDataController extends WebcController {
         // this.initServices();
         const prevState = this.getState() || {};
         var data =  prevState[0];
-        this.model.title = data.code.text;
-        this.model.value = data.valueQuantity.value;
-        this.model.unit = data.valueQuantity.unit;
+        if(data){
+            this.model.title = data.code.text;
+            this.model.value = data.valueQuantity.value;
+            this.model.unit = data.valueQuantity.unit;
+        }
+        
         this._attachHandlerGoBack();
     }
     _attachHandlerGoBack() {

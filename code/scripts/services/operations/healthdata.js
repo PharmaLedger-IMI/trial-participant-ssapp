@@ -9,5 +9,11 @@ export function new_healthdata(data) {
         }
         console.log("****************** Health Data ******************************")
         console.log(healthData);
+        if(healthData){
+            console.log("We have succe retrived data");
+        }
+        else {
+            console.log("Your data is not available");
+        }
     });
 }
