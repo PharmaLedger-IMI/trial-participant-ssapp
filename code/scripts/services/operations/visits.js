@@ -1,5 +1,5 @@
-const commonServices = require('common-services');
 import {saveNotification } from './commons/index.js';
+const commonServices = require('common-services');
 const BaseRepository = commonServices.BaseRepository;
 const CONSTANTS = commonServices.Constants;
 
@@ -9,7 +9,7 @@ async function update_visit(data) {
 }
 
 async function schedule_visit(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED);
+    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_VISIT);
     return data;
 }
 

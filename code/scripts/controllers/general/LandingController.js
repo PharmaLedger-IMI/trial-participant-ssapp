@@ -6,6 +6,7 @@ import EvidenceService from "../../services/EvidenceService.js";
 import {getTPService} from "../../services/TPService.js";
 import {getOperationsHookRegistry} from '../../services/operations/operationsHookRegistry.js';
 import handlerOperations from "../../services/MessageHandlerStrategy.js";
+import {getNotificationService} from "../../services/NotificationService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -29,12 +30,25 @@ export default class LandingController extends WebcController {
             await this.initServices();
             this.addHandlers();
         });
-        this.model.numberOfNewConsents = 0;
 
         this.FeedbackService = new FeedbackService();
         this.EvidenceService = new EvidenceService();
         this.healthDataService = new HealthDataService();
         this.OperationsHookRegistry = getOperationsHookRegistry();
+        this.notificationService = getNotificationService();
+        this.notificationService.onNotification(this.getNumberOfNotifications.bind(this));
+        this.getNumberOfNotifications();
+    }
+
+    getNumberOfNotifications() {
+        this.notificationService.getNumberOfUnreadNotifications().then(numberOfNotifications => {
+            {
+                if(numberOfNotifications) {
+                    this.model.notificationsNumber = numberOfNotifications;
+                    this.model.hasNotifications = true;
+                } else this.model.hasNotifications = false;
+            }
+        })
     }
 
     _initTrials() {
@@ -134,13 +148,13 @@ export default class LandingController extends WebcController {
             }
             this.model.tp = data.trialData.tp;
             let hcoIdentity = data.trialData.tp.hcoIdentity;
-            if (data.originalMessage.useCaseSpecifics.tp.anonymizedDid) {
-                let communicationService = CommunicationService.getExtraCommunicationService(data.originalMessage.useCaseSpecifics.tp.anonymizedDid);
+            if (data.originalMessage.useCaseSpecifics.tp.publicDid) {
+                let communicationService = CommunicationService.getExtraCommunicationService(data.originalMessage.useCaseSpecifics.tp.publicDid);
                 communicationService.listenForMessages(async (err, message) => {
                     if (err) {
                         return console.error(err);
                     }
-                    console.log('message received for anonymized did', message);
+                    console.log('message received for public did', message);
                 })
             }
             this._mountHCODSUAndSaveConsentStatuses(data.originalMessage, (err, data) => {
@@ -157,11 +171,7 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
             this.model.trialConsent = data.trialConsent;
-
-            if(this.model.trialConsent.volatile?.ifc.length) {
-                this.model.numberOfNewConsents++;
-                this.model.consentsReceived = true;
-            } else this.model.consentsReceived = false;
+            this.getNumberOfNotifications();
 
             await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
         });

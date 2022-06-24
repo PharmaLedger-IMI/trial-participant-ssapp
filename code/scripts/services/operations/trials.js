@@ -11,7 +11,7 @@ const trialConsentService = new TrialConsentService();
 
 
 async function update_tpNumber(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.TRIAL_UPDATES);
+    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TPNUMBER);
     return data;
 }
 
@@ -21,6 +21,7 @@ async function send_hco_dsu_to_patient(originalMessage) {
 }
 
 async function send_refresh_consents(data) {
+    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_CONSENTS);
     const trialConsentData = await _mountICFAndSaveConsentStatuses(data);
     return trialConsentData;
 }

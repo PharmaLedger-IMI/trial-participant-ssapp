@@ -6,6 +6,7 @@ export default function (operationsRegistry){
 
     try {
         message = JSON.parse(message);
+        console.log('MESSAGE' , message);
     } catch (e) {
         console.error(e);
         throw e;
