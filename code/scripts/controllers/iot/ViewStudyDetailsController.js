@@ -19,10 +19,9 @@ export default class ViewStudyDetailsController extends WebcController {
                 }
                 let DP = DPs && DPs.length > 0 ? DPs[0] : undefined
                 if((DP.matches) && (DP.matches.length>0)) {
-                    let studyIndex = DP.matches.findIndex(match => match.study.uid === this.model.study.uid);
+                    let studyIndex = DP.matches.findIndex(match => match.studyUID === this.model.study.uid);
                     DP.matches[studyIndex].dpermission = true;
-                    DP.matches[studyIndex].dpermissionDate = new Date();
-                    DP.matches[studyIndex].study.acceptedDate = new Date();
+                    DP.matches[studyIndex].dpermissionStartSharingDate = new Date();
                 }
                 this.dpservice.updateDP(DP, (err, data) => {
                     if (err){
@@ -49,10 +48,9 @@ export default class ViewStudyDetailsController extends WebcController {
                 }
                 let DP = DPs && DPs.length > 0 ? DPs[0] : undefined
                 if((DP.matches) && (DP.matches.length>0)) {
-                    let studyIndex = DP.matches.findIndex(match => match.study.uid === this.model.study.uid);
+                    let studyIndex = DP.matches.findIndex(match => match.studyUID === this.model.study.uid);
                     DP.matches[studyIndex].dpermission = false;
                     DP.matches[studyIndex].dpermissionStopSharingDate = new Date();
-                    DP.matches[studyIndex].study.StopSharingDate = new Date();
                 }
                 this.dpservice.updateDP(DP, (err, data) => {
                     if (err){
