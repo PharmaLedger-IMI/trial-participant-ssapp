@@ -10,6 +10,15 @@ const trialService = new TrialService();
 const trialConsentService = new TrialConsentService();
 
 
+function update_status(data){
+    TPService.getTp( (err, tpDsu)=>{
+        tpDsu.tp.status = data.status;
+        TPService.updateTp(tpDsu,async ()=>{
+            await saveNotification(data, data.operation);
+        });
+    });
+}
+
 async function update_tpNumber(data) {
     await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TPNUMBER);
     return data;
@@ -31,6 +40,7 @@ async function _saveTrialParticipantInfo(hcoIdentity, data) {
         did: data.tp.did,
         site: data.site,
         tp: {
+            status:data.tp.status,
             subjectName: data.tp.subjectName,
             gender: data.tp.gender,
             birthdate: data.tp.birthdate,
@@ -60,4 +70,4 @@ async function _mountICFAndSaveConsentStatuses(data) {
     return { trialConsent }
 }
 
-export { update_tpNumber, send_hco_dsu_to_patient, send_refresh_consents}
+export { update_tpNumber, update_status, send_hco_dsu_to_patient, send_refresh_consents}
