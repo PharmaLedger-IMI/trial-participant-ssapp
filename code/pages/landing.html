@@ -39,6 +39,11 @@
                             <i class="fa fa-bell"></i>
                             <span>Notifications</span>
                         </button>
+                        <div data-if="@hasNotifications">
+                            <label class="notification-badge">
+                                <span class="notifications-number">{{@notificationsNumber}}</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -48,11 +53,6 @@
                             <i class="fa fa-th-list"></i>
                             <span>Consent Status</span>
                         </button>
-                        <div data-if="@consentsReceived">
-                            <label class="notification-badge">
-                                <span class="notifications-number">{{@numberOfNewConsents}}</span>
-                            </label>
-                        </div>
                     </div>
 
                     <div class="col-6">

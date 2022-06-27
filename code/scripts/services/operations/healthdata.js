@@ -1,8 +1,11 @@
+import { saveNotification } from './commons/index.js';
 const commonServices = require('common-services');
+const Constants = commonServices.Constants;
 const HealthDataService = commonServices.HealthDataService;
 const healthDataService = new HealthDataService();
 
-export function new_healthdata(data) {
+export async function new_healthdata(data) {
+    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.NEW_HEALTHDATA);
     healthDataService.mountObservation(data.sReadSSI, (err, healthData) => {
         if (err) {
             console.log(err);
