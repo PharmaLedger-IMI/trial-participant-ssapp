@@ -14,7 +14,7 @@ function update_status(data){
     TPService.getTp( (err, tpDsu)=>{
         tpDsu.tp.status = data.status;
         TPService.updateTp(tpDsu,async ()=>{
-            await saveNotification(data, data.operation);
+            await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.UPDATE_STATUS);
         });
     });
 }

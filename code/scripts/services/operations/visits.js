@@ -18,7 +18,7 @@ async function schedule_visit(data) {
 async function visit_confirmed(data) {
     const taskService = TaskService.getTaskService();
 
-    await saveNotification(data, CONSTANTS.MESSAGES.HCO.COMMUNICATION.TYPE.VISIT_CONFIRMED);
+    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
 
     let visitDetails = data.useCaseSpecifics.visit;
     let visit = {

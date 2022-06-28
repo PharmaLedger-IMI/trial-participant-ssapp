@@ -22,7 +22,6 @@ export default class TaskCalendarController extends WebcController {
         super(...props);
         this.setModel({
             ...getInitModel(),
-            ...this.history.win.history.state.state,
             visits: [],
             selectedVisit: {
                 active: false,

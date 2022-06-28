@@ -87,24 +87,16 @@ export default class LandingController extends WebcController {
             event.stopImmediatePropagation();
 
             if (!this.model.notAssigned) {
-                this.navigateToPageTag('trial', {
-                    tp: this.model.toObject('tp'),
-                    uid: this.model.trials[0].uid,
-                    tpNumber: this.model.did
-                });
+                this.navigateToPageTag('trial');
             }
         });
         this.onTagEvent("navigate:task-calendar", "click", () => {
             if (!this.model.notAssigned) {
-                this.navigateToPageTag('task-calendar', {
-                    tpDid: this.model.tp.did,
-                    tpUid: this.model.trials[0].uid,
-                });
+                this.navigateToPageTag('task-calendar');
             }
         });
         this.onTagEvent("navigate:iot-devices", "click", () => {
             if (!this.model.notAssigned) {
-                // this.navigateToPageTag('iot-devices');
                 this.navigateToPageTag("iot-data-selection");
             }
         });
@@ -187,7 +179,7 @@ export default class LandingController extends WebcController {
             });
         });
 
-        this.OperationsHookRegistry.register(CONSTANTS.NOTIFICATIONS_TYPE.VISIT_SCHEDULED, async(err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_SCHEDULED, async(err, data) => { //here
             if(err) {
                 return console.error(err);
             }
@@ -262,6 +254,7 @@ export default class LandingController extends WebcController {
     }
 
     async _saveVisit(visitToBeAdded) {
+        console.log(visitToBeAdded)
         const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded);
         this.model.tp.hasNewVisits = true;
         await this.TPService.updateTpAsync(this.model.tp)

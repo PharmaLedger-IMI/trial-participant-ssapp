@@ -15,12 +15,12 @@
             <div slot="true" data-for="@notifications">
 
                 <div class="p-2 notification-item">
-                    <div class="notification-title" data-tag='mark-notification'>
-                        <div data-if="@read">
+                    <div class="notification-title" data-tag="view-notification">
+                        <div data-if="@read" >
                             <i class="fa fa-star" slot="false"></i>
                             <i class="far fa-star" slot="true"></i>
                         </div>
-                        <span>{{@type}}</span>
+                        <button>{{@type}}</button>
                     </div>
                     <div class="notification-details">
                         <div class="notification-description">{{@details}}</div>

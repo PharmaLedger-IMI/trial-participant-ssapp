@@ -14,7 +14,7 @@ export default class NotificationsController extends WebcController {
       await this.getNotifications();
     });
     this._attachHandlerBack()
-    this.markNotificationHandler();
+    // this.markNotificationHandler();
   }
 
   async _initServices() {
@@ -29,15 +29,24 @@ export default class NotificationsController extends WebcController {
     })
     this.model.setChainValue('notifications', notifications);
     this.model.notificationsEmpty = (notifications.length == 0);
+    this.viewNotificationHandler();
   }
 
-  markNotificationHandler() {
-    this.onTagClick('mark-notification', async (model) => {
+  viewNotificationHandler() {
+    this.onTagClick('view-notification', async (model) => {
+      await this.markNotificationHandler(model);
+      const {tagPage} = model;
+      if (tagPage) {
+        this.navigateToPageTag(tagPage);
+      }
+    });
+  }
+
+  async markNotificationHandler(model) {
       window.WebCardinal.loader.hidden = false;
       await this.notificationService.changeNotificationStatus(model.pk);
       await this.getNotifications();
       window.WebCardinal.loader.hidden = true;
-    });
   }
 
   _attachHandlerBack() {
