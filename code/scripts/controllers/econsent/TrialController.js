@@ -47,7 +47,7 @@ export default class TrialController extends WebcController {
                 return console.log("Trial Participant not added to a trial");
             }
             this.model.trialParticipant = tp;
-            this.model.tpNumber = tp.did;
+            this.model.tpDid = tp.did;
         })
     }
 
@@ -62,7 +62,7 @@ export default class TrialController extends WebcController {
             let lastAction = 'Consent required';
             let statusesMappedByConsent = {};
             let statuses = await this.EconsentsStatusRepository.findAllAsync();
-            statuses.filter(status => status.tpDid == this.model.tpNumber);
+            statuses.filter(status => status.tpDid == this.model.tpDid);
 
             statuses.forEach(status => {
                 statusesMappedByConsent[status.foreignConsentId] = status;
