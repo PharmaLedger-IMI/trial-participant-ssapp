@@ -249,8 +249,10 @@ export default class LandingController extends WebcController {
     }
 
     _updateTrialParticipant(data, callback) {
-        this.model.tp.number = data.number;
-        this.TPService.updateTp(this.model.tp, callback)
+        this.TPService.getTp( (err, tpDsu)=>{
+            tpDsu.tp.number = data.tpNumber;
+            this.TPService.updateTp(tpDsu,callback);
+        });
     }
 
     async _saveVisit(visitToBeAdded) {
