@@ -5,6 +5,7 @@ const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
 const DateTimeService = commonServices.DateTimeService;
 const Constants = commonServices.Constants;
+const momentService  = commonServices.momentService;
 const BaseRepository = commonServices.BaseRepository;
 const {QuestionnaireService} = commonServices;
 import {getTPService}  from "../../services/TPService.js"
@@ -86,6 +87,7 @@ export default class TaskCalendarController extends WebcController {
             .map(visit => {
                 return {
                     ...visit,
+                    visitDate: momentService(visit.proposedDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern),
                     proposedDate: visit.proposedDate,
                     toShowDate: DateTimeService.convertStringToLocaleDate(visit.date)
                 }
@@ -198,28 +200,6 @@ export default class TaskCalendarController extends WebcController {
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
 
-                        let visit = {
-                            task: "Visit",
-                            tag: "visit-details",
-                            schedule: {
-                                startDate: model.proposedDate,
-                                endDate: model.proposedDate,
-                                repeatAppointment: "daily"
-                            },
-                            showTask: "",
-                            details: {
-                                name: model.name,
-                                procedures: model.procedures,
-                            }
-                        }
-                        this.taskService.addTask(visit, (err, tasks) => {
-                            if (err) {
-                                return console.error(err);
-                            }
-                        });
-
-                        this.send('new-task', visit, {capture: true});
-
                         await this._initVisits();
                     }
                 },
@@ -243,10 +223,11 @@ export default class TaskCalendarController extends WebcController {
             this.showModalFromTemplate(
                 'econsent/reschedule-invitation',
                 async (event) => {
-                    const response = event.detail;
+                    const response = event.detail.desiredDate;
                     if(response) {
+                        let date = new Date(response);
                         model.rescheduled = true;
-                        model.proposedDate = response.desiredDate;
+                        model.proposedDate = date.getTime();
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
                         await this._initVisits();

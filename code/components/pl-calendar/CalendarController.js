@@ -144,17 +144,18 @@ class CalendarController extends WebcController {
 
         if(invitations) {
             days.forEach(day => {
-                let calendarDate = Date.parse(`${day.value} ${day.month} ${day.year}`);
+                let calendarDate = new Date(`${day.value} ${day.month} ${day.year}`);
+                calendarDate.setHours(0,0,0,0);
+
                 for(let invitation of invitations) {
-                    let visitDate = new Date(invitation.schedule.startDate).getTime();
-                    if (visitDate === calendarDate) {
+                    let visitDate = new Date(invitation.schedule.startDate);
+                    visitDate.setHours(0,0,0,0);
+                    if (visitDate.getTime() === calendarDate.getTime()) {
                         day.dayType = 'invitation'; // modify to visit
                     }
                 }
             })
         }
-
-        console.log('days',days)
 
         return{
             monthName: this.months[this.date.getMonth()],
