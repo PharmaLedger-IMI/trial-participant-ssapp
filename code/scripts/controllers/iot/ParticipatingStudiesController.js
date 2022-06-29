@@ -1,5 +1,5 @@
 const commonServices = require('common-services');
-const {DPService} = commonServices;
+const {DPService, StudiesService} = commonServices;
 const { WebcController } = WebCardinal.controllers;
 
 
@@ -8,8 +8,11 @@ export default class ParticipatingStudiesController extends WebcController {
         super(...props);
 
         this.dpService = DPService.getDPService();
-        this.model.participating_studies = [];
+        this.studiesService = new StudiesService();
+        this.model.participatingStudiesUIDs = [];
+        this.model.participatingFullStudies = [];
         this.model.has_participating_studies = false;
+        this.model.startSharingDate = ""
 
         const getParticipatingStudies = () => {
             return new Promise ((resolve, reject) => {
@@ -30,10 +33,22 @@ export default class ParticipatingStudiesController extends WebcController {
                     DP.matches.forEach(match => {
                         if (match.dpermission===true) {
                             this.model.has_participating_studies = true;
-                            this.model.participating_studies.push(match.study);
+                            this.model.participatingStudiesUIDs.push(match.studyUID);
                         };
                     })
-                    console.log("Found %d participating studies.", this.model.participating_studies.length);
+                    console.log("Found %d participating studies.", this.model.participatingStudiesUIDs.length);
+                    this.studiesService.getStudies((err, studies) => {
+                        if (err){
+                            return console.log(err);
+                        }
+                        this.model.participatingStudiesUIDs.forEach( studyUID => {
+                            studies.forEach(mountedStudy => {
+                                if (mountedStudy.uid===studyUID){
+                                    this.model.participatingFullStudies.push(mountedStudy);
+                                }
+                            })
+                        })
+                    });
                 }
             }
         });

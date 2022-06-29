@@ -7,12 +7,12 @@ const questionnaireService = new QuestionnaireService();
 const QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
 
 async function question_response(data) {
-    await saveNotification(data, Constants.MESSAGES.HCO.COMMUNICATION.TYPE.QUESTION_RESPONSE);
+    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.QUESTION_RESPONSE);
     _updateQuestion(data.useCaseSpecifics);
 }
 
 async function clinical_site_questionnaire(data) {
-    await saveNotification(data, Constants.MESSAGES.HCO.CLINICAL_SITE_QUESTIONNAIRE);
+    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.CLINICAL_SITE_QUESTIONNAIRE);
     questionnaireService.mount(data.ssi, (err, questionnaire) => {
         if (err) {
             console.log(err);

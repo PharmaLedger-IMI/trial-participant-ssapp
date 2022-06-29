@@ -16,11 +16,7 @@ export default class TrialController extends WebcController {
         this.model.econsents = [];
         this.model.econsentsAreLoaded = false;
         this.model.tpStatus = [];
-        let receivedObject = this.history.win.history.state.state;
 
-        this.model.trials = receivedObject.trials;
-        this.model.uid = receivedObject.uid;
-        this.model.tpNumber = receivedObject.tpNumber;
         this._initServices();
         this._initHandlers();
     }
@@ -35,9 +31,8 @@ export default class TrialController extends WebcController {
                 return console.log(err);
             }
             this.model.trialConsent = trialConsent;
-            this._initTrial()
+            this._initTrials();
         });
-        this.initTrialParticipant();
     }
 
     _initHandlers() {
@@ -52,6 +47,7 @@ export default class TrialController extends WebcController {
                 return console.log("Trial Participant not added to a trial");
             }
             this.model.trialParticipant = tp;
+            this.model.tpDid = tp.did;
         })
     }
 
@@ -66,7 +62,7 @@ export default class TrialController extends WebcController {
             let lastAction = 'Consent required';
             let statusesMappedByConsent = {};
             let statuses = await this.EconsentsStatusRepository.findAllAsync();
-            statuses.filter(status => status.tpDid == this.model.tpNumber);
+            statuses.filter(status => status.tpDid == this.model.tpDid);
 
             statuses.forEach(status => {
                 statusesMappedByConsent[status.foreignConsentId] = status;
@@ -127,6 +123,19 @@ export default class TrialController extends WebcController {
                 this.model.site = tp.site;
                 this.model.econsentsAreLoaded = true;
             })
+        });
+    }
+
+    _initTrials() {
+        this.model.trials = [];
+        this.TrialService.getTrials((err, data) => {
+            if (err) {
+                return console.error(err);
+            }
+            this.model.trials = data;
+            this.model.uid = this.model.trials[0].uid;
+            this.initTrialParticipant();
+            this._initTrial();
         });
     }
 

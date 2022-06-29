@@ -29,12 +29,15 @@
                     <span>Clinic ID:</span>
                     <p>{{@site.number}}</p>
                 </div>
+                <div class="trial-status-item">
+                    <span>Patient Status:</span>
+                    <p>{{@trialParticipant.tp.status}}</p>
+                </div>
+                <div class="trial-status-item">
+                    <span>Patient Number:</span>
+                    <p>{{@trialParticipant.tp.number}}</p>
+                </div>
             </div>
-
-            <div class="trial-infos">
-                <p class="trial-status-title">Trial participant status: {{@trialParticipant.status}}</p>
-            </div>
-
 
             <div class="trial-details">
                 <strong>Details</strong>

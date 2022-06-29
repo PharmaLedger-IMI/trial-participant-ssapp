@@ -1,4 +1,6 @@
 import {saveNotification } from './commons/index.js';
+import TaskService from "../../services/TaskService.js";
+
 const commonServices = require('common-services');
 const BaseRepository = commonServices.BaseRepository;
 const CONSTANTS = commonServices.Constants;
@@ -10,6 +12,36 @@ async function update_visit(data) {
 
 async function schedule_visit(data) {
     await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_VISIT);
+    return data;
+}
+
+async function visit_confirmed(data) {
+    const taskService = TaskService.getTaskService();
+
+    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
+
+    let visitDetails = data.useCaseSpecifics.visit;
+    let visit = {
+        task: "Visit",
+        tag: "visit-details",
+        schedule: {
+            startDate: visitDetails.proposedDate,
+            endDate: visitDetails.proposedDate,
+            repeatAppointment: "daily"
+        },
+        showTask: "",
+        details: {
+            name: visitDetails.name,
+            procedures: visitDetails.procedures,
+        }
+    }
+
+    taskService.addTask(visit, (err, tasks) => {
+        if (err) {
+            return console.error(err);
+        }
+    });
+
     return data;
 }
 
@@ -25,4 +57,4 @@ async function _updateVisit(visitToBeUpdated) {
     })
 }
 
-export { update_visit, schedule_visit }
+export { update_visit, schedule_visit, visit_confirmed }
