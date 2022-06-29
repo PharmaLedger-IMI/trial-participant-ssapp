@@ -30,7 +30,9 @@ export default class SelectHealthDataController extends WebcController {
                     var selected = this.model.selectObservation.value;
                     console.log(selected)
                     let tempVal =  result.filter(o => o.code.text.includes(selected));
-                    pageValue.push(tempVal[0]);
+                    // console.log("This is the Temp Value");
+                    // console.log(tempVal);
+                    pageValue.push(tempVal);
                     pageValue.push({hasValue:false});
 
                 }
