@@ -33,12 +33,12 @@ export default class SelectHealthDataController extends WebcController {
                     // console.log("This is the Temp Value");
                     // console.log(tempVal);
                     pageValue.push(tempVal);
-                    pageValue.push({hasValue:false});
+                    pageValue.push({hasValue:true});
 
                 }
                 else {
                     
-                    pageValue.push({hasValue:true});
+                    pageValue.push({hasValue:false});
                     console.log("Didn't find any value!");
                 }
                 

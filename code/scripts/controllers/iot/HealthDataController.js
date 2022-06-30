@@ -13,7 +13,7 @@ export default class HealthDataController extends WebcController {
         console.log("Health Controller");
         console.log(data);
        this.model.healthData = [];
-
+        this.model.hasValue = data.hasValue;
         if(data){
             for(let i=0; i<data.length; i++){
                 let data1 = data[i];
@@ -28,6 +28,7 @@ export default class HealthDataController extends WebcController {
                     time: time1[0]
                 });
             }
+            
             console.log(this.model.healthData);
         }
         

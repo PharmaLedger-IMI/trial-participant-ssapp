@@ -18,30 +18,33 @@
                                     <label> Health Data</label>
                                 </div>
                             </header>
+                            
                             <main >
-                                <div class="row-wrapper grid-equal" data-if="@healthData">
-                                    <div class="row-wrapper grid-equal">
-                                        <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;"> Measurement Date</label>
-                                        <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Time</label>
-                                        <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Data Type</label>
-                                        <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Value</label>
-                                        <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Unit</label>
+                                <div data-if="@hasValue" >
+                                    <div class="alert alert-warning" role="alert" slot="false">
+                                        <p class="alert-heading">Sorry! No data is available to view.</p>
+                                    </div>
+                                    <div class="row-wrapper grid-equal" slot="true">
+                                        <div class="row-wrapper grid-equal">
+                                            <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;"> Measurement Date</label>
+                                            <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Time</label>
+                                            <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Data Type</label>
+                                            <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Value</label>
+                                            <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">Unit</label>
+                                        </div>
+                                    </div>
+                                    <div class="row-wrapper grid-equal" slot="true">
+                                        <div class="row-wrapper grid-equal"  data-for="@healthData" >
+                                            <label class="col-form-label">{{@date}}</label>
+                                            <label class="col-form-label">{{@time}}</label>
+                                            <label class="col-form-label">{{@title}}</label>
+                                            <label class="col-form-label">{{@value}}</label>
+                                            <label class="col-form-label">{{@unit}}</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row-wrapper grid-equal" data-if="@healthData">
-                                    <div class="row-wrapper grid-equal"  data-for="@healthData" >
-                                        <label class="col-form-label">{{@date}}</label>
-                                        <label class="col-form-label">{{@time}}</label>
-                                        <label class="col-form-label">{{@title}}</label>
-                                        <label class="col-form-label">{{@value}}</label>
-                                        <label class="col-form-label">{{@unit}}</label>
-                                    </div>
-                                </div>
-                                <div data-if="@hasValue">
-                                    <div class="row-wrapper grid-equal">
-                                        <p class="col-form-label">Sorry! No data is available to view.</p>
-                                    </div>
-                                </div>
+                                
+                                
                             </main>
                             
                             <br>
