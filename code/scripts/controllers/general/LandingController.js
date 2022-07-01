@@ -257,6 +257,15 @@ export default class LandingController extends WebcController {
 
     async _saveVisit(visitToBeAdded) {
         console.log(visitToBeAdded)
+        this.VisitsAndProceduresRepository.filter(`id == ${visitToBeAdded.id}`, 'ascending', 1, (err, visits) => {
+            if (err || visits.length === 0) {
+                return;
+            }
+            if(visits[0].proposedDate) {
+                this.VisitsAndProceduresRepository.update(visits[0].pk, visitToBeAdded, () => {
+                })
+            }
+        })
         const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded);
         this.model.tp.hasNewVisits = true;
         await this.TPService.updateTpAsync(this.model.tp)
