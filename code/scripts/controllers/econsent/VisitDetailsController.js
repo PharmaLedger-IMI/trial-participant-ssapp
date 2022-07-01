@@ -1,4 +1,7 @@
 const {WebcController} = WebCardinal.controllers;
+const commonServices = require("common-services");
+const Constants = commonServices.Constants;
+const momentService = commonServices.momentService;
 
 export default class VisitDetailsController extends WebcController {
     constructor(...props) {
@@ -7,6 +10,9 @@ export default class VisitDetailsController extends WebcController {
             ...this.history.win.history.state.state,
         });
 
+        if(this.model.schedule.startDate) {
+            this.model.toShowDate = momentService(this.model.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+        }
         this._initHandlers();
     }
 

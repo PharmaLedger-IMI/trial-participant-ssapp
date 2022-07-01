@@ -10,6 +10,15 @@
                     <img src="@profilePicture" class="img-fluid img-thumbnail">
                     <label class="edit-btn-wrapper" data-tag="navigate:my-profile">
                     </label>
+                    <div class="notifications-btn-container">
+                      <label class="notifications-btn-wrapper" data-tag="navigate:notifications" active-notifications="@hasNotifications">
+                      </label>
+                      <div data-if="@hasNotifications" class="notifications-container">
+                          <label class="notification-badge">
+                              <span class="notifications-number">{{@notificationsNumber}}</span>
+                          </label>
+                      </div>
+                    </div>
                 </picture>
             </div>
         </header>
@@ -33,17 +42,22 @@
                             <span>Tasks Calendar</span>
                         </button>
                     </div>
-
+<!--                    <div class="col-6">-->
+<!--                        <button class="navigation-btn" data-tag="navigate:notifications">-->
+<!--                            <i class="fa fa-bell"></i>-->
+<!--                            <span>Notifications</span>-->
+<!--                        </button>-->
+<!--                        <div data-if="@hasNotifications" class="notifications-container">-->
+<!--                            <label class="notification-badge">-->
+<!--                                <span class="notifications-number">{{@notificationsNumber}}</span>-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:notifications">
-                            <i class="fa fa-bell"></i>
-                            <span>Notifications</span>
+                        <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
+                            <i class="fa fa-calculator"></i>
+                            <span>Device Data</span>
                         </button>
-                        <div data-if="@hasNotifications" class="notifications-container">
-                            <label class="notification-badge">
-                                <span class="notifications-number">{{@notificationsNumber}}</span>
-                            </label>
-                        </div>
                     </div>
                 </div>
 
@@ -62,20 +76,20 @@
                         </button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
-                            <i class="fa fa-calculator"></i>
-                            <span>Device Data</span>
-                        </button>
-                    </div>
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:iot-feedback" disabled="@notAssigned">
-                            <i class="fa fa-check-square"></i>
-                            <span>Feedback</span>
-                        </button>
-                    </div>
-                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-6">-->
+<!--                        <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">-->
+<!--                            <i class="fa fa-calculator"></i>-->
+<!--                            <span>Device Data</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                    <div class="col-6">-->
+<!--                        <button class="navigation-btn" data-tag="navigate:iot-feedback" disabled="@notAssigned">-->
+<!--                            <i class="fa fa-check-square"></i>-->
+<!--                            <span>Feedback</span>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
 
             </div>
 
