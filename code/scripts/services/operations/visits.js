@@ -22,6 +22,7 @@ async function visit_confirmed(data) {
 
     let visitDetails = data.useCaseSpecifics.visit;
     let visit = {
+        uid: visitDetails.uid,
         task: "Visit",
         tag: "visit-details",
         schedule: {
@@ -36,11 +37,26 @@ async function visit_confirmed(data) {
         }
     }
 
-    taskService.addTask(visit, (err, tasks) => {
-        if (err) {
+    taskService.getTasks((err,tasks) => {
+        if(err) {
             return console.error(err);
         }
-    });
+        let index = tasks.item.findIndex(t => t.uid === visit.uid);
+        if(index === -1) {
+            return taskService.addTask(visit, (err, tasks) => {
+                if (err) {
+                    return console.error(err);
+                }
+                console.log('tasks', tasks)
+            });
+        }
+        tasks.item[index] = JSON.parse(JSON.stringify(visit));
+        taskService.updateTasks(tasks,(err) => {
+            if(err) {
+                console.error(err);
+            }
+        })
+    })
 
     return data;
 }
