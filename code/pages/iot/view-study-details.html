@@ -150,6 +150,77 @@
                 
         </div>
 
+        <div slot="completed-studies" class="container-child view-study-details">
+
+            <header>
+                <div class="header-title">
+                    <button class="navigate-back" data-tag="navigation:go-back">
+                        <i class="fa fa-angle-left"></i>
+                    </button>
+                    <h3>Completed Study</h3>
+                </div>
+            </header>
+
+            <div>
+
+                <div>
+                    <p>Hello! You participated in the following study. Thanks for sharing you data!</p>
+                </div>
+
+                <div class="container justify-content-start">
+                    <main>
+                        <div class="form-row font-weight-bold" >
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <header>
+                                        <div class="row-wrapper grid-equal">
+                                            <label>Study Details</label>
+                                        </div>
+                                    </header>
+                                    <main>
+                                        <div class="row-wrapper grid-equal">
+                                            <div class="row-wrapper grid-equal">
+                                                <label class="col-form-label">Study title: </label>
+                                                <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">{{@study.title}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-wrapper grid-equal">
+                                            <div class="row-wrapper grid-equal">
+                                                <label class="col-form-label">Period:</label>
+                                                <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">{{ @study.startdate }} - {{ @study.enddate }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-wrapper grid-equal">
+                                            <div class="row-wrapper grid-equal">
+                                                <label class="col-form-label">Status:</label>
+                                                <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">{{@study.status}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-wrapper grid-equal">
+                                            <div class="row-wrapper grid-equal">
+                                                <label class="col-form-label">Description:</label>
+                                                <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">{{@study.description}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row-wrapper grid-equal">
+                                            <div class="row-wrapper grid-equal">
+                                                <label class="col-form-label">Data gathered:</label>
+                                                <label class="col-form-label" style="text-overflow:ellipsis;width:auto;overflow:hidden;">{{@study.data}}</label>
+                                            </div>
+                                        </div>
+
+                                    </main>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+
+            </div>
+
+        </div>
+
+
     </webc-switch>
 
 </webc-container>

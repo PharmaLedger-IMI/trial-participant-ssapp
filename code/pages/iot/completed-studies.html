@@ -2,26 +2,54 @@
 
     <div class="container-child">
 
+        <div class="header-title">
+            <button class="navigate-back" data-tag="navigation:go-back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h3>Completed Studies</h3>
+        </div>
+
         <header>
-            <div class="header-title">
-                <button class="navigate-back" data-tag="navigation:go-back">
-                    <i class="fa fa-angle-left"></i>
-                </button>
-                <h3>Completed Studies</h3>
+            <div class=" p-5 text-center logo-container">
+                <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
             </div>
         </header>
 
-        <div class="completed-studies-container">
-            <div data-for="@studies">
-                <div class="study-container">
-                    <p class="study-title">{{@value}}</p>
-                    <button type="button" data-tag="view-study-details" class="link option">View</button>
-                    <button type="button" data-tag="navigate:feedback" class="link option">Feedback</button>
-                    <button type="button" data-tag="navigate:evidence" class="link option">Evidence</button>
-                    <button type="button" data-tag="navigate:permissions" class="link option">Permissions</button>
+        <h1 class="title text-center m-2">Completed Studies</h1>
+
+        <div class="container justify-content-start">
+
+            <div data-if="@has_participatingCompletedStudies">
+
+                <webc-spinner slot="loading"></webc-spinner>
+                <div slot="false" class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">There are no completed studies yet!</h4>
                 </div>
+                <div class="common-datatable completed-studies-datatable dt-2-col" slot="true">
+                    <webc-datatable datasource="@participatingCompletedFullStudiesDataSource">
+                        <div slot="header">Title</div>
+                        <div slot="header">Options</div>
+
+                        <div class="cell">{{ @title }}</div>
+                        <div class="cell">
+                            <button data-tag="view:study" class="link option">View</button>
+                            <label> | </label>
+
+                            <button data-tag="view:feedback" class="link option">Feedback</button>
+                            <label> | </label>
+
+                            <button data-tag="view:evidence" class="link option">Evidence</button>
+                            <label> | </label>
+
+                            <button data-tag="view:permissions" class="link option">Permissions</button>
+                        </div>
+                    </webc-datatable>
+                </div>
+
             </div>
         </div>
+
+
 
     </div>
 
