@@ -1,10 +1,14 @@
+import { saveNotification } from './commons/index.js';
 const commonServices = require('common-services');
+const Constants = commonServices.Constants;
 const {DPService, StudiesService} = commonServices;
 const dpService = DPService.getDPService();
 const studiesService = new StudiesService();
 
 
-export function datamatchmaking(data) {
+export async function datamatchmaking(data) {
+
+    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.NEW_INVITATION);
 
     const mountStudy = () => {
         return new Promise ((resolve, reject) => {
@@ -34,8 +38,8 @@ export function datamatchmaking(data) {
                         if (err){
                             console.log(err);
                         }
-                        console.log("Match saved with the following data.");
-                        console.log(data);
+                        console.log("Invitation received with the following data:");
+                        console.log(data.matches[data.matches.length-1]);
                     })
                 }
             });
