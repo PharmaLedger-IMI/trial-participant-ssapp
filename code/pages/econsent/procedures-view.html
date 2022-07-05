@@ -17,9 +17,15 @@
             <div class="procedures-content-container" data-for="@procedures">
                 <div class="procedures-content-item">
                     <label class="table-cell-content">{{@name}}</label>
-                    <div class="table-cell-content">
-                        <label data-if="@checked">X</label>
-                    </div>
+                    <webc-switch condition="@status">
+                        <div slot="Completed">
+                            <label>COMPLETED</label>
+                        </div>
+
+                        <div slot="Missed">
+                            <label>MISSED</label>
+                        </div>
+                    </webc-switch>
                 </div>
             </div>
         </div>

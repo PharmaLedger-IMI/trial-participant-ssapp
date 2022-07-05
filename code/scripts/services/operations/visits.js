@@ -2,6 +2,7 @@ import {saveNotification } from './commons/index.js';
 import TaskService from "../../services/TaskService.js";
 
 const commonServices = require('common-services');
+const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const CONSTANTS = commonServices.Constants;
 
@@ -18,8 +19,6 @@ async function schedule_visit(data) {
 async function visit_confirmed(data) {
     const taskService = TaskService.getTaskService();
 
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
-
     let visitDetails = data.useCaseSpecifics.visit;
     let visit = {
         uid: visitDetails.uid,
@@ -33,9 +32,20 @@ async function visit_confirmed(data) {
         showTask: "",
         details: {
             name: visitDetails.name,
+            toRemember: visitDetails.toRemember,
+            details: visitDetails.details,
             procedures: visitDetails.procedures,
         }
     }
+
+    if(visitDetails.uuid) {
+        visit.uid = visitDetails.uuid;
+    }
+
+    if(data.shortDescription === Constants.MESSAGES.HCO.COMMUNICATION.TYPE.UPDATE_VISIT){
+        await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_DETAILS_UPDATED);
+
+    } else await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
 
     taskService.getTasks((err,tasks) => {
         if(err) {
@@ -47,7 +57,6 @@ async function visit_confirmed(data) {
                 if (err) {
                     return console.error(err);
                 }
-                console.log('tasks', tasks)
             });
         }
         tasks.item[index] = JSON.parse(JSON.stringify(visit));

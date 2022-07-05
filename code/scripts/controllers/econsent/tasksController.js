@@ -60,7 +60,6 @@ export default class eDiaryController extends WebcController {
                         }
                         break;
                     case "daily":
-                        console.log('tasksItemList[i].', tasksItemList[i])
                         tasksItemList[i].showTask = true;
                         break;
                 }
@@ -70,7 +69,6 @@ export default class eDiaryController extends WebcController {
             }
 
             this.model.tasks = JSON.parse(JSON.stringify(tasksItemList));
-
         }
     }
 
