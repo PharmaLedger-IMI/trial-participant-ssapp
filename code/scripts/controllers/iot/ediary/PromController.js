@@ -1,9 +1,11 @@
 const CommunicationService = require("common-services").CommunicationService;
 const commonServices = require('common-services');
 const {QuestionnaireService, ResponsesService} = commonServices;
-const {getDidServiceInstance} = commonServices.DidService;
+import {getTPService}  from "../../../services/TPService.js"
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
+
+
 const getInitModel = () => {
     return {
         progress:0,
@@ -29,10 +31,13 @@ export default class PromController extends WebcIonicController {
         this.ResponsesService = new ResponsesService();
         this.QuestionnaireService = new QuestionnaireService();
 
-        this.didService = getDidServiceInstance();
-        this.didService.getDID().then(did => {
-            this.model.patientDID = did;
-        });
+        this.TPService = getTPService();
+        this.TPService.getTp((err, tp) => {
+            if (err) {
+                return console.log(err);
+            }
+            this.model.patientDID = tp.did;
+        })
 
         this.updateProm();
         this._attachHandlers();
