@@ -72,6 +72,11 @@ export default class ViewStudyDetailsController extends WebcController {
             this.navigateToPageTag('iot-health-studies');
         });
 
+
+        this.onTagClick('navigation:back-to-completed-studies', () => {
+            this.navigateToPageTag('completed-studies');
+        });
+
         this.onTagClick('reject', (model) => {
             console.log("create the dynamic permission in the same object of DP")
             this.navigateToPageTag('pending-invitations');
