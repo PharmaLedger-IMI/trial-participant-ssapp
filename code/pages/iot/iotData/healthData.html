@@ -13,49 +13,31 @@
                 <div class="form-row font-weight-bold">
                     <div class="form-row">
                         <div class="form-group">
-                            <header>
-                                <div class="row-wrapper grid-equal">
-                                    <label> Health Data</label>
+                            <div class="container" data-if="@hasValue">
+                                <div class="alert alert-warning" role="alert" slot="false">
+                                    <p class="alert-heading">Sorry! No data is available to view.</p>
                                 </div>
-                            </header>
-                            
-                            <main>
-                                <div data-if="@hasValue" >
-                                    <div class="alert alert-warning" role="alert" slot="false">
-                                        <p class="alert-heading">Sorry! No data is available to view.</p>
+                    
+                                <header slot="true">
+                                    <div class="row-wrapper grid-equal">
+                                        <label>Measurement Date</label>
+                                        <label>Time</label>
+                                        <label>Data Type</label>
+                                        <label>Value</label>
+                                        <label>Unit</label>
                                     </div>
-
-                                    <div slot="true">
-
-                                        <div class="row-wrapper grid-equal">
-                                            <div class="row-wrapper grid-equal">
-                                                <label class="col-form-label">Date</label>
-                                                <label class="col-form-label">Time</label>
-                                                <label class="col-form-label">Data Type</label>
-                                                <label class="col-form-label">Value</label>
-                                                <label class="col-form-label">Unit</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="row-wrapper grid-equal">
-                                            <div class="row-wrapper grid-equal"  data-for="@healthData" >
-                                                <label class="col-form-label">{{@date}}</label>
-                                                <label class="col-form-label">{{@time}}</label>
-                                                <label class="col-form-label">{{@title}}</label>
-                                                <label class="col-form-label">{{@value}}</label>
-                                                <label class="col-form-label">{{@unit}}</label>
-                                                <br>
-                                            </div>
-                                        </div>
-
+                                </header>
+                    
+                                <main data-for="@healthData" slot="true">
+                                    <div class="row-wrapper grid-equal">
+                                        <label>{{@date}} </label>
+                                        <label>{{@time}} </label>
+                                        <label>{{@title}}</label>
+                                        <label>{{@value}}</label>
+                                        <label>{{@unit}}</label>
                                     </div>
-
-
-
-                                </div>
-                                
-                                
-                            </main>
+                                </main>
+                            </div>
                             
                             <br>
                             <br>
