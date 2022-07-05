@@ -15,7 +15,7 @@ export default class SelectHealthDataController extends WebcController {
         // });
 
         this.healthDataService = new HealthDataService();
-        this.model.header = "Select IoT Health Data";
+        //this.model.header = "Select IoT Health Data";
         this.model = this.getSelectHealthDataViewModel();
         this.onTagClick("view-iot-data",()=>{
             this.healthDataService.getAllObservations((err, data)=>{
@@ -24,11 +24,12 @@ export default class SelectHealthDataController extends WebcController {
                 }
                 var pageValue = [];
                 console.log(data);
-                if(data.length){
+                if(data.length>0){
                     let countData = data.length - 1;
                     var result = data[countData];
                     var selected = this.model.selectObservation.value;
                     console.log(selected)
+                    console.log(this.model.selectObservation.value);
                     let tempVal =  result.filter(o => o.code.text.includes(selected));
                     // console.log("This is the Temp Value");
                     // console.log(tempVal);
@@ -58,7 +59,7 @@ export default class SelectHealthDataController extends WebcController {
     getSelectHealthDataViewModel() {
         return {
             selectObservation: {
-                label: "Select Health Data",
+                label: "Select type of health data",
                 required: true,
                 options: [
                     {

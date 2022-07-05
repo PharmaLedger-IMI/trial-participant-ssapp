@@ -9,12 +9,22 @@ export default class HealthDataController extends WebcController {
         super(...props);
         // this.initServices();
         const prevState = this.getState() || {};
+        console.log(prevState)
         var data =  prevState[0];
         console.log("Health Controller");
         console.log(data);
        this.model.healthData = [];
-        this.model.hasValue = data.hasValue;
-        if(data){
+
+       if (prevState[1]) {
+           this.model.hasValue = true;
+       }
+       else {
+           this.model.hasValue = false;
+       }
+
+        //this.model.hasValue = prevState[1].hasValue;
+        console.log(this.model.hasValue);
+        if(data.length>0){
             for(let i=0; i<data.length; i++){
                 let data1 = data[i];
                 let fullDateTime1 = data1.effectiveDateTime;
