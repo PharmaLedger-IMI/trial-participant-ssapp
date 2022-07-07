@@ -227,6 +227,9 @@ export default class TaskCalendarController extends WebcController {
                         let date = new Date(response);
                         model.rescheduled = true;
                         model.proposedDate = date.getTime();
+                        if(model.confirmedDate) {
+                            delete model.confirmedDate;
+                        }
                         this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
                         await this._initVisits();
