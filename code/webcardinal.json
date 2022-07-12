@@ -140,12 +140,6 @@
             "tag": "view-evidence"
         },
         {
-            "name": "Devices",
-            "path": "/iot-devices",
-            "src": "iot/devices.html",
-            "tag": "iot-devices"
-        },
-        {
             "name": "Health Studies",
             "path": "/iot-health-studies",
             "src": "iot/health-studies.html",
@@ -186,12 +180,6 @@
             "path": "/user-permission",
             "src": "iot/user-permission.html",
             "tag": "user-permission"
-        },
-        {
-            "name": "E-Diary",
-            "path": "/iot-ediary",
-            "src": "iot/ediary/ediary.html",
-            "tag": "iot-ediary"
         },
         {
             "name": "eDiary Service Experience",
