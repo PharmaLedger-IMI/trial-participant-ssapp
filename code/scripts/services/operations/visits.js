@@ -7,12 +7,12 @@ const BaseRepository = commonServices.BaseRepository;
 const CONSTANTS = commonServices.Constants;
 
 async function update_visit(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_UPDATE);
+    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.VISIT_UPDATE);
     await _updateVisit(data.useCaseSpecifics.visit);
 }
 
 async function schedule_visit(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_VISIT);
+    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_VISIT);
     return data;
 }
 
@@ -43,9 +43,9 @@ async function visit_confirmed(data) {
     }
 
     if(data.shortDescription === Constants.MESSAGES.HCO.COMMUNICATION.TYPE.UPDATE_VISIT){
-        await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_DETAILS_UPDATED);
+        await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.VISIT_DETAILS_UPDATED);
 
-    } else await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
+    } else await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.VISIT_CONFIRMED);
 
     taskService.getTasks((err,tasks) => {
         if(err) {

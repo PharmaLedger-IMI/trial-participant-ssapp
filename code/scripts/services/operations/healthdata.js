@@ -5,7 +5,7 @@ const HealthDataService = commonServices.HealthDataService;
 const healthDataService = new HealthDataService();
 
 export async function new_healthdata(data) {
-    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.NEW_HEALTHDATA);
+    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_HEALTHDATA);
     healthDataService.mountObservation(data.sReadSSI, (err, healthData) => {
         if (err) {
             console.log(err);

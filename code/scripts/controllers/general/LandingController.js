@@ -1,8 +1,6 @@
 import TrialService from "../../services/TrialService.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 import ProfileService from '../../services/ProfileService.js';
-import FeedbackService from "../../services/FeedbackService.js";
-import EvidenceService from "../../services/EvidenceService.js";
 import {getTPService} from "../../services/TPService.js";
 import {getOperationsHookRegistry} from '../../services/operations/operationsHookRegistry.js';
 import handlerOperations from "../../services/MessageHandlerStrategy.js";
@@ -31,8 +29,6 @@ export default class LandingController extends WebcController {
             this.addHandlers();
         });
 
-        this.FeedbackService = new FeedbackService();
-        this.EvidenceService = new EvidenceService();
         this.healthDataService = new HealthDataService();
         this.OperationsHookRegistry = getOperationsHookRegistry();
         this.notificationService = getNotificationService();
@@ -103,11 +99,6 @@ export default class LandingController extends WebcController {
         this.onTagEvent("navigate:health-studies", "click", () => {
             if (!this.model.notAssigned) {
                 this.navigateToPageTag('iot-health-studies');
-            }
-        });
-        this.onTagEvent("navigate:iot-feedback", "click", () => {
-            if (!this.model.notAssigned) {
-                this.navigateToPageTag('iot-feedback');
             }
         });
     }

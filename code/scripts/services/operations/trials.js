@@ -14,23 +14,23 @@ function update_status(data){
     TPService.getTp( (err, tpDsu)=>{
         tpDsu.tp.status = data.status;
         TPService.updateTp(tpDsu,async ()=>{
-            await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.UPDATE_STATUS);
+            await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.UPDATE_STATUS);
         });
     });
 }
 
 async function update_tpNumber(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TPNUMBER);
+    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_TPNUMBER);
     return data;
 }
 
 async function send_hco_dsu_to_patient(originalMessage) {
-    const trialData = await _handleAddToTrial(originalMessage, CONSTANTS.NOTIFICATIONS_TYPE.NEW_TRIAL);
+    const trialData = await _handleAddToTrial(originalMessage, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_TRIAL);
     return { trialData, originalMessage};
 }
 
 async function send_refresh_consents(data) {
-    await saveNotification(data, CONSTANTS.NOTIFICATIONS_TYPE.NEW_CONSENTS);
+    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_CONSENTS);
     const trialConsentData = await _mountICFAndSaveConsentStatuses(data);
     return trialConsentData;
 }

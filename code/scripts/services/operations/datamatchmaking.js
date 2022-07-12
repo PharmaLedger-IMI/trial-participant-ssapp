@@ -8,7 +8,7 @@ const studiesService = new StudiesService();
 
 export async function datamatchmaking(data) {
 
-    await saveNotification(data, Constants.NOTIFICATIONS_TYPE.NEW_INVITATION);
+    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_INVITATION);
 
     const mountStudy = () => {
         return new Promise ((resolve, reject) => {
