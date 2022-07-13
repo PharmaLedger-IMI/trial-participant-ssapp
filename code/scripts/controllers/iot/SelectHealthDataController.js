@@ -11,21 +11,27 @@ export default class SelectHealthDataController extends WebcController {
         this.healthDataService = new HealthDataService();
         this.model = this.getSelectHealthDataViewModel();
         this.onTagClick("view-iot-data",()=>{
-            this.healthDataService.getAllObservations((err, data)=>{
+            this.healthDataService.getAllObservations((err, observationsDSUs)=>{
                 if(err){
                     console.log(err);
                 }
 
-                data = [].concat(...data);
+                let patientObservations = [];
+                observationsDSUs.forEach(observationDSU=>{
+                    patientObservations = patientObservations.concat(...observationDSU.observations);
+                })
 
                 console.log("*************** View IoT Data ***************")
-                console.log(data);
+                console.log(patientObservations);
 
 
                 let selectedObservation = this.model.selectObservation.value;
-                let desiredHealthData = data.filter(observation=>{
-                    return observation.code.text === selectedObservation
-                })
+                let desiredHealthData = patientObservations;
+                if(selectedObservation){
+                    desiredHealthData = desiredHealthData.filter(observation=>{
+                        return observation.code.text === selectedObservation
+                    })
+                }
 
                 console.log(desiredHealthData);
                 this.navigateToPageTag('iot-helath-data', desiredHealthData);
@@ -47,6 +53,10 @@ export default class SelectHealthDataController extends WebcController {
                 label: "Select type of health data",
                 required: true,
                 options: [
+                    {
+                        label: "All data types",
+                        value: ""
+                    },
                     {
                         label: "Systolic Blood Pressure",
                         value: 'Systolic Blood Pressure'
