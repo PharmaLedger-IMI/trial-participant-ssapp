@@ -4,7 +4,10 @@ import TrialService from "./../TrialService.js";
 import TrialConsentService from "./../TrialConsentService.js";
 
 const commonServices = require('common-services');
+const JWTService = commonServices.JWTService;
 const CONSTANTS = commonServices.Constants;
+
+const JWTServiceInstance = new JWTService();
 const TPService = getTPService();
 const trialService = new TrialService();
 const trialConsentService = new TrialConsentService();
@@ -36,19 +39,22 @@ async function send_refresh_consents(data) {
 }
 
 async function _saveTrialParticipantInfo(hcoIdentity, data) {
+    const {verifyCredentialStatus} = await JWTServiceInstance.verifyCredential(data.tp.anonymousDIDVc);
+    const anonymizedDID = verifyCredentialStatus.vc.credentialSubject.anonymizedDID;
+
     let trialParticipant = {
-        did: data.tp.did,
+        did: anonymizedDID,
         site: data.site,
         tp: {
             status:data.tp.status,
             subjectName: data.tp.subjectName,
             gender: data.tp.gender,
             birthdate: data.tp.birthdate,
-            did: data.tp.did
+            did: anonymizedDID
         },
         hcoIdentity: hcoIdentity,
         sponsorIdentity: data.sponsorIdentity
-    }
+    };
 
     return await TPService.createTpAsync(trialParticipant);
 }
