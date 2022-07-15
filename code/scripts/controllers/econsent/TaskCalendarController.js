@@ -1,4 +1,4 @@
-import TaskService from "../../services/TaskService.js";
+// import TaskService from "../../services/TaskService.js";
 
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
@@ -36,15 +36,15 @@ export default class TaskCalendarController extends WebcController {
         this._initVisits();
 
         this._attachHandlerShowTasks();
-        this.QuestionnaireService = new QuestionnaireService();
-        this.QuestionnaireService.getAllQuestionnaires((err, data) => {
-            if (err) {
-                return reject(err);
-            }
-            console.log(data[0]);
-        })
+        // this.QuestionnaireService = new QuestionnaireService();
+        // this.QuestionnaireService.getAllQuestionnaires((err, data) => {
+        //     if (err) {
+        //         return reject(err);
+        //     }
+        //     console.log(data[0]);
+        // })
 
-        this.taskService = TaskService.getTaskService();
+        // this.taskService = TaskService.getTaskService();
 
     }
 
