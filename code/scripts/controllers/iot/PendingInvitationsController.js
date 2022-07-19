@@ -11,7 +11,6 @@ export default class PendingInvitationsController extends WebcController {
         this.studiesService = new StudiesService();
         this.model.invitationsStudiesUIDs = [];
         this.model.invitationsFullStudies = [];
-        this.model.has_invitations = false;
 
         this.dpService.getDPs((err, DPs) => {
             if (err) {
@@ -22,7 +21,7 @@ export default class PendingInvitationsController extends WebcController {
                 if( ("matches" in DP) && (DP.matches.length>0)) {
                     console.log("Found %d matches.", DP.matches.length);
                     DP.matches.forEach(match => {
-                        if (match.dpermission===true) return;
+                        if (match.dpermission===true || match.dpermissionRejectedDate || match.dpermissionStopSharingDate) return;
                         this.model.invitationsStudiesUIDs.push(match.studyUID)
                     })
                     if (this.model.invitationsStudiesUIDs.length>0) {

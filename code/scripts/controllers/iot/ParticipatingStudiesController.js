@@ -11,7 +11,6 @@ export default class ParticipatingStudiesController extends WebcController {
         this.studiesService = new StudiesService();
         this.model.participatingStudiesUIDs = [];
         this.model.participatingFullStudies = [];
-        this.model.has_participating_studies = false;
         this.model.startSharingDate = ""
 
         const getParticipatingStudies = () => {
@@ -32,7 +31,6 @@ export default class ParticipatingStudiesController extends WebcController {
                     console.log("Found %d matches.", DP.matches.length);
                     DP.matches.forEach(match => {
                         if (match.dpermission===true) {
-                            this.model.has_participating_studies = true;
                             this.model.participatingStudiesUIDs.push(match.studyUID);
                         };
                     })
@@ -43,7 +41,8 @@ export default class ParticipatingStudiesController extends WebcController {
                         }
                         this.model.participatingStudiesUIDs.forEach( studyUID => {
                             studies.forEach(mountedStudy => {
-                                if (mountedStudy.uid===studyUID){
+                                if (mountedStudy.uid===studyUID && mountedStudy.status!=="completed"){
+                                    this.model.has_participating_studies = true;
                                     this.model.participatingFullStudies.push(mountedStudy);
                                 }
                             })
