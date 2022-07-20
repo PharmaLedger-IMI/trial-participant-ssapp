@@ -194,6 +194,10 @@
     margin-left: 5%;
 }
 
+.long-button[disabled]{
+    opacity: 0.5;
+}
+
 .long-button consent {
     border-top: none !important;
 }

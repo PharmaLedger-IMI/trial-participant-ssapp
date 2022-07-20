@@ -91,3 +91,6 @@
     width: 90%;
     margin-left: 5%;
 }
+.long-button[disabled]{
+    opacity: 0.5;
+}
