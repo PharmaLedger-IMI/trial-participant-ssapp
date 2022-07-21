@@ -8,7 +8,8 @@ export default class EvidencesListController extends WebcController {
     constructor(...props) {
         super(...props);
         this.initServices();
-
+        const prevState = this.getState() || {};
+        this.model.studyID = prevState.studyID;
         this._attachHandlerBack();
     }
 
@@ -27,7 +28,7 @@ export default class EvidencesListController extends WebcController {
         }
 
         getEvidences().then(data => {
-            let evidences = data;
+            let evidences = data.filter(data => data.studyID === this.model.studyID);
             this.model.hasEvidences = evidences.length !== 0;
             this.model.evidencesDataSource = DataSourceFactory.createDataSource(8, 5, evidences);
             this.onTagClick("view-evidence", (model) => {

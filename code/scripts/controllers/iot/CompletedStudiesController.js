@@ -60,10 +60,16 @@ export default class CompletedStudiesController extends WebcController {
                         this.model.has_participatingCompletedStudies = this.model.participatingCompletedFullStudies.length !== 0;
                         this.model.participatingCompletedFullStudiesDataSource = DataSourceFactory.createDataSource(8, 3, this.model.participatingCompletedFullStudies);
                         this.onTagClick("view:evidence", (model) => {
-                            this.navigateToPageTag('evidences-list')
+                            let state = {
+                                studyID: model.uid
+                            }
+                            this.navigateToPageTag('evidences-list', state)
                         });
                         this.onTagClick("view:feedback", (model) => {
-                            this.navigateToPageTag('iot-feedback');
+                            let state = {
+                                studyID: model.uid
+                            }
+                            this.navigateToPageTag('iot-feedback', state);
                         });
                         this.onTagClick("view:study", (model) => {
                             let studyState = {

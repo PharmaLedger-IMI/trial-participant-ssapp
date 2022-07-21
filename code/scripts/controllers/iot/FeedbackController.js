@@ -10,7 +10,8 @@ export default class FeedbackController extends WebcController {
     constructor(...props) {
         super(...props);
         this.initServices();
-
+        const prevState = this.getState() || {};
+        this.model.studyID = prevState.studyID;
         this._attachHandlerBack();
     }
 
@@ -29,7 +30,7 @@ export default class FeedbackController extends WebcController {
         }
 
         getFeedback().then(data => {
-            let feedback = data;
+            let feedback = data.filter(data => data.studyID === this.model.studyID);
             this.model.hasFeedback = feedback.length !== 0;
             this.model.feedbackDataSource = DataSourceFactory.createDataSource(3, 5, feedback);
             const { feedbackDataSource } = this.model;

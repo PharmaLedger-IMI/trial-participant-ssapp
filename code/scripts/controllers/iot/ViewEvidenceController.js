@@ -25,7 +25,7 @@ export default class ViewEvidenceController extends WebcController {
 
     _attachHandlerBackMenu() {
         this.onTagClick('navigation:go-back', (event) => {
-            this.navigateToPageTag('evidences-list');
+            this.navigateToPageTag('evidences-list', {studyID: this.model.study_id});
         });
     }
 

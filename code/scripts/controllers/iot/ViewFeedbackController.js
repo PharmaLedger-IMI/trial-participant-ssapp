@@ -10,6 +10,7 @@ export default class ViewFeedbackController extends WebcController {
         this.model.feedback_uid = prevState.feedbackID;
         this.model.feedback_id = prevState.studyID;
         this.model.studyTitle = prevState.studyTitle;
+        this.model.studyID = prevState.studyID;
         this.model.header = "View Feedback";
 
         this.FeedbackService= new FeedbackService();
@@ -26,7 +27,7 @@ export default class ViewFeedbackController extends WebcController {
 
     _attachHandlerGoBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('iot-feedback');
+            this.navigateToPageTag('iot-feedback', {studyID: this.model.studyID});
         });
     }
 
