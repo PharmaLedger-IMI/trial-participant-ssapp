@@ -122,6 +122,12 @@
             "tag": "view-feedback"
         },
         {
+            "name": "IoT View Permission",
+            "path": "/iot-view-permission",
+            "src": "iot/view-permission.html",
+            "tag": "view-permission"
+        },
+        {
             "name": "Completed Studies",
             "path": "iot/completed-studies",
             "src": "iot/completed-studies.html",

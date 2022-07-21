@@ -1,0 +1,50 @@
+<link href="./assets/css/pages/trial.css" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
+<webc-container controller="iot/ViewPermissionController">
+    <div data-if="@has" class="container-child">
+        <div slot="false">
+            <webc-spinner></webc-spinner>
+        </div>
+        <div slot="true">
+            <div class="header-title">
+                <button class="navigate-back" data-tag="navigation:go-back">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+                <h3>Permissions</h3>
+            </div>
+
+            <div class="container justify-content-start">
+
+                <div data-if="@has_permissions">
+
+                    <webc-spinner slot="loading"></webc-spinner>
+                    <div slot="false" class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">There are no permission yet!</h4>
+                    </div>
+                    <div class="common-datatable permissions-datatable dt-5-col" slot="true">
+                        <webc-datatable datasource="@permissionsDataSource">
+                            <div slot="header">Study title</div>
+                            <div slot="header">Data type</div>
+                            <div slot="header">Status</div>
+                            <div slot="header">Date</div>
+                            <div slot="header">Options</div>
+
+                            <div class="cell">{{ @studyTitle }}</div>
+                            <div class="cell">{{ @dataType }}</div>
+                            <div class="cell">{{ @status }}</div>
+                            <div class="cell">
+                                <span class="badge badge-primary"> {{@date}} </span>
+                            </div>
+
+                            <div class="cell">
+                                <button data-tag="revoke" class="link-button" disabled="@disabled">Revoke</button>
+                            </div>
+                        </webc-datatable>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+</webc-container>
