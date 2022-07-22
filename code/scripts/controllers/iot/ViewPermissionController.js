@@ -9,8 +9,7 @@ export default class ViewPermissionController extends WebcController {
         super(...props);
 
         const prevState = this.getState() || {};
-        this.model.studyID = prevState.studyID;
-        this.model.has = true;
+
         this.dpService = DPService.getDPService();
         this.studiesService = new StudiesService();
         this._attachHandlerGoBack();
@@ -122,7 +121,7 @@ export default class ViewPermissionController extends WebcController {
 
     _attachHandlerGoBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('completed-studies');
+            this.navigateToPageTag('iot-health-studies');
         });
     }
 

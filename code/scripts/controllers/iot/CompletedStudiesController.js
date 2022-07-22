@@ -78,12 +78,6 @@ export default class CompletedStudiesController extends WebcController {
                             }
                             this.navigateToPageTag('view-study-details', studyState)
                         });
-                        this.onTagClick("view:permissions", (model) => {
-                            let state = {
-                                studyID: model.uid
-                            }
-                            this.navigateToPageTag('view-permission', state)
-                        });
                     });
                 }
             }

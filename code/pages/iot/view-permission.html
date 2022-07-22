@@ -1,10 +1,8 @@
 <link href="./assets/css/pages/trial.css" rel="stylesheet" xmlns="http://www.w3.org/1999/html">
 <webc-container controller="iot/ViewPermissionController">
-    <div data-if="@has" class="container-child">
-        <div slot="false">
-            <webc-spinner></webc-spinner>
-        </div>
-        <div slot="true">
+    <div class="container-child">
+
+        <div>
             <div class="header-title">
                 <button class="navigate-back" data-tag="navigation:go-back">
                     <i class="fa fa-angle-left"></i>
@@ -12,13 +10,19 @@
                 <h3>Permissions</h3>
             </div>
 
+            <header>
+                <div class=" p-5 text-center logo-container">
+                    <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
+                </div>
+            </header>
+
             <div class="container justify-content-start">
 
                 <div data-if="@has_permissions">
 
                     <webc-spinner slot="loading"></webc-spinner>
                     <div slot="false" class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">There are no permission yet!</h4>
+                        <h4 class="alert-heading">There are no permissions yet!</h4>
                     </div>
                     <div class="common-datatable permissions-datatable dt-5-col" slot="true">
                         <webc-datatable datasource="@permissionsDataSource">

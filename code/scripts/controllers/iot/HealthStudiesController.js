@@ -20,6 +20,10 @@ export default class HealthStudiesController extends WebcController {
         this.onTagClick("completed-studies",()=>{
             this.navigateToPageTag("completed-studies");
         });
+
+        this.onTagClick("permissions",()=>{
+            this.navigateToPageTag("view-permission");
+        });
     }
 
     _attachHandlerBack() {
