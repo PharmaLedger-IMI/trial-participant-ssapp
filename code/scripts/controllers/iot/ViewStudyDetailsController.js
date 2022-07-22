@@ -11,6 +11,7 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = prevState;
 
         this.onTagClick('confirm', (model) => {
+            window.WebCardinal.loader.hidden = false;
             this.CommunicationService = getCommunicationServiceInstance();
             this.dpservice = DPService.getDPService();
             this.dpservice.getDPs((err, DPs) => {
@@ -36,10 +37,13 @@ export default class ViewStudyDetailsController extends WebcController {
                     })
                 })
             });
-            this.navigateToPageTag('home')
+            window.WebCardinal.loader.hidden = true;
+            this.navigateToPageTag('iot-health-studies')
         });
 
         this.onTagClick('stop-sharing', (model) => {
+            window.WebCardinal.loader.hidden = false;
+
             this.CommunicationService = getCommunicationServiceInstance();
             this.dpservice = DPService.getDPService();
             this.dpservice.getDPs((err, DPs) => {
@@ -65,7 +69,8 @@ export default class ViewStudyDetailsController extends WebcController {
                     })
                 })
             });
-            this.navigateToPageTag('home')
+            window.WebCardinal.loader.hidden = true;
+            this.navigateToPageTag('iot-health-studies');
         });
 
         this.onTagClick('navigation:go-back', () => {
@@ -78,6 +83,7 @@ export default class ViewStudyDetailsController extends WebcController {
         });
 
         this.onTagClick('reject', (model) => {
+            window.WebCardinal.loader.hidden = false;
             this.CommunicationService = getCommunicationServiceInstance();
             this.dpservice = DPService.getDPService();
             this.dpservice.getDPs((err, DPs) => {
@@ -103,6 +109,7 @@ export default class ViewStudyDetailsController extends WebcController {
                     });
                 });
             });
+            window.WebCardinal.loader.hidden = true;
             this.navigateToPageTag('iot-health-studies');
         });
     }
