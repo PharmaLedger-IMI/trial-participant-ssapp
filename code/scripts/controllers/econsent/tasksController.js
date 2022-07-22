@@ -1,6 +1,6 @@
 const commonServices = require('common-services');
 const {WebcController} = WebCardinal.controllers;
-// import TaskService from "../../services/TaskService.js";
+ import TaskService from "../../services/TaskService.js";
 // import {getTestTaskModel} from "../../models/TaskModel.js"
 const {QuestionnaireService} = commonServices;
 
@@ -12,7 +12,7 @@ export default class eDiaryController extends WebcController {
         this._attachHandlerBack();
         this._attachHandlerPREMAndPROM();
         this._attachHandlerVisitDetails();
-        // this.taskService = TaskService.getTaskService();
+        this.taskService = TaskService.getTaskService();
 
         this.QuestionnaireService = new QuestionnaireService();
         this.model = this.getDefaultModel();
@@ -30,56 +30,56 @@ export default class eDiaryController extends WebcController {
     }
 
     initTaskList(){
-        // this.taskService.getTasks((err, tasksList) => {
-        //     if(err){
-        //         return console.error(err);
-        //     }
-        //     this.renderTasks(tasksList.item);
-        // });
+        this.taskService.getTasks((err, tasksList) => {
+            if(err){
+                return console.error(err);
+            }
+            this.renderTasks(tasksList.item);
+        });
         this.initQuestionsList();
     }
 
-    // renderTasks(tasks){
-    //     this.model.tasks = tasks;
-    //     this.model.tasksLoaded = true;
-    //     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    //     for(let i = 0; i < this.model.tasks.length; i++){
-    //
-    //         const tasksItemList = this.model.toObject("tasks");
-    //         const {day, month, year} = this.model;
-    //
-    //         const startDate = new Date(tasksItemList[i].schedule.startDate);
-    //         startDate.setHours(0,0,0,0);
-    //         const endDate = new Date(tasksItemList[i].schedule.endDate);
-    //         endDate.setHours(0,0,0,0);
-    //         const clickedDate = new Date(`${year} ${months.indexOf(month)+1} ${day}`);
-    //         clickedDate.setHours(0,0,0,0);
-    //         const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
-    //
-    //         if((clickedDate.getTime() >= startDate.getTime()) && (clickedDate.getTime() <= endDate.getTime())){
-    //             switch (repeatAppointment) {
-    //                 case "weekly":
-    //                     if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
-    //                         tasksItemList[i].showTask = true;
-    //                     }
-    //                     break;0
-    //                 case "monthly":
-    //                     if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
-    //                         tasksItemList[i].showTask = true;
-    //                     }
-    //                     break;
-    //                 case "daily":
-    //                     tasksItemList[i].showTask = true;
-    //                     break;
-    //             }
-    //
-    //         } else {
-    //             tasksItemList[i].showTask = false;
-    //         }
-    //
-    //         this.model.tasks = JSON.parse(JSON.stringify(tasksItemList));
-    //     }
-    // }
+    renderTasks(tasks){
+        this.model.tasks = tasks;
+        this.model.tasksLoaded = true;
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        for(let i = 0; i < this.model.tasks.length; i++){
+
+            const tasksItemList = this.model.toObject("tasks");
+            const {day, month, year} = this.model;
+
+            const startDate = new Date(tasksItemList[i].schedule.startDate);
+            startDate.setHours(0,0,0,0);
+            const endDate = new Date(tasksItemList[i].schedule.endDate);
+            endDate.setHours(0,0,0,0);
+            const clickedDate = new Date(`${year} ${months.indexOf(month)+1} ${day}`);
+            clickedDate.setHours(0,0,0,0);
+            const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
+
+            if((clickedDate.getTime() >= startDate.getTime()) && (clickedDate.getTime() <= endDate.getTime())){
+                switch (repeatAppointment) {
+                    case "weekly":
+                        if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
+                            tasksItemList[i].showTask = true;
+                        }
+                        break;0
+                    case "monthly":
+                        if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
+                            tasksItemList[i].showTask = true;
+                        }
+                        break;
+                    case "daily":
+                        tasksItemList[i].showTask = true;
+                        break;
+                }
+
+            } else {
+                tasksItemList[i].showTask = false;
+            }
+
+            this.model.tasks = JSON.parse(JSON.stringify(tasksItemList));
+        }
+    }
 
     initQuestionsList(){
         this.QuestionnaireService.getAllQuestionnaires((err, data) => {

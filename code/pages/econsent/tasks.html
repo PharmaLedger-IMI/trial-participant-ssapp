@@ -36,24 +36,24 @@
             Pending Questionnaires
         </div>
 
-<!--        <div data-if="@tasksLoaded">-->
-<!--            <webc-spinner slot="loading"></webc-spinner>-->
-<!--            <div data-for="@tasks" slot="true">-->
-<!--                <div data-if="@showTask">-->
-<!--                    <div class="button-group-wrapper">-->
-<!--                        <button class="general-button" data-tag="@tag" type="button">-->
-<!--                            {{@task}}-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                    <br>-->
-<!--                </div>-->
-<!--                <div slot="no-data">-->
-<!--                    <p>-->
-<!--                        No tasks or appointments for today.-->
-<!--                    </p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div data-if="@tasksLoaded">
+            <webc-spinner slot="loading"></webc-spinner>
+            <div data-for="@tasks" slot="true">
+                <div data-if="@showTask">
+                    <div class="button-group-wrapper">
+                        <button class="general-button" data-tag="@tag" type="button">
+                            {{@task}}
+                        </button>
+                    </div>
+                    <br>
+                </div>
+                <div slot="no-data">
+                    <p>
+                        No tasks or appointments for today.
+                    </p>
+                </div>
+            </div>
+        </div>
 
         <div data-if="@showProms" slot="true">
                     <div class="button-group-wrapper">
