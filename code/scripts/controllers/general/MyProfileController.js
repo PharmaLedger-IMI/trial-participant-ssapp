@@ -101,6 +101,7 @@ export default class MyProfileController extends WebcIonicController {
 
     addTagsListeners() {
         this.onTagClick('profile:save', () => {
+            window.WebCardinal.loader.hidden = false;
             let dp = this.model.dp;
             let dpData = {
                 contactMe: dp.contactMe.value,
@@ -141,6 +142,8 @@ export default class MyProfileController extends WebcIonicController {
             }
 
             let dpCreatedOrUpdatedHandler = (err, profile) => {
+                window.WebCardinal.loader.hidden = true;
+
                 if (err) {
                     return console.log(err);
                 }
