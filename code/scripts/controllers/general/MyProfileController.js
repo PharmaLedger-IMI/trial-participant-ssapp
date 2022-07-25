@@ -81,19 +81,14 @@ export default class MyProfileController extends WebcIonicController {
         switch (true) {
             case (age >= 10) && (age <= 30):
                 return ageGroups[0];
-                break;
             case age > 30 && age <= 40:
                 return ageGroups[1];
-                break;
             case age > 40 && age <= 50:
                 return ageGroups[2];
-                break;
             case age > 50 && age <= 60:
                 return ageGroups[3];
-                break;
             case age > 60:
                 return ageGroups[4];
-                break;
             default:
                 break;
         }
@@ -141,7 +136,7 @@ export default class MyProfileController extends WebcIonicController {
                 }
             }
 
-            let dpCreatedOrUpdatedHandler = (err, profile) => {
+            let dpCreatedOrUpdatedHandler = (err) => {
                 window.WebCardinal.loader.hidden = true;
 
                 if (err) {
