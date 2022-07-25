@@ -8,12 +8,17 @@
         <label>Reschedule Date</label>
         <input type="datetime-local" class="form-control" id="procedure-date" data-view-model="@desiredDate">
 
+        <div data-if="@haveSuggestedInterval" class="invalid-feedback">
+            <p>
+                {{@datesInformation}}
+            </p>
+        </div>
     </div>
 
 </div>
 
 <div class="bottom">
-    <button class="tp-button wide-button inverted-colors" slot="footer" data-tag="tp:submit">Done</button>
+    <button class="tp-button wide-button inverted-colors" slot="footer" data-tag="tp:submit" disabled="@isBtnDisabled">Done</button>
     <button class="tp-button wide-button inverted-colors" slot="footer" data-close>Cancel</button>
 </div>
 

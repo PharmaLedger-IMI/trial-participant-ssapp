@@ -245,6 +245,7 @@ export default class TaskCalendarController extends WebcController {
                     disableBackdropClosing: true,
                     question: 'Are you sure you want to reschedule this visit?',
                     title: 'Reschedule visit',
+                    suggestedInterval: model.suggestedInterval,
                 }
             );
         });
