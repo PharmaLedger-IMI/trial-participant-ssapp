@@ -137,7 +137,6 @@ export default class MyProfileController extends WebcIonicController {
             }
 
             let dpCreatedOrUpdatedHandler = (err) => {
-                window.WebCardinal.loader.hidden = true;
 
                 if (err) {
                     return console.log(err);
@@ -145,9 +144,11 @@ export default class MyProfileController extends WebcIonicController {
 
                 if (this.profilePictureChanged) {
                     this.profileService.saveProfilePicture(this.model.profilePicture, () => {
+                        window.WebCardinal.loader.hidden = true;
                         this.navigateToPageTag("home");
                     })
                 } else {
+                    window.WebCardinal.loader.hidden = true;
                     this.navigateToPageTag("home");
                 }
             }
@@ -159,7 +160,6 @@ export default class MyProfileController extends WebcIonicController {
                     if (err) {
                         return console.error(err);
                     }
-                    console.log('profile', profile);
 
                     await communicationService.sendMessageToIotAdapter({
                         operation: Constants.MESSAGES.PATIENT.CREATE_DP,
