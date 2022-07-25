@@ -133,7 +133,7 @@ export default class ConsentPreviewController extends WebcController {
     initPDF(pdfData) {
         pdfData = atob(pdfData);
         let pdfjsLib = window['pdfjs-dist/build/pdf'];
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'scripts/third-parties/pdf.worker.js';
 
         this.loadingTask = pdfjsLib.getDocument({data: pdfData});
         this.renderPage(this.model.pdf.currentPage);
