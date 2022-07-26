@@ -170,11 +170,25 @@ export default class LandingController extends WebcController {
             });
         });
 
-        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_SCHEDULED, async(err, data) => { //here
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_SCHEDULED, async(err, data) => {
             if(err) {
                 return console.error(err);
             }
             await this._saveVisit(data.useCaseSpecifics.visit);
+        });
+
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_CONFIRMED, async(err, data) => {
+            if(err) {
+                return console.error(err);
+            }
+
+            if (this.model.tp.tp.status !== CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING) {
+                this.TPService.getTp((err, tpDsu) => {
+                    tpDsu.tp.status = CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING;
+                    this.TPService.updateTp(tpDsu, async () => {
+                    });
+                });
+            }
         });
 
         MessageHandlerService.init(handlerOperations(this.OperationsHookRegistry));
