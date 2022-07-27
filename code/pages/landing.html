@@ -5,70 +5,85 @@
             <div class=" p-2 text-center logo-container">
                 <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
             </div>
-            <div class=" landing-profile-picture">
-                <picture>
+            <div class="landing-profile-picture" data-if="@publicDidReady">
+                <picture slot="true">
                     <img src="@profilePicture" class="img-fluid img-thumbnail">
                     <button disabled="@notAssigned" class="edit-btn-wrapper" data-tag="navigate:my-profile">
                     </button>
                     <div class="notifications-btn-container">
-                      <label class="notifications-btn-wrapper" data-tag="navigate:notifications" active-notifications="@hasNotifications">
-                      </label>
-                      <div data-if="@hasNotifications" class="notifications-container">
-                          <label class="notification-badge">
-                              <span class="notifications-number">{{@notificationsNumber}}</span>
-                          </label>
-                      </div>
+                        <label class="notifications-btn-wrapper" data-tag="navigate:notifications"
+                               active-notifications="@hasNotifications">
+                        </label>
+                        <div data-if="@hasNotifications" class="notifications-container">
+                            <label class="notification-badge">
+                                <span class="notifications-number">{{@notificationsNumber}}</span>
+                            </label>
+                        </div>
                     </div>
                 </picture>
+
+                <div slot="false" class="d-flex flex-column align-items-center justify-content-center wallet-initializing-info">
+                    <div class="row">
+                        <div class="spinner-border text-info" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <strong>Wallet is initializing...</strong>
+                    </div>
+                </div>
+
+
             </div>
         </header>
+        <div data-if="@publicDidReady">
+            <share-did class="w-50"></share-did>
+            <div class="main-navigation">
 
-        <share-did class="w-50"></share-did>
-        <div class="main-navigation">
 
-
-            <div data-if="@notAssigned">
-                <div class="alert alert-warning m-2 text-center" role="alert">
-                    <i class="fa-solid fa-house-medical-circle-exclamation"></i>
-                    You are not assigned to any trial yet
+                <div data-if="@notAssigned">
+                    <div class="alert alert-warning m-2 text-center" role="alert">
+                        <i class="fa-solid fa-house-medical-circle-exclamation"></i>
+                        You are not assigned to any trial yet
+                    </div>
                 </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="navigation-btn" data-tag="navigate:task-calendar" disabled="@notAssigned">
+                                <i class="fa fa-calendar"></i>
+                                <span>Tasks Calendar</span>
+                            </button>
+                        </div>
+
+                        <div class="col-6">
+                            <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
+                                <i class="fa fa-calculator"></i>
+                                <span>Device Data</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <button class="navigation-btn" data-tag="navigate:consent-status" disabled="@notAssigned">
+                                <i class="fa fa-th-list"></i>
+                                <span>Consent Status</span>
+                            </button>
+                        </div>
+
+                        <div class="col-6">
+                            <button class="navigation-btn" data-tag="navigate:health-studies" disabled="@notAssigned">
+                                <i class="fa fa-database"></i>
+                                <span>Health Studies</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:task-calendar" disabled="@notAssigned">
-                            <i class="fa fa-calendar"></i>
-                            <span>Tasks Calendar</span>
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
-                            <i class="fa fa-calculator"></i>
-                            <span>Device Data</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:consent-status" disabled="@notAssigned">
-                            <i class="fa fa-th-list"></i>
-                            <span>Consent Status</span>
-                        </button>
-                    </div>
-
-                    <div class="col-6">
-                        <button class="navigation-btn" data-tag="navigate:health-studies" disabled="@notAssigned">
-                            <i class="fa fa-database"></i>
-                            <span>Health Studies</span>
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
     </div>
 </webc-container>

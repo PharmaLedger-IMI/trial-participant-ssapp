@@ -29,6 +29,17 @@ export default class LandingController extends WebcController {
             this.addHandlers();
         });
 
+        this.model.publicDidReady = false;
+        let communicationService = CommunicationService.getCommunicationServiceInstance();
+        communicationService.onPrimaryDidReady((err, didDocument)=>{
+
+            if(err){
+                throw err;
+            }
+            this.model.publicDidReady = true;
+
+        })
+
         this.healthDataService = new HealthDataService();
         this.OperationsHookRegistry = getOperationsHookRegistry();
         this.notificationService = getNotificationService();
