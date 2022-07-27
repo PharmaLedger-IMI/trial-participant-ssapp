@@ -137,30 +137,24 @@ export default class LandingController extends WebcController {
 
     _attachMessageHandlers() {
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT, (err, data) => {
+            window.WebCardinal.loader.hidden = false;
             if (err) {
                 return console.error(err);
             }
             this.model.tp = data.trialData.tp;
             let hcoIdentity = data.trialData.tp.hcoIdentity;
-            if (data.originalMessage.useCaseSpecifics.tp.publicDid) {
-                let communicationService = CommunicationService.getExtraCommunicationService(data.originalMessage.useCaseSpecifics.tp.publicDid);
-                communicationService.listenForMessages(async (err, message) => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    console.log('message received for public did', message);
-                })
-            }
             this._mountHCODSUAndSaveConsentStatuses(data.originalMessage, (err, data) => {
                 if (err) {
                     return console.log(err);
                 }
                 this._sendTrialConsentToHCO(hcoIdentity);
                 this._initTrials();
+                window.WebCardinal.loader.hidden = true;
             });
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT, async (err, data) => {
+            window.WebCardinal.loader.hidden = false;
             if(err) {
                 return console.error(err);
             }
@@ -168,6 +162,7 @@ export default class LandingController extends WebcController {
             this.getNumberOfNotifications();
 
             await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
+            window.WebCardinal.loader.hidden = true;
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER, (err, data) => {
