@@ -184,17 +184,20 @@ export default class LandingController extends WebcController {
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_CONFIRMED, async(err, data) => {
+            window.WebCardinal.loader.hidden = false;
             if(err) {
                 return console.error(err);
             }
 
             if (this.model.tp.tp.status !== CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING) {
-                this.TPService.getTp((err, tpDsu) => {
+                return this.TPService.getTp((err, tpDsu) => {
                     tpDsu.tp.status = CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING;
                     this.TPService.updateTp(tpDsu, async () => {
+                        window.WebCardinal.loader.hidden = true;
                     });
                 });
             }
+            window.WebCardinal.loader.hidden = true;
         });
 
         MessageHandlerService.init(handlerOperations(this.OperationsHookRegistry));
