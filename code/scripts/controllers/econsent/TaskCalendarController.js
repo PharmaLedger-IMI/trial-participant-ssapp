@@ -67,7 +67,6 @@ export default class TaskCalendarController extends WebcController {
     _initHandlers() {
         this._attachHandlerBack();
         this._attachHandlerDetails();
-        this._attachHandlerAcceptVisit();
         this._attachHandlerDecline();
         this._attachHandlerConfirm();
         this._attachHandlerViewProcedures();
@@ -248,15 +247,6 @@ export default class TaskCalendarController extends WebcController {
                     suggestedInterval: model.suggestedInterval,
                 }
             );
-        });
-    }
-
-    _attachHandlerAcceptVisit() {
-        this.onTagEvent('go-to-visit', 'click', (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            this.model.selectedVisit.active = true;
-            this.model.selectedVisit.model = model;
         });
     }
 
