@@ -153,13 +153,13 @@ export default class ReadEconsentController extends WebcController {
                     let message = 'TP withdraw consent.';
                     if (response.withdraw) {
                         this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
+                        this._saveStatus('withdraw');
                     } else if (response.withdrawIntention) {
                         this.model.status.actions.push({name: 'withdraw-intention',  version:this.currentVersion.version});
                         operation = 'withdraw-intention';
                         message = 'TP withdraw intention consent.';
+                        this._saveStatus('withdraw-intention');
                     }
-
-                    this._saveStatus('withdraw-intention');
                 },
                 (event) => {
                     const response = event.detail;
