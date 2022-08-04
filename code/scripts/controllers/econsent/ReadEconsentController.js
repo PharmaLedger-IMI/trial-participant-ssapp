@@ -145,6 +145,7 @@ export default class ReadEconsentController extends WebcController {
         this.onTagEvent('econsent:withdraw', 'click', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
+            let latestStatus = this.model.status.actions[this.model.status.actions.length - 1].name;
             this.showModalFromTemplate(
                 'econsent/withdraw-econsent',
                 (event) => {
@@ -169,6 +170,7 @@ export default class ReadEconsentController extends WebcController {
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     title: 'Decline Econsent',
+                    latestStatus: latestStatus,
                 });
         });
     }

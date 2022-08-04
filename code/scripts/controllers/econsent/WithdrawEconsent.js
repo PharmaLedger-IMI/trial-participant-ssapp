@@ -4,6 +4,10 @@ export default class WithdrawEconsent extends WebcController {
     super(...props);
     this.setModel({});
     this._initHandlers();
+
+    if(props[0].latestStatus === "withdraw-intention") {
+      this.model.isDisabled = true;
+    } else this.model.isDisabled = false;
   }
 
   _initHandlers() {
