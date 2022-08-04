@@ -55,6 +55,7 @@ export default class PromController extends WebcIonicController {
 
     onReady(){
         this.progressElement = this.querySelector("#questionnaire_progress .progress-bar");
+        this.fillProgress();
     }
 
     updateProm() {
@@ -74,8 +75,8 @@ export default class PromController extends WebcIonicController {
                     if (prom.type==="slider") prom.type="range";
                     if (prom.type==="checkbox") {
                         prom.type="radio";
-                        prom.options.forEach(option => option['value'] = option['element'])
-                        prom.options.forEach(option => delete option.element)
+                        prom.options.forEach(option => option['value'] = option['optionValue'])
+                        prom.options.forEach(option => delete option.optionValue)
                     }
                     if (prom.type==="free text") prom.type="string";
                     // tempo fix change the model of questionnaire in clinical site //
@@ -111,7 +112,7 @@ export default class PromController extends WebcIonicController {
                     return questionModel;
                 })
             this.model.questions[this.model.questionIndex].visible = true;
-            this.fillProgress();
+            //this.fillProgress();
         })
 
     }
