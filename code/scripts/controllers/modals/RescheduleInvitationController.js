@@ -27,7 +27,7 @@ export default class RescheduleInvitationController extends WebcController {
         this._initHandlers();
 
         if(props[0].suggestedInterval) {
-            document.getElementById("procedure-date").classList.add("is-invalid");
+            this.querySelector("procedure-date").classList.add("is-invalid");
             this.model.haveSuggestedInterval = true;
             let suggestedInterval = props[0].suggestedInterval;
 
@@ -51,7 +51,7 @@ export default class RescheduleInvitationController extends WebcController {
 
                 } else {
                     this.model.isBtnDisabled = false;
-                    document.getElementById("procedure-date").classList.remove("is-invalid");
+                    this.querySelector("procedure-date").classList.remove("is-invalid");
                 }
             })
         }
