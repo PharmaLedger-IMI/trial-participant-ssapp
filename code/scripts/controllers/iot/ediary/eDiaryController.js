@@ -21,7 +21,7 @@ const getInitModel = () => {
     };
 }
 
-export default class PromController extends WebcIonicController {
+export default class eDiaryController extends WebcIonicController {
     constructor(...props) {
         super(...props);
 
@@ -31,6 +31,9 @@ export default class PromController extends WebcIonicController {
         this.ResponsesService = new ResponsesService();
         this.QuestionnaireService = new QuestionnaireService();
 
+        let prevState = this.getState();
+        this.model.title = prevState.title;
+
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {
             if (err) {
@@ -39,7 +42,7 @@ export default class PromController extends WebcIonicController {
             this.model.patientDID = tp.did;
         })
 
-        this.updatePrem();
+        this.loadEdiary(prevState.type);
         this._attachHandlers();
 
         this.model.onChange("questionIndex",()=>{
@@ -58,7 +61,7 @@ export default class PromController extends WebcIonicController {
         this.fillProgress();
     }
 
-    updatePrem() {
+    loadEdiary(ediaryType) {
 
         this.QuestionnaireService.getAllQuestionnaires((err, data) => {
             if (err) {
@@ -67,14 +70,12 @@ export default class PromController extends WebcIonicController {
             this.model.questionnaire = data[0];
             this.model.siteDID = this.model.questionnaire.siteDID;
 
-            this.model.questions = this.model.questionnaire.prem
+            this.model.questions = this.model.questionnaire[ediaryType]
                 .map((prom, i) => {
 
                     // Cast to these types
                     // tempo fix change the model of questionnaire in clinical site //
-                    if (prom.type==="slider") prom.type="range";
                     if (prom.type==="checkbox") {
-                        prom.type="radio";
                         prom.options.forEach(option => option['value'] = option['optionValue'])
                         prom.options.forEach(option => delete option.optionValue)
                     }
@@ -87,13 +88,13 @@ export default class PromController extends WebcIonicController {
 
                         uid: prom.uid,
                         type: prom.type,
-                        task: "prem",
+                        task: ediaryType,
                         title: prom.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
 
-                    if (prom.type === "range") {
-                        questionModel['range']=
+                    if (prom.type === "slider") {
+                        questionModel['slider']=
                             {   "min": prom.minLabel,
                                 "value": prom.minLabel,
                                 "steps": prom.steps,
@@ -112,7 +113,9 @@ export default class PromController extends WebcIonicController {
                     return questionModel;
                 })
             this.model.questions[this.model.questionIndex].visible = true;
-            //this.fillProgress();
+            if(this.progressElement) {
+                this.fillProgress();
+            }
         })
 
     }
@@ -144,7 +147,7 @@ export default class PromController extends WebcIonicController {
                     question: question,
                     responseDate: new Date().getTime(),
                     patientDID: this.model.patientDID,
-                    answer: question.type === "range"? question.range.value : question.value
+                    answer: question.type === "slider"? question.slider.value : question.value
                 }
             });
 

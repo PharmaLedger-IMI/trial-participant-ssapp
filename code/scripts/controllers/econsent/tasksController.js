@@ -159,14 +159,14 @@ export default class eDiaryController extends WebcController {
             if (this.model.today === false) {
                 return;
             }
-            this.navigateToPageTag("ediary-prom");
+            this.navigateToPageTag("ediary", { type: 'prom' , title: 'Health questions'});
         });
 
         this.onTagClick("navigate:ediary-prem", () => {
             if (this.model.today === false) {
                 return;
             }
-            this.navigateToPageTag("ediary-prem");
+            this.navigateToPageTag("ediary", { type: 'prem', title:'Rate your experience'});
         });
     }
 

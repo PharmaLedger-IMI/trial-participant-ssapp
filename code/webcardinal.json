@@ -188,16 +188,16 @@
             "tag": "user-permission"
         },
         {
-            "name": "eDiary Service Experience",
-            "path": "/iot-ediary-prom",
-            "src": "iot/ediary/ediary-prom.html",
-            "tag": "ediary-prom"
+            "name": "eDiary",
+            "path": "/iot-ediary",
+            "src": "iot/ediary/ediary.html",
+            "tag": "ediary"
         },
         {
-            "name": "eDiary Personal Reports",
-            "path": "/iot-ediary-prem",
-            "src": "iot/ediary/ediary-prem.html",
-            "tag": "ediary-prem"
+            "name": "Questionnaire",
+            "path": "/iot-questionnaire",
+            "src": "iot/questionnaire/questionnaire.html",
+            "tag": "iot-questionnaire"
         }
     ],
     "pagesFallback": {

@@ -1,12 +1,18 @@
 <div class="form-group">
     <label class="question-title">{{@title}}</label>
 
-    <main data-for="@options" slot="true">
-        <div>
-            <input type="checkbox" id="@value" checked="@checked" name="chk">
-            <label>{{@value}}</label>
-        </div>
-    </main>
+       
+    <ion-radio-group value="@value" data-for="@options">
+        <ion-item>           
+           
+           <ion-label class="ion-text-wrap">{{@value}}</ion-label>
+           <ion-radio data-view-model="@"></ion-radio>
+
+        </ion-item>
+
+        <br><br>
+        
+    </ion-radio-group>
+
 
 </div>
-
