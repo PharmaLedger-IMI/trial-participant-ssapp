@@ -69,7 +69,6 @@ export default class TaskCalendarController extends WebcController {
         this._attachHandlerDetails();
         this._attachHandlerDecline();
         this._attachHandlerConfirm();
-        this._attachHandlerViewProcedures();
         this._attachHandlerRescheduleInvitation();
     }
 
@@ -139,18 +138,6 @@ export default class TaskCalendarController extends WebcController {
         });
     }
 
-    _attachHandlerViewProcedures() {
-        this.onTagEvent('procedures:view', 'click', (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-
-            this.navigateToPageTag('procedures-view', {
-                procedures: model.visits.filter(visit => visit.id === model.selectedVisit.model.id),
-            });
-
-        });
-    }
-
     _attachHandlerDecline() {
         this.onTagEvent('visit:decline', 'click', (model, target, event) => {
             event.preventDefault();
@@ -162,7 +149,7 @@ export default class TaskCalendarController extends WebcController {
                     if (response) {
                         model.accepted = false;
                         model.declined = true;
-                        this._updateVisit(model);
+                        await this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_DECLINED);
 
                         await this._initVisits();
@@ -195,7 +182,7 @@ export default class TaskCalendarController extends WebcController {
                         if(model.confirmedDate) {
                             delete model.confirmedDate;
                         }
-                        this._updateVisit(model);
+                        await this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_ACCEPTED);
 
                         await this._initVisits();
@@ -229,7 +216,7 @@ export default class TaskCalendarController extends WebcController {
                         if(model.confirmedDate) {
                             delete model.confirmedDate;
                         }
-                        this._updateVisit(model);
+                        await this._updateVisit(model);
                         this.sendMessageToHCO(model, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
                         await this._initVisits();
                     }
@@ -250,10 +237,10 @@ export default class TaskCalendarController extends WebcController {
         });
     }
 
-    _updateVisit(visit) {
+    async _updateVisit(visit) {
         let objIndex = this.model.visits.findIndex((obj => obj.pk == visit.pk));
         this.model.visits[objIndex] = visit;
-        this.VisitsAndProceduresRepository.updateAsync(visit.pk, visit);
+        await this.VisitsAndProceduresRepository.updateAsync(visit.pk, visit);
     }
 
     sendMessageToHCO(visit, message) {
