@@ -198,12 +198,6 @@
             "path": "/iot-ediary-prem",
             "src": "iot/ediary/ediary-prem.html",
             "tag": "ediary-prem"
-        },
-        {
-            "name": "Questionnaire",
-            "path": "/iot-questionnaire",
-            "src": "iot/questionnaire/questionnaire.html",
-            "tag": "iot-questionnaire"
         }
     ],
     "pagesFallback": {
