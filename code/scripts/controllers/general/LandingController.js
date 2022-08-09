@@ -189,14 +189,6 @@ export default class LandingController extends WebcController {
                 return console.error(err);
             }
 
-            if (this.model.tp.tp.status !== CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING) {
-                return this.TPService.getTp((err, tpDsu) => {
-                    tpDsu.tp.status = CONSTANTS.TRIAL_PARTICIPANT_STATUS.CONDUCTING;
-                    this.TPService.updateTp(tpDsu, async () => {
-                        window.WebCardinal.loader.hidden = true;
-                    });
-                });
-            }
             window.WebCardinal.loader.hidden = true;
         });
 
