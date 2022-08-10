@@ -1,4 +1,4 @@
-import {getTestTaskModel} from "../models/TaskModel.js";
+import {getHL7TaskModel} from "../models/TaskModel.js";
 
 const commonServices = require('common-services');
 const DSUService = commonServices.DSUService;
@@ -21,7 +21,7 @@ class TaskService extends DSUService {
             if(entities.length > 0) {
                 this.tasks = entities[0];
             } else {
-                return this.saveTasks(getTestTaskModel(), (err,data) => {
+                return this.saveTasks(getHL7TaskModel(), (err,data) => {
                     if(err) {
                         return callback(err);
                     }

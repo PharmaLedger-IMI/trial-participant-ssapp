@@ -27,7 +27,7 @@ async function visit_confirmed(data) {
         schedule: {
             startDate: visitDetails.proposedDate,
             endDate: visitDetails.proposedDate,
-            repeatAppointment: "daily"
+            frequencyType: "daily"
         },
         showTask: "",
         details: {

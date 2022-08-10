@@ -1,7 +1,7 @@
 const commonServices = require('common-services');
 const {WebcController} = WebCardinal.controllers;
  import TaskService from "../../services/TaskService.js";
-// import {getTestTaskModel} from "../../models/TaskModel.js"
+// import {getHL7TaskModel} from "../../models/TaskModel.js"
 const {QuestionnaireService} = commonServices;
 
 
@@ -17,6 +17,7 @@ export default class eDiaryController extends WebcController {
         this.QuestionnaireService = new QuestionnaireService();
         this.model = this.getDefaultModel();
         this.initTaskList();
+        this.initQuestionsList();
 
         if (this.model.today === false) {
             this.model.premdisable = true;
@@ -36,7 +37,6 @@ export default class eDiaryController extends WebcController {
             }
             this.renderTasks(tasksList.item);
         });
-        this.initQuestionsList();
     }
 
     renderTasks(tasks){
@@ -54,10 +54,10 @@ export default class eDiaryController extends WebcController {
             endDate.setHours(0,0,0,0);
             const clickedDate = new Date(`${year} ${months.indexOf(month)+1} ${day}`);
             clickedDate.setHours(0,0,0,0);
-            const repeatAppointment = tasksItemList[i].schedule.repeatAppointment;
+            const frequencyType = tasksItemList[i].schedule.frequencyType;
 
             if((clickedDate.getTime() >= startDate.getTime()) && (clickedDate.getTime() <= endDate.getTime())){
-                switch (repeatAppointment) {
+                switch (frequencyType) {
                     case "weekly":
                         if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
                             tasksItemList[i].showTask = true;
@@ -88,13 +88,12 @@ export default class eDiaryController extends WebcController {
             }
             this.model.questionnaire = data[0];
             if(data[0]) {
-                this.renderQuestionnaire([...this.model.questionnaire.prom, ...this.model.questionnaire.prem]);
+                this.renderQuestionnaire();
             }
         })
     }
 
-    renderQuestionnaire(tasks){
-        this.model.tasks = tasks;
+    renderQuestionnaire(){
         this.model.showProms = false;
         this.model.showPrems = false;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -104,9 +103,9 @@ export default class eDiaryController extends WebcController {
         let endDate = new Date(this.model.questionnaire.schedule.endDate)
         endDate.setHours(0,0,0);
         let clickedDate = new Date(year, months.indexOf(month), day)
-        let repeatAppointment = this.model.questionnaire.schedule.repeatAppointment;
+        let frequencyType = this.model.questionnaire.schedule.frequencyType;
         if((clickedDate >= startDate) && (clickedDate <= endDate)){
-            switch (repeatAppointment) {
+            switch (frequencyType) {
                 case "weekly":
                     if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
                         if (this.model.questionnaire.prom.length>0) this.model.showProms=true;

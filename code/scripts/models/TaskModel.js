@@ -1,4 +1,4 @@
-function getTestTaskModel() {
+function getHL7TaskModel() {
     return {
         "resourceType": "Tasks",
         "id": "bb",
@@ -24,39 +24,8 @@ function getTestTaskModel() {
                 ]
             }
         ],
-        "item": [
-            {
-                "task": "Weekly",
-                "tag": "navigate:ediary-prom",
-                "schedule": {
-                            "startDate": "2022-04-1",
-                            "endDate": "2022-08-01",
-                            "repeatAppointment": "weekly"
-                            },
-                "showTask": ""
-            },
-            {
-                "task": "Monthly",
-                "tag": "navigate:ediary-prem",
-                "schedule": {
-                    "startDate": "2022-04-1",
-                    "endDate": "2022-08-01",
-                    "repeatAppointment": "monthly"
-                },
-                "showTask": ""
-            },
-            {
-                "task": "Daily",
-                "tag": "navigate:ediary-prom",
-                "schedule": {
-                    "startDate": "2022-04-1",
-                    "endDate": "2022-08-01",
-                    "repeatAppointment": "daily"
-                },
-                "showTask": ""
-            }
-        ]
+        "item": []
     }
 }
 
-export {getTestTaskModel}
+export {getHL7TaskModel}

@@ -52,13 +52,16 @@ export default class eDiaryController extends WebcIonicController {
                 question.visible = false
             })
             this.model.questions[currentIndex].visible = true;
-            this.fillProgress()
+            this.fillProgress();
+            this.computeButtonStates();
+
         })
     }
 
     onReady(){
         this.progressElement = this.querySelector("#questionnaire_progress .progress-bar");
         this.fillProgress();
+        this.computeButtonStates();
     }
 
     loadEdiary(ediaryType) {
@@ -115,6 +118,7 @@ export default class eDiaryController extends WebcIonicController {
             this.model.questions[this.model.questionIndex].visible = true;
             if(this.progressElement) {
                 this.fillProgress();
+                this.computeButtonStates();
             }
         })
 
@@ -126,7 +130,6 @@ export default class eDiaryController extends WebcIonicController {
             if (currentIndexSelected > 0) {
                 this.model.questionIndex = currentIndexSelected - 1;
             }
-            this.computeButtonStates();
 
         });
 
@@ -135,7 +138,6 @@ export default class eDiaryController extends WebcIonicController {
             if (currentIndexSelected < this.model.questions.length) {
                 this.model.questionIndex = currentIndexSelected + 1;
             }
-            this.computeButtonStates();
 
         });
 
