@@ -9,46 +9,56 @@
         <div class="econsent-actions">
             <div data-if="@showControls">
                 <div class="dispay-flex">
-                    <div data-if="@required">
-                        <div>
-                            <button class="long-button"
-                                    data-tag="econsent:sign">Sign
-                            </button>
-                            <button class="long-button" disabled
-                                    data-tag="manual:sign">Manual Sign
-                            </button>
+                    <webc-switch condition="@historyData.signType">
+                        <div slot="sign-electronically">
+                            <div data-if="@required">
+                                <div>
+                                    <button class="long-button"
+                                            data-tag="econsent:sign">Sign Electronically
+                                    </button>
+                                </div>
+                                <button class="long-button"
+                                        data-tag="econsent:decline">Decline
+                                </button>
 
+                            </div>
+
+
+                            <div data-if="@signed">
+                                <container slot="true">
+                                    <button class="long-button" data-tag="econsent:withdraw"
+                                            style="background-color: red">Withdraw
+                                    </button>
+                                </container>
+                            </div>
+
+                            <div data-if="@withdraw">
+                                <container slot="true">
+                                    <button class="long-button"
+                                            data-tag="econsent:sign">Re-Sign
+                                    </button>
+                                </container>
+                            </div>
+
+                            <div data-if="@withdrawIntention">
+                                <container slot="true">
+                                    <button class="long-button" data-tag="econsent:withdraw"
+                                            style="background-color: red">Withdraw
+                                    </button>
+                                </container>
+                            </div>
                         </div>
-                        <button class="long-button"
-                                data-tag="econsent:decline">Decline
-                        </button>
 
-                    </div>
+                        <div slot="sign-manually">
+                            <div>
+                                <button class="long-button" data-tag="econsent:download">Download</button>
+                                <button class="long-button" data-tag="econsent:upload">Upload</button>
+                            </div>
+                        </div>
+                    </webc-switch>
+
                 </div>
 
-                <div data-if="@signed">
-                    <container slot="true">
-                        <button class="long-button" data-tag="econsent:withdraw"
-                                style="background-color: red">Withdraw
-                        </button>
-                    </container>
-                </div>
-
-                <div data-if="@withdraw">
-                    <container slot="true">
-                        <button class="long-button"
-                                data-tag="econsent:sign">Re-Sign
-                        </button>
-                    </container>
-                </div>
-
-                <div data-if="@withdrawIntention">
-                    <container slot="true">
-                        <button class="long-button" data-tag="econsent:withdraw"
-                                style="background-color: red">Withdraw
-                        </button>
-                    </container>
-                </div>
             </div>
         </div>
 

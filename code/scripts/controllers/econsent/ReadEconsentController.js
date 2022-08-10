@@ -49,9 +49,9 @@ export default class ReadEconsentController extends WebcController {
         let ecoVersion = this.model.historyData.ecoVersion;
         this.model.econsent = econsent;
         this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
-        let econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
+        this.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
         this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
-        this._downloadFile(econsentFilePath, this.currentVersion.attachment);
+        this._downloadFile(this.econsentFilePath, this.currentVersion.attachment);
         this.EconsentsStatusRepository.findAll((err, data) => {
             if (err) {
                 return console.error(err);
@@ -71,9 +71,9 @@ export default class ReadEconsentController extends WebcController {
         this._attachHandlerDecline();
         this._attachHandlerSign();
         this._attachHandlerManuallySign();
-        this._attachHandlerDownload();
         this._attachHandlerBack();
         this._attachHandlerWithdraw();
+        this._attachHandlerDownload();
     }
 
     _finishProcess(event, response) {
@@ -176,14 +176,11 @@ export default class ReadEconsentController extends WebcController {
     }
 
     _attachHandlerDownload() {
-        this.onTagClick('econsent:download', (model, target, event) => {
-            console.log('econsent:download');
+        this.onTagClick('econsent:download', async (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.FileDownloader.downloadFileToDevice({
-                contentType: this.mimeType,
-                rawBlob: this.rawBlob,
-            });
+            await this.fileDownloaderService.prepareDownloadFromDsu(this.econsentFilePath, this.currentVersion.attachment);
+            this.fileDownloaderService.downloadFileToDevice(this.currentVersion.attachment);
         });
     }
 

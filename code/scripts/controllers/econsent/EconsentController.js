@@ -38,9 +38,8 @@ export default class EconsentController extends WebcController {
     }
 
     _initHandlers() {
-        this._attachHandlerReadEconsent();
+        this._attachHandlerSignEconsent();
         this._attachHandlerVersions();
-        this._attachHandlerDownload();
         this._attachHandlerQuestion();
 
         this._attachHandlerWithdraw();
@@ -82,21 +81,17 @@ export default class EconsentController extends WebcController {
         });
     }
 
-    _attachHandlerDownload() {
-        this.onTagClick('econsent:download', async (model, target, event) => {
-            console.log('econsent:download');
+    _attachHandlerSignEconsent() {
+        this.onTagClick('econsent:sign-electronically', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            await this.fileDownloaderService.prepareDownloadFromDsu(this.model.econsentFilePath, this.model.econsentFilename);
-            this.fileDownloaderService.downloadFileToDevice(this.model.econsentFilename);
+            this.navigateToPageTag('sign-econsent', {...this.model.historyData, signType: 'sign-electronically'});
         });
-    }
 
-    _attachHandlerReadEconsent() {
-        this.onTagClick('econsent:read', (model, target, event) => {
+        this.onTagClick('econsent:sign-manually', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('sign-econsent', {...this.model.historyData});
+            this.navigateToPageTag('sign-econsent', {...this.model.historyData, signType: 'sign-manually'});
         });
     }
 
