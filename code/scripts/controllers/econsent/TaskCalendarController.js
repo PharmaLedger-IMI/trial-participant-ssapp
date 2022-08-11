@@ -1,5 +1,3 @@
-// import TaskService from "../../services/TaskService.js";
-
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
@@ -7,7 +5,6 @@ const DateTimeService = commonServices.DateTimeService;
 const Constants = commonServices.Constants;
 const momentService  = commonServices.momentService;
 const BaseRepository = commonServices.BaseRepository;
-const {QuestionnaireService} = commonServices;
 import {getTPService}  from "../../services/TPService.js"
 
 
@@ -30,21 +27,13 @@ export default class TaskCalendarController extends WebcController {
                 procedures: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
             }
         });
-        // TODO: Change mock data from details, toRemember and procedures.
+
+
         this._initServices();
         this._initHandlers();
         this._initVisits();
 
         this._attachHandlerShowTasks();
-        // this.QuestionnaireService = new QuestionnaireService();
-        // this.QuestionnaireService.getAllQuestionnaires((err, data) => {
-        //     if (err) {
-        //         return reject(err);
-        //     }
-        //     console.log(data[0]);
-        // })
-
-        //this.taskService = TaskService.getTaskService();
 
     }
 
@@ -107,15 +96,6 @@ export default class TaskCalendarController extends WebcController {
                 this.model.tp = tp;
             })
         }
-    }
-
-    _updateTrialParticipant() {
-        this.model.tp.visits = this.model.visits;
-        this.TPService.updateTp(this.model.tp,(err)=>{
-            if(err){
-                console.log(err);
-            }
-        })
     }
 
     _attachHandlerBack() {
@@ -238,7 +218,7 @@ export default class TaskCalendarController extends WebcController {
     }
 
     async _updateVisit(visit) {
-        let objIndex = this.model.visits.findIndex((obj => obj.pk == visit.pk));
+        let objIndex = this.model.visits.findIndex((obj => obj.pk === visit.pk));
         this.model.visits[objIndex] = visit;
         await this.VisitsAndProceduresRepository.updateAsync(visit.pk, visit);
     }
