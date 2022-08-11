@@ -170,7 +170,6 @@ export default class ReadEconsentController extends WebcController {
                     disableExpanding: false,
                     disableBackdropClosing: false,
                     title: 'Decline Econsent',
-                    latestStatus: latestStatus,
                 });
         });
     }
