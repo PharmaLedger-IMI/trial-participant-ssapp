@@ -1,4 +1,4 @@
-import { saveNotification } from './commons/index.js';
+import {saveNotification} from './commons/index.js';
 import {getTPService} from "./../TPService.js";
 import TrialService from "./../TrialService.js";
 import TrialConsentService from "./../TrialConsentService.js";
@@ -28,14 +28,27 @@ async function update_tpNumber(data) {
 }
 
 async function send_hco_dsu_to_patient(originalMessage) {
+    const existingTrials = await trialService.getTrialsAsync();
+
+    if (existingTrials.length > 0) {
+        return {
+            err:CONSTANTS.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE, originalMessage
+        }
+    }
+
     const trialData = await _handleAddToTrial(originalMessage, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_TRIAL);
     return { trialData, originalMessage};
 }
 
 async function send_refresh_consents(data) {
-    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_CONSENTS);
-    const trialConsentData = await _mountICFAndSaveConsentStatuses(data);
-    return trialConsentData;
+    const tpDSU = await TPService.getTpAsync()
+    if (tpDSU.tp.did === data.useCaseSpecifics.did) {
+        await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.NEW_CONSENTS);
+        return await _mountICFAndSaveConsentStatuses(data);
+    }
+    return {
+        err: CONSTANTS.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE
+    }
 }
 
 async function _saveTrialParticipantInfo(hcoIdentity, data) {

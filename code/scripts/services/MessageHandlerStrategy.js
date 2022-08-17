@@ -15,16 +15,26 @@ export default function (operationsRegistry){
     if (typeof operations[message.operation] === "function") {
         const operationResult = operations[message.operation](message);
         if(operationResult instanceof Promise) {
-            operationResult.then(result => {
-                if(operationsRegistry.hasRegistry(message.operation)) {
-                    operationsRegistry.getRegistry(message.operation)(undefined,result);
-                }
-            }).catch(err => {
 
+            const callHookFn = async (err, result)=>{
                 if(operationsRegistry.hasRegistry(message.operation)) {
-                    operationsRegistry.getRegistry(message.operation)(err);
+                    const registryFn = operationsRegistry.getRegistry(message.operation)(undefined,result);
+                    if(registryFn instanceof Promise){
+                        await registryFn;
+                    }
                 }
-            } )
+            }
+
+            try{
+                const result = await operationResult;
+                await callHookFn(undefined, result);
+
+            }
+            catch (err) {
+                await callHookFn(err);
+
+            }
+
         }
 
     } else {

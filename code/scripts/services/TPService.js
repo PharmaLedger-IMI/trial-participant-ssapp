@@ -24,14 +24,8 @@ class TPService extends DSUService {
         })
     }
 
-    mountTp(tpSSI, callback) {
-        this.mountEntity(tpSSI, (err, mountedTp) => {
-            if (err) {
-                return callback(err);
-            }
-            this.tp = mountedTp;
-            callback(undefined, this.tp);
-        });
+    async getTpAsync(){
+        return this.asyncMyFunction(this.getTp, [...arguments]);
     }
 
     createTp(tpData, callback){

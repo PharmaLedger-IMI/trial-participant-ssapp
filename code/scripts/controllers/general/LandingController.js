@@ -30,8 +30,8 @@ export default class LandingController extends WebcController {
         });
 
         this.model.publicDidReady = false;
-        let communicationService = CommunicationService.getCommunicationServiceInstance();
-        communicationService.onPrimaryDidReady((err, didDocument)=>{
+        this.communicationService = CommunicationService.getCommunicationServiceInstance();
+        this.communicationService.onPrimaryDidReady((err, didDocument)=>{
 
             if(err){
                 throw err;
@@ -136,21 +136,38 @@ export default class LandingController extends WebcController {
     }
 
     _attachMessageHandlers() {
-        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT, (err, data) => {
+        this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT, async (err, data) => {
             window.WebCardinal.loader.hidden = false;
             if (err) {
                 return console.error(err);
             }
-            this.model.tp = data.trialData.tp;
-            let hcoIdentity = data.trialData.tp.hcoIdentity;
-            this._mountHCODSUAndSaveConsentStatuses(data.originalMessage, (err, data) => {
-                if (err) {
-                    return console.log(err);
+            let hcoIdentity = data.originalMessage.senderIdentity;
+
+            if (data.err && data.err === CONSTANTS.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE) {
+                console.log("TP is already enrolled in a trial")
+                const sendObject = {
+                    operation:CONSTANTS.MESSAGES.PATIENT.TP_IS_UNAVAILABLE,
+                    patientStatus: CONSTANTS.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE,
+                    anonymousDIDVc: data.originalMessage.useCaseSpecifics.tp.anonymousDIDVc
                 }
-                this._sendTrialConsentToHCO(hcoIdentity);
-                this._initTrials();
-                window.WebCardinal.loader.hidden = true;
-            });
+
+               return  this.communicationService.sendMessage(hcoIdentity, sendObject);
+            }
+            this.model.tp = data.trialData.tp;
+
+
+            return new Promise(resolve => {
+                this._mountHCODSUAndSaveConsentStatuses(data.originalMessage, (err, data) => {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    this._sendTrialConsentToHCO(hcoIdentity);
+                    this._initTrials();
+                    resolve();
+                    window.WebCardinal.loader.hidden = true;
+                });
+            })
+
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT, async (err, data) => {
@@ -158,10 +175,15 @@ export default class LandingController extends WebcController {
             if(err) {
                 return console.error(err);
             }
-            this.model.trialConsent = data.trialConsent;
-            this.getNumberOfNotifications();
+            if (data.err) {
+                console.log(data.err)
+            } else {
+                this.model.trialConsent = data.trialConsent;
+                this.getNumberOfNotifications();
 
-            await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
+                await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
+            }
+
             window.WebCardinal.loader.hidden = true;
         });
 
@@ -202,8 +224,7 @@ export default class LandingController extends WebcController {
             ssi: this.TrialConsentService.sReadSSI,
             shortDescription: null,
         };
-        let communicationService = CommunicationService.getCommunicationServiceInstance();
-        communicationService.sendMessage(hcoIdentity, sendObject);
+        this.communicationService.sendMessage(hcoIdentity, sendObject);
     }
 
     _mountHCODSUAndSaveConsentStatuses(data, callback) {
