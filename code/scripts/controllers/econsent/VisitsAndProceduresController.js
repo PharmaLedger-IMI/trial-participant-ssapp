@@ -17,7 +17,7 @@ export default class VisitsAndProceduresController extends WebcController {
         super(...props);
         this.setModel({
             ...getInitModel(),
-            ...this.history.win.history.state.state,
+            ...this.getState(),
             visits: [],
             selectedVisit: {
                 active: false,

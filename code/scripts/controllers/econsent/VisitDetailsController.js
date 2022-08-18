@@ -7,7 +7,7 @@ export default class VisitDetailsController extends WebcController {
     constructor(...props) {
         super(...props);
         this.setModel({
-            ...this.history.win.history.state.state,
+            ...this.getState()
         });
 
         if(this.model.schedule.startDate) {

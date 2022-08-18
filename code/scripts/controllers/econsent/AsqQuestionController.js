@@ -23,7 +23,7 @@ export default class AsqQuestionController extends WebcController {
         this.model.econsent = {};
         this.model.question = this.question;
         this._initServices();
-        this.model.historyData = this.history.win.history.state.state;
+        this.model.historyData = this.getState();
         this._initConsent();
         this._initHandlers();
     }

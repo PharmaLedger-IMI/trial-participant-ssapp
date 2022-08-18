@@ -15,7 +15,7 @@ export default class EconsentController extends WebcController {
         this._initServices();
         this._initHandlers();
         this.model.econsent = {};
-        this.model.historyData = this.history.win.history.state.state;
+        this.model.historyData = this.getState();
 
         this.model.status = {
             actions: [],

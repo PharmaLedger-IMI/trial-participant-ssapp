@@ -10,7 +10,7 @@ export default class EconsentVersionsController extends WebcController {
 
         this.model.versions = [];
         this.setModel({});
-        let receivedObject = this.history.win.history.state.state;
+        let receivedObject = this.getState();
         this.model.trialSSI = receivedObject.trialSSI;
         this.model.econsentSSI = receivedObject.econsentSSI;
         this.model.tpDid = receivedObject.tpDid;

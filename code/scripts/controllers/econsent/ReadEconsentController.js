@@ -16,7 +16,7 @@ export default class ReadEconsentController extends WebcController {
         super(...props);
         this.model.econsent = {};
         this._initServices();
-        this.model.historyData = this.history.win.history.state.state;
+        this.model.historyData = this.getState();
         this.model.required = {};
         this.model.declined = {};
         this.model.signed = {};
