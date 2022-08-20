@@ -99,11 +99,6 @@
             "tag": "econsent-versions"
         },
         {
-            "name": "Create trial",
-            "tag": "econsent/create-trial",
-            "indexed": false
-        },
-        {
             "name": "Feedback",
             "path": "/iot-feedback",
             "src": "iot/feedback.html",
@@ -186,12 +181,6 @@
             "path": "/iot-ediary",
             "src": "iot/ediary/ediary.html",
             "tag": "ediary"
-        },
-        {
-            "name": "Questionnaire",
-            "path": "/iot-questionnaire",
-            "src": "iot/questionnaire/questionnaire.html",
-            "tag": "iot-questionnaire"
         }
     ],
     "pagesFallback": {
