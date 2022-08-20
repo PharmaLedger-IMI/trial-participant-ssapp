@@ -70,10 +70,8 @@ export default class ReadEconsentController extends WebcController {
     _initHandlers() {
         this._attachHandlerDecline();
         this._attachHandlerSign();
-        this._attachHandlerManuallySign();
         this._attachHandlerBack();
         this._attachHandlerWithdraw();
-        this._attachHandlerDownload();
     }
 
     _finishProcess(event, response) {
@@ -174,21 +172,7 @@ export default class ReadEconsentController extends WebcController {
         });
     }
 
-    _attachHandlerDownload() {
-        this.onTagClick('econsent:download', async (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            await this.fileDownloaderService.prepareDownloadFromDsu(this.econsentFilePath, this.currentVersion.attachment);
-            this.fileDownloaderService.downloadFileToDevice(this.currentVersion.attachment);
-        });
-    }
 
-    _attachHandlerManuallySign() {
-        this.onTagClick('manual:sign', (model, target, event) => {
-            // TODO: It crashes for now. Comment it until we fix it.
-            this.navigateToPageTag('signmanually-econsent', {...this.model.historyData});
-        });
-    }
 
     sendMessageToHCO(action, ssi, shortMessage) {
         const currentDate = new Date();

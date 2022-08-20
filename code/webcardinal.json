@@ -93,12 +93,6 @@
             "tag": "procedures-view"
         },
         {
-            "name": "SignManuallyEconsent",
-            "path": "/signmanually-econsent",
-            "src": "econsent/signmanually-econsent.html",
-            "tag": "signmanually-econsent"
-        },
-        {
             "name": "EconsentVersions",
             "path": "/econsent-versions",
             "src": "econsent/econsent-versions.html",

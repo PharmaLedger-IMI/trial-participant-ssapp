@@ -39,6 +39,7 @@ export default class EconsentController extends WebcController {
 
     _initHandlers() {
         this._attachHandlerSignEconsent();
+        this._attachHandlerDownload();
         this._attachHandlerVersions();
         this._attachHandlerQuestion();
 
@@ -54,8 +55,7 @@ export default class EconsentController extends WebcController {
         let ecoVersion = this.model.historyData.ecoVersion;
         this.model.econsent = econsent;
         this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
-        this.model.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
-        this.model.econsentFilename = this.currentVersion.attachment;
+        this.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
         this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
         this.model.econsent.versionDate = new Date(this.currentVersion.versionDate).toLocaleDateString('sw');
         this.model.econsent.version = this.currentVersion.version;
@@ -85,15 +85,21 @@ export default class EconsentController extends WebcController {
         this.onTagClick('econsent:sign-electronically', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('sign-econsent', {...this.model.historyData, signType: 'sign-electronically'});
+            this.navigateToPageTag('sign-econsent', {...this.model.historyData});
         });
 
-        this.onTagClick('econsent:sign-manually', (model, target, event) => {
+    }
+
+
+    _attachHandlerDownload() {
+        this.onTagClick('econsent:download', async (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('sign-econsent', {...this.model.historyData, signType: 'sign-manually'});
+            await this.fileDownloaderService.prepareDownloadFromDsu(this.econsentFilePath, this.currentVersion.attachment);
+            this.fileDownloaderService.downloadFileToDevice(this.currentVersion.attachment);
         });
     }
+
 
     _attachHandlerVersions() {
 
