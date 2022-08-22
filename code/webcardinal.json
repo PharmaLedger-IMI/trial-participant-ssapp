@@ -81,12 +81,6 @@
             "tag": "procedures-view"
         },
         {
-            "name": "EconsentVersions",
-            "path": "/econsent-versions",
-            "src": "econsent/econsent-versions.html",
-            "tag": "econsent-versions"
-        },
-        {
             "name": "Feedback",
             "path": "/iot-feedback",
             "src": "iot/feedback.html",
