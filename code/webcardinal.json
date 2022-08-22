@@ -57,18 +57,6 @@
             "tag": "notifications"
         },
         {
-            "name": "Questions",
-            "path": "/questions",
-            "src": "econsent/questions.html",
-            "tag": "questions"
-        },
-        {
-            "name": "AskQuestion",
-            "path": "/ask-question",
-            "src": "econsent/ask-question.html",
-            "tag": "ask-question"
-        },
-        {
             "name": "Visits And Procedures List",
             "path": "/visits-procedures",
             "src": "econsent/visits-procedures.html",

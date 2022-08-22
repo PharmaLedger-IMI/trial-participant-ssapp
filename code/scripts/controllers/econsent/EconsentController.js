@@ -40,7 +40,6 @@ export default class EconsentController extends WebcController {
         this._attachHandlerSignEconsent();
         this._attachHandlerDownload();
         this._attachHandlerVersions();
-        this._attachHandlerQuestion();
 
         this._attachHandlerWithdraw();
         this._attachHandlerBack();
@@ -106,14 +105,6 @@ export default class EconsentController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.navigateToPageTag('site-consent-history');
-        });
-    }
-
-    _attachHandlerQuestion() {
-        this.onTagClick('econsent:question', (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            this.navigateToPageTag('ask-question', {...this.model.historyData});
         });
     }
 

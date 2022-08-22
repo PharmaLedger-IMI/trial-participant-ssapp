@@ -4,12 +4,6 @@ const BaseRepository = commonServices.BaseRepository;
 const QuestionnaireService = commonServices.QuestionnaireService;
 const Constants = commonServices.Constants;
 const questionnaireService = new QuestionnaireService();
-const QuestionsRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.QUESTIONS);
-
-async function question_response(data) {
-    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.QUESTION_RESPONSE);
-    _updateQuestion(data.useCaseSpecifics);
-}
 
 async function clinical_site_questionnaire(data) {
     await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.CLINICAL_SITE_QUESTIONNAIRE);
@@ -21,11 +15,5 @@ async function clinical_site_questionnaire(data) {
     });
 }
 
-function _updateQuestion(data) {
-    if (data.question) {
-        QuestionsRepository.update(data.question.pk, data.question, () => {
-        })
-    }
-}
 
-export { question_response, clinical_site_questionnaire }
+export { clinical_site_questionnaire }
