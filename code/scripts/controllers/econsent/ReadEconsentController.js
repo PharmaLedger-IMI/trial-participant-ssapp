@@ -116,13 +116,15 @@ export default class ReadEconsentController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.showModalFromTemplate(
-                'econsent/decline-consent',
+                'general/confirmation-alert',
                 (event) => {
                     const response = event.detail;
                     if (response) {
                         let operation = ConsentStatusMapper.consentStatuses.decline.name;
-                        let message = ConsentStatusMapper.consentStatuses.decline.details;
-                        this.model.status.actions.push({name: ConsentStatusMapper.consentStatuses.decline.name, version:this.currentVersion.version});
+                        this.model.status.actions.push({
+                            name: ConsentStatusMapper.consentStatuses.decline.name,
+                            version: this.currentVersion.version
+                        });
                         this._saveStatus(operation);
                     }
                 },
@@ -130,10 +132,11 @@ export default class ReadEconsentController extends WebcController {
                     const response = event.detail;
                 },
                 {
-                    controller: 'econsent/DeclineConsentController',
+                    controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
-                    title: 'Decline Econsent',
+                    question: 'Are you sure you want to decline this consent?',
+                    title: 'Decline Confirmation',
                 });
         });
     }
