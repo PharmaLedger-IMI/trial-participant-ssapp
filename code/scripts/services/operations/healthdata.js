@@ -20,3 +20,11 @@ export async function new_healthdata(data) {
         }
     });
 }
+
+export async function device_assignation(data) {
+    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.DEVICE_ASSIGNED);
+}
+
+export async function device_deassignation(data) {
+    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.DEVICE_UNASSIGNED);
+}
