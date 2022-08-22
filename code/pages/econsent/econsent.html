@@ -1,6 +1,13 @@
 <link href="./assets/css/pages/trial.css" rel="stylesheet">
 <webc-container controller="econsent/EconsentController">
     <div class="container-child">
+        <div class="header-title">
+            <button class="navigate-back" data-tag="navigation:go-back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h3>Econsent</h3>
+        </div>
+
         <label class="user-name">{{@econsent.name}}</label>
         <label class="tpNumber">{{@econsent.version}} - {{@econsent.versionDate}}</label>
         <label class="consent-status">{{@status.latest}}</label>
@@ -10,6 +17,5 @@
             <button class="long-button" data-tag="econsent:download">Download</button>
             <button class="long-button" data-tag="econsent:versions">Site Consent History</button>
         </div>
-        <button class="back-button" data-tag="back">Back</button>
     </div>
 </webc-container>

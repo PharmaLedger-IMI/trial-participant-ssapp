@@ -37,12 +37,12 @@ export default class EconsentController extends WebcController {
     }
 
     _initHandlers() {
+        this._attachHandlerBack();
         this._attachHandlerSignEconsent();
         this._attachHandlerDownload();
         this._attachHandlerVersions();
 
         this._attachHandlerWithdraw();
-        this._attachHandlerBack();
     }
 
     _initEconsent() {
@@ -98,6 +98,12 @@ export default class EconsentController extends WebcController {
         });
     }
 
+    _attachHandlerBack() {
+        this.onTagClick('navigation:go-back', () => {
+            this.navigateToPageTag('trial');
+        });
+    }
+
 
     _attachHandlerVersions() {
 
@@ -105,15 +111,6 @@ export default class EconsentController extends WebcController {
             event.preventDefault();
             event.stopImmediatePropagation();
             this.navigateToPageTag('site-consent-history');
-        });
-    }
-
-    _attachHandlerBack() {
-        this.onTagEvent('back', 'click', (model, target, event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            window.history.back();
-
         });
     }
 

@@ -1,6 +1,14 @@
 <link href="./assets/css/pages/consent.css" rel="stylesheet">
 <webc-container controller="econsent/ReadEconsentController">
-    <div class="container-child eco-sign">
+    <div class="container-child">
+
+        <div class="header-title">
+            <button class="navigate-back" data-tag="back">
+                <i class="fa fa-angle-left"></i>
+            </button>
+            <h3>Sign Econsent</h3>
+        </div>
+
         <div id="canvas-wrapper">
             <div id="canvas-parent">
             </div>
@@ -42,6 +50,5 @@
             </div>
         </div>
 
-        <button class="back-button" data-tag="back">Back</button>
     </div>
 </webc-container>
