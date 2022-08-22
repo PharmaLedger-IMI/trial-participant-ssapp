@@ -160,6 +160,7 @@ export default class ReadEconsentController extends WebcController {
                 {
                     controller: 'econsent/WithdrawEconsent',
                     disableExpanding: false,
+                    disableFooter: true,
                     disableBackdropClosing: false,
                     title: 'Decline Econsent',
                 });
