@@ -2,7 +2,6 @@ const { WebcController } = WebCardinal.controllers;
 export default class WithdrawEconsent extends WebcController {
   constructor(...props) {
     super(...props);
-    this.setModel({});
     this._initHandlers();
   }
 

@@ -4,7 +4,6 @@ const {WebcController} = WebCardinal.controllers;
 export default class VisitAcceptOrDeclineController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({});
 
         this.onTagEvent('visit:accept', 'click', (model, target, event) => {
             event.preventDefault();

@@ -11,7 +11,6 @@ const {WebcController} = WebCardinal.controllers;
 export default class EconsentController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({});
         this._initServices();
         this._initHandlers();
         this.model.econsent = {};

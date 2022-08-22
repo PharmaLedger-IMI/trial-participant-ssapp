@@ -63,7 +63,6 @@ export default class ReadEconsentController extends WebcController {
             this.model.declined = ConsentStatusMapper.isDeclined(this.model.status.actions);
             this.model.required = ConsentStatusMapper.isRequired(this.model.status.actions);
             this.model.withdraw = ConsentStatusMapper.isWithdraw(this.model.status.actions);
-            this.model.withdrawIntention = ConsentStatusMapper.isWithdrawIntention(this.model.status.actions);
         });
     }
 
@@ -153,11 +152,6 @@ export default class ReadEconsentController extends WebcController {
                     if (response.withdraw) {
                         this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
                         this._saveStatus('withdraw');
-                    } else if (response.withdrawIntention) {
-                        this.model.status.actions.push({name: 'withdraw-intention',  version:this.currentVersion.version});
-                        operation = 'withdraw-intention';
-                        message = 'TP withdraw intention consent.';
-                        this._saveStatus('withdraw-intention');
                     }
                 },
                 (event) => {
@@ -196,6 +190,7 @@ export default class ReadEconsentController extends WebcController {
                             name: action,
                             date: currentDate.toISOString(),
                             toShowDate: currentDate.toLocaleDateString(),
+                            consentType: this.model.status.type,
                         },
                     },
                     shortDescription: shortMessage,

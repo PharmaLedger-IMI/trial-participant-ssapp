@@ -23,7 +23,10 @@ let getInitModel = () => {
 export default class RescheduleInvitationController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel(getInitModel());
+        this.model = {
+            ...getInitModel()
+        };
+
         this._initHandlers();
 
         if(props[0].suggestedInterval) {

@@ -79,8 +79,6 @@ export default class ConsentStatusMapper {
 
     static isWithdraw = (actions) => this.actionHasLastStatus(actions, 'withdraw')
 
-    static isWithdrawIntention = (actions) => this.actionHasLastStatus(actions, 'withdraw-intention')
-
     static isDeclined = (actions) => this.actionHasLastStatus(actions, 'decline');
 
     static isRequired = (actions) => this.actionHasLastStatus(actions, 'required');

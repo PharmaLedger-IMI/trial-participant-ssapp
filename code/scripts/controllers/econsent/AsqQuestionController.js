@@ -19,7 +19,6 @@ export default class AsqQuestionController extends WebcController {
 
     constructor(...props) {
         super(...props);
-        this.setModel({});
         this.model.econsent = {};
         this.model.question = this.question;
         this._initServices();

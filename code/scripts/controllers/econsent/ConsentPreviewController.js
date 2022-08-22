@@ -61,7 +61,6 @@ export default class ConsentPreviewController extends WebcController {
             this.model.declined = ConsentStatusMapper.isDeclined(this.model.status.actions);
             this.model.required = ConsentStatusMapper.isRequired(this.model.status.actions);
             this.model.withdraw = ConsentStatusMapper.isWithdraw(this.model.status.actions);
-            this.model.withdrawIntention = ConsentStatusMapper.isWithdrawIntention(this.model.status.actions);
         });
     }
 

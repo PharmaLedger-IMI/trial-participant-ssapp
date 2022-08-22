@@ -6,9 +6,9 @@ const momentService = commonServices.momentService;
 export default class VisitDetailsController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({
+        this.model = {
             ...this.getState()
-        });
+        };
 
         if(this.model.schedule.startDate) {
             this.model.toShowDate = momentService(this.model.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);

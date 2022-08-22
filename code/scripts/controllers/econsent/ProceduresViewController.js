@@ -3,9 +3,9 @@ const {WebcController} = WebCardinal.controllers;
 export default class ProceduresViewController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({
+        this.model = {
             ...this.getState(),
-        });
+        }
 
         this._attachHandlerBack();
     }

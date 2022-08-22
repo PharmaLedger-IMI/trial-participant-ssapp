@@ -17,7 +17,7 @@ let getInitModel = () => {
 export default class TaskCalendarController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({
+        this.model = {
             ...getInitModel(),
             visits: [],
             selectedVisit: {
@@ -26,7 +26,7 @@ export default class TaskCalendarController extends WebcController {
                 toRemember: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
                 procedures: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
             }
-        });
+        };
 
 
         this._initServices();

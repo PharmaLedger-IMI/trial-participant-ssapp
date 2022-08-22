@@ -9,7 +9,6 @@ export default class EconsentVersionsController extends WebcController {
         super(...props);
 
         this.model.versions = [];
-        this.setModel({});
         let receivedObject = this.getState();
         this.model.trialSSI = receivedObject.trialSSI;
         this.model.econsentSSI = receivedObject.econsentSSI;

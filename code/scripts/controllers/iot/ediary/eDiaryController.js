@@ -25,7 +25,9 @@ export default class eDiaryController extends WebcIonicController {
     constructor(...props) {
         super(...props);
 
-        this.setModel(getInitModel());
+        this.model = {
+            ...getInitModel()
+        };
 
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.ResponsesService = new ResponsesService();

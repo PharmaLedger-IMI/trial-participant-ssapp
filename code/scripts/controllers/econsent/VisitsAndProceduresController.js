@@ -15,7 +15,7 @@ let getInitModel = () => {
 export default class VisitsAndProceduresController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({
+        this.model = {
             ...getInitModel(),
             ...this.getState(),
             visits: [],
@@ -25,7 +25,7 @@ export default class VisitsAndProceduresController extends WebcController {
                 toRemember: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
                 procedures: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
             }
-        });
+        };
         // TODO: Change mock data from details, toRemember and procedures.
         this._initServices();
         this._initHandlers();

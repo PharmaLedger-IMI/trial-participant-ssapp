@@ -6,7 +6,6 @@ const { WebcController } = WebCardinal.controllers;
 export default class QuestionsController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.setModel({});
         this._initServices();
         this._attachQuestionNavigationHandler();
         this._initQuestions();
