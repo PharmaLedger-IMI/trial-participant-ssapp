@@ -112,6 +112,7 @@ export default class EconsentController extends WebcController {
             event.stopImmediatePropagation();
             this.navigateToPageTag('site-consent-history', {
                 trialConsentId: model.econsent.trialConsentId,
+                status: this.model.status.latest,
                 ...this.historyData
             });
         });
