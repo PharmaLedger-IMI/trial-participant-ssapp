@@ -14,7 +14,7 @@ export default class EconsentController extends WebcController {
         this._initServices();
         this._initHandlers();
         this.model.econsent = {};
-        this.model.historyData = this.getState();
+        this.historyData = this.getState();
 
         this.model.status = {
             actions: [],
@@ -46,11 +46,11 @@ export default class EconsentController extends WebcController {
     }
 
     _initEconsent() {
-        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.model.historyData.ecoId)
+        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.historyData.ecoId)
         if (econsent === undefined) {
             return console.log("Econsent does not exist.");
         }
-        let ecoVersion = this.model.historyData.ecoVersion;
+        let ecoVersion = this.historyData.ecoVersion;
         this.model.econsent = econsent;
         this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
         this.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
@@ -62,9 +62,9 @@ export default class EconsentController extends WebcController {
             if (err) {
                 return console.error(err);
             }
-            let status = data.find((element) => element.foreignConsentId === this.model.historyData.ecoId);
+            let status = data.find((element) => element.foreignConsentId === this.historyData.ecoId);
             if (status === undefined) {
-                return console.log(`Status not found for econsendId ${this.model.historyData.ecoId}`);
+                return console.log(`Status not found for econsendId ${this.historyData.ecoId}`);
             }
             status.actions = status.actions.map((action, index) => {
                 return {
@@ -83,7 +83,7 @@ export default class EconsentController extends WebcController {
         this.onTagClick('econsent:sign-electronically', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('sign-econsent', {...this.model.historyData});
+            this.navigateToPageTag('sign-econsent', {...this.historyData});
         });
 
     }
@@ -110,7 +110,10 @@ export default class EconsentController extends WebcController {
         this.onTagClick('econsent:versions', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('site-consent-history');
+            this.navigateToPageTag('site-consent-history', {
+                trialConsentId: model.econsent.trialConsentId,
+                ...this.historyData
+            });
         });
     }
 

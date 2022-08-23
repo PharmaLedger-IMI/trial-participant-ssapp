@@ -9,6 +9,7 @@ const {WebcController} = WebCardinal.controllers;
 export default class SiteConsentHistoryController extends WebcController {
     constructor(...props) {
         super(...props);
+        this.state = this.getState();
 
         this._initServices();
         this._attachHandlerBack();
@@ -21,9 +22,10 @@ export default class SiteConsentHistoryController extends WebcController {
             if (err) {
                 return console.log(err);
             }
-            this.model.trialConsent = trialConsent;
-            let consent = this.model.trialConsent.volatile?.ifc[0];
-            this.model.consentUid = consent.uid;
+            this.trialConsent = trialConsent;
+            let consents = this.trialConsent.volatile.ifc;
+            let consent = consents.find(cons => cons.trialConsentId === this.state.trialConsentId);
+            this.consentUid = consent.uid;
             this.model.versions = consent.versions.map(version => {
                 return {
                     ...version,
@@ -63,16 +65,20 @@ export default class SiteConsentHistoryController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('home');
+            console.log(this.state);
+            this.navigateToPageTag('econsent', {
+                ...this.state,
+            });
         });
     }
 
     _attachHandlerPreview() {
         this.onTagClick('navigation:preview',(model) => {
             this.navigateToPageTag('consent-preview',{
-                trialUid: this.model.trialConsent.uid,
+                trialUid: this.trialConsent.uid,
                 versionId: model.version,
-                consentUid: this.model.consentUid
+                consentUid: this.consentUid,
+                ...this.state,
             });
 
         });

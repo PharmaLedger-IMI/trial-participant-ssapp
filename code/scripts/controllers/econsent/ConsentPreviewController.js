@@ -15,7 +15,7 @@ export default class ConsentPreviewController extends WebcController {
         super(...props);
         this.model.econsent = {};
         this._initServices();
-        this.model.historyData = this.getState();
+        this.historyData = this.getState();
         this.model.required = {};
         this.model.declined = {};
         this.model.signed = {};
@@ -43,8 +43,8 @@ export default class ConsentPreviewController extends WebcController {
     }
 
     _initConsent() {
-        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.model.historyData.consentUid)
-        let ecoVersion = this.model.historyData.versionId;
+        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.historyData.consentUid)
+        let ecoVersion = this.historyData.versionId;
         this.model.econsent = econsent;
         this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
         let econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
@@ -54,7 +54,7 @@ export default class ConsentPreviewController extends WebcController {
             if (err) {
                 return console.error(err);
             }
-            let relevantStatuses = data.filter((element) => element.foreignConsentId === this.model.historyData.ecoId);
+            let relevantStatuses = data.filter((element) => element.foreignConsentId === this.historyData.ecoId);
             let currentStatus = relevantStatuses.length > 0 ? relevantStatuses[relevantStatuses.length - 1] : {actions: []}
             this.model.status = currentStatus;
             this.model.signed = ConsentStatusMapper.isSigned(this.model.status.actions);
@@ -92,10 +92,10 @@ export default class ConsentPreviewController extends WebcController {
                 operation: Constants.MESSAGES.HCO.UPDATE_ECOSENT,
                 ssi: ssi,
                 useCaseSpecifics: {
-                    trialSSI: this.model.historyData.trialuid,
+                    trialSSI: this.historyData.trialuid,
                     tpNumber: this.model.tp.number,
                     tpDid: this.model.tp.did,
-                    version: this.model.historyData.ecoVersion,
+                    version: this.historyData.ecoVersion,
                     siteSSI: this.model.tp.site?.keySSI,
                     action: {
                         name: action,
@@ -189,7 +189,9 @@ export default class ConsentPreviewController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', (model) => {
-            this.navigateToPageTag('site-consent-history');
+            this.navigateToPageTag('site-consent-history', {
+                ...this.historyData
+            });
         });
     }
 }
