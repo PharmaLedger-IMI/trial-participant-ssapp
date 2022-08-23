@@ -26,22 +26,32 @@ class CalendarController extends WebcController {
         this._attachHandlerNext();
 
         this.taskService =  TaskService.getTaskService();
-        this.initTaskList((err,invitations) => {
+        this.model.isLoading = true;
+        this.initCalendar();
+
+        this.initTaskList((err) => {
             if(err) {
                 return console.error(err);
             }
-            this.model = this.getDaysModel();
+            let calendarData = this.getDaysModel();
+            this.model.monthName = calendarData.monthName;
+            this.model.fullYear = calendarData.fullYear;
+            this.model.isLoading = false;
         });
 
         window.addEventListener("new-task", (event) => {
             const response = event.detail;
-            console.log('response',response)
             if(response) {
-                this.initTaskList((err,invitations) => {
+                this.model.isLoading = true;
+                this.initTaskList((err) => {
                     if(err) {
                         return console.error(err);
                     }
-                    this.model = this.getDaysModel();
+                    this.initCalendar();
+                    let calendarData = this.getDaysModel();
+                    this.model.monthName = calendarData.monthName;
+                    this.model.fullYear = calendarData.fullYear;
+                    this.model.isLoading = false;
                 });
             }
         }, {capture: true});
@@ -53,27 +63,38 @@ class CalendarController extends WebcController {
             if(err) {
                 return console.error(err);
             }
-            this.model.invitations = tasks.item;
-            callback(undefined, this.model.invitations);
+            this.model.visits = tasks.item;
+            callback(undefined, this.model.visits);
         });
     }
 
     _attachHandlerPrev(){
+        this.model.isLoading = true;
         this.onTagEvent("calendar:prev", "click", () => {
             this.date.setMonth(this.date.getMonth() - 1);
-            this.model = this.getDaysModel();
+            this.initCalendar();
+
+            let calendarData = this.getDaysModel();
+            this.model.monthName = calendarData.monthName;
+            this.model.fullYear = calendarData.fullYear;
+            this.model.isLoading = false;
         });
     }
+
     _attachHandlerNext(){
+        this.model.isLoading = true;
         this.onTagEvent("calendar:next", "click", () => {
             this.date.setMonth(this.date.getMonth() + 1);
-            this.model = this.getDaysModel();
+            this.initCalendar();
+
+            let calendarData = this.getDaysModel();
+            this.model.monthName = calendarData.monthName;
+            this.model.fullYear = calendarData.fullYear;
+            this.model.isLoading = false;
         });
     }
 
-
-    getDaysModel(){
-
+    initCalendar() {
         this.date.setDate(1);
 
         const lastDay = new Date(
@@ -139,29 +160,31 @@ class CalendarController extends WebcController {
             });
         }
 
-        let invitations = this.model.toObject('invitations');
-        console.log('invitations',invitations);
+        this.model.days = days;
+    }
 
-        if(invitations) {
-            days.forEach(day => {
+    getDaysModel(){
+        let visits = this.model.toObject('visits');
+
+        if(visits) {
+            this.model.days.forEach(day => {
                 let calendarDate = new Date(`${day.value} ${day.month} ${day.year}`);
                 calendarDate.setHours(0,0,0,0);
 
-                for(let invitation of invitations) {
-                    let visitDate = new Date(invitation.schedule.startDate);
+                for(let visit of visits) {
+                    let visitDate = new Date(visit.schedule.startDate);
                     visitDate.setHours(0,0,0,0);
                     if (visitDate.getTime() === calendarDate.getTime()) {
-                        day.dayType = 'invitation'; // modify to visit
+                        day.dayType = 'visit';
                     }
                 }
             })
         }
 
-        return{
+        return {
             monthName: this.months[this.date.getMonth()],
             fullYear: this.date.getFullYear(),
-            days: days
-        }
+        };
     };
 }
 

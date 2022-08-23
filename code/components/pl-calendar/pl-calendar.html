@@ -1,41 +1,52 @@
 <link href="./assets/css/pages/new_ediary.css" rel="stylesheet">
 <webc-container controller="CalendarController" id='calendar'>
-        <div class="container">
-            <div class="calendar">
-                <div class="month">
 
+    <div class="container">
+        <div class="calendar">
 
-                    <button class="navigate-back" data-tag="calendar:prev">
-                        <i class="fa fa-angle-left"></i>
-                    </button>
-
-                    <!--<span class="fas fa-angle-left" data-tag="calendar:prev"></span>-->
-                    <div class="date">
-                        <h1>{{@monthName}}</h1>
-                        <p>{{@fullYear}}</p>
-                    </div>
-
-                    <button class="navigate-back" data-tag="calendar:next">
-                        <i class="fa fa-angle-right"></i>
-                    </button>
-
-                    <!--<span class="fas fa-angle-right" data-tag="calendar:next"></span>-->
-
-                </div>
-                <div class="weekdays">
-                    <div>Sun</div>
-                    <div>Mon</div>
-                    <div>Tue</div>
-                    <div>Wed</div>
-                    <div>Thu</div>
-                    <div>Fri</div>
-                    <div>Sat</div>
-                </div>
-                <div class="days" data-for="@days">
-                    <div data-tag="day" data-day-type="@type" invitation-day="@invitationDay" day-type="@dayType">
-                        {{@value}}
+            <div data-if="@isLoading">
+                <div slot="true"
+                     class="container d-flex flex-column align-items-center justify-content-center calendar-initializing">
+                    <div class="row">
+                        <div class="spinner-border text-info" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="month">
+
+                <button class="navigate-back" data-tag="calendar:prev">
+                    <i class="fa fa-angle-left"></i>
+                </button>
+
+                <div class="date">
+                    <h1>{{@monthName}}</h1>
+                    <p>{{@fullYear}}</p>
+                </div>
+
+                <button class="navigate-back" data-tag="calendar:next">
+                    <i class="fa fa-angle-right"></i>
+                </button>
+
+            </div>
+            <div class="weekdays">
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+            </div>
+
+            <div class="days" data-for="@days">
+                <div data-tag="day" data-day-type="@type" invitation-day="@invitationDay" day-type="@dayType">
+                    {{@value}}
+                </div>
+            </div>
         </div>
+    </div>
+
 </webc-container>
