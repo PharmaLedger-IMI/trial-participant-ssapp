@@ -8,59 +8,86 @@
             </button>
             <h3>My Calendar</h3>
         </div>
+        <ion-app class="ionic-wrapper">
+            <ion-tabs>
+                <ion-tab tab="calendar">
+                    <ion-header translucent>
 
-        <div class="calendar-section">
-            <pl-calendar></pl-calendar>
-
-        </div>
-
-        <div class="title">Invitations</div>
-
-        <div>
-            <div data-for="@visits">
-                <div class="invitations-container">
-
-                    <div class="invitation">
-
-                        <div class="layout-content calendar-icon-container">
-                            <i class="fa fa-calendar fa-3"></i>
+                    </ion-header>
+                    <ion-content fullscreen class="ion-padding">
+                        <div class="calendar-section">
+                            <pl-calendar></pl-calendar>
                         </div>
+                    </ion-content>
+                </ion-tab>
 
-                        <div class="layout-content invitation-details">
-                            <div class="item1">
-                                <h1>
-                                    {{@name}}
-                                </h1>
-                            </div>
+                <ion-tab tab="invitations">
 
-                            <div class="item1 date-star-container">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <p>
-                                    {{@visitDate}}
-                                </p>
-                            </div>
+                    <ion-content fullscreen class="ion-padding">
 
-                            <div class="item1 buttons-container">
-                                <button data-tag="visit:confirm">
-                                    Accept
-                                </button>
-                                <label>|</label>
-                                <button data-tag="visit:decline">
-                                    Decline
-                                </button>
-                                <label>|</label>
-                                <button data-tag="reschedule-invitation">
-                                    Reschedule
-                                </button>
+                        <div class="title">Invitations</div>
+                        <div>
+                            <div data-for="@visits">
+                                <div class="invitations-container">
+
+                                    <div class="invitation">
+
+                                        <div class="layout-content calendar-icon-container">
+                                            <i class="fa fa-calendar fa-3"></i>
+                                        </div>
+
+                                        <div class="layout-content invitation-details">
+                                            <div class="item1">
+                                                <h1>
+                                                    {{@name}}
+                                                </h1>
+                                            </div>
+
+                                            <div class="item1 date-star-container">
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <p>
+                                                    {{@visitDate}}
+                                                </p>
+                                            </div>
+
+                                            <div class="item1 buttons-container">
+                                                <button data-tag="visit:confirm">
+                                                    Accept
+                                                </button>
+                                                <label>|</label>
+                                                <button data-tag="visit:decline">
+                                                    Decline
+                                                </button>
+                                                <label>|</label>
+                                                <button data-tag="reschedule-invitation">
+                                                    Reschedule
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
+                    </ion-content>
+                </ion-tab>
 
-                    </div>
 
-                </div>
+                <ion-tab-bar slot="bottom">
+                    <ion-tab-button tab="calendar">
+                        <ion-label>Calendar</ion-label>
+                        <ion-icon name="calendar-outline"></ion-icon>
+                    </ion-tab-button>
+                    <ion-tab-button tab="invitations">
+                        <ion-label>Invitations</ion-label>
+                        <ion-icon name="medkit-outline"></ion-icon>
+                    </ion-tab-button>
+                </ion-tab-bar>
+            </ion-tabs>
 
-            </div>
-        </div>
+        </ion-app>
 
     </div>
     </div>

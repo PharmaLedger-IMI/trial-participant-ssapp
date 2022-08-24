@@ -157,7 +157,7 @@ label.home-title {
 
 .container-child {
     min-height: calc(100vh - 62px);
-    padding: 5%;
+    padding: 1rem;
     border: 10px solid #00345B;
     background: #FFFFFF;
     border-radius: 20px;
