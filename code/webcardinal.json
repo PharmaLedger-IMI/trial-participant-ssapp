@@ -12,7 +12,7 @@
             "name": "Task Calendar",
             "path": "/task-calendar",
             "src": "econsent/task-calendar.html",
-            "tag": "task-calendars"
+            "tag": "task-calendar"
         },
         {
             "name": "tasks",
