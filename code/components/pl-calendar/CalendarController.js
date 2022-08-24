@@ -29,33 +29,13 @@ class CalendarController extends WebcController {
         this.model.isLoading = true;
         this.initCalendar();
 
-        this.initTaskList((err) => {
+        this.initTaskList((err, visits) => {
             if(err) {
                 return console.error(err);
             }
-            let calendarData = this.getDaysModel();
-            this.model.monthName = calendarData.monthName;
-            this.model.fullYear = calendarData.fullYear;
-            this.model.isLoading = false;
+            this.visits = visits;
+            this._setCalendarDate();
         });
-
-        window.addEventListener("new-task", (event) => {
-            const response = event.detail;
-            if(response) {
-                this.model.isLoading = true;
-                this.initTaskList((err) => {
-                    if(err) {
-                        return console.error(err);
-                    }
-                    this.initCalendar();
-                    let calendarData = this.getDaysModel();
-                    this.model.monthName = calendarData.monthName;
-                    this.model.fullYear = calendarData.fullYear;
-                    this.model.isLoading = false;
-                });
-            }
-        }, {capture: true});
-
     }
 
     initTaskList(callback){
@@ -63,34 +43,34 @@ class CalendarController extends WebcController {
             if(err) {
                 return console.error(err);
             }
-            this.model.visits = tasks.item;
-            callback(undefined, this.model.visits);
+            callback(undefined, tasks.item);
         });
     }
 
-    _attachHandlerPrev(){
-        this.model.isLoading = true;
-        this.onTagEvent("calendar:prev", "click", () => {
-            this.date.setMonth(this.date.getMonth() - 1);
-            this.initCalendar();
 
-            let calendarData = this.getDaysModel();
-            this.model.monthName = calendarData.monthName;
-            this.model.fullYear = calendarData.fullYear;
-            this.model.isLoading = false;
+    _initMonth(monthPosition){
+        this.model.isLoading = true;
+        this.date.setMonth(this.date.getMonth() + monthPosition);
+        this.initCalendar();
+        this._setCalendarDate();
+    }
+
+    _setCalendarDate() {
+        let calendarData = this.getDaysModel();
+        this.model.monthName = calendarData.monthName;
+        this.model.fullYear = calendarData.fullYear;
+        this.model.isLoading = false;
+    }
+
+    _attachHandlerPrev(){
+        this.onTagEvent("calendar:prev", "click", () => {
+            this._initMonth(-1)
         });
     }
 
     _attachHandlerNext(){
-        this.model.isLoading = true;
         this.onTagEvent("calendar:next", "click", () => {
-            this.date.setMonth(this.date.getMonth() + 1);
-            this.initCalendar();
-
-            let calendarData = this.getDaysModel();
-            this.model.monthName = calendarData.monthName;
-            this.model.fullYear = calendarData.fullYear;
-            this.model.isLoading = false;
+            this._initMonth(1)
         });
     }
 
@@ -164,14 +144,13 @@ class CalendarController extends WebcController {
     }
 
     getDaysModel(){
-        let visits = this.model.toObject('visits');
 
-        if(visits) {
+        if(this.visits) {
             this.model.days.forEach(day => {
                 let calendarDate = new Date(`${day.value} ${day.month} ${day.year}`);
                 calendarDate.setHours(0,0,0,0);
 
-                for(let visit of visits) {
+                for(let visit of this.visits) {
                     let visitDate = new Date(visit.schedule.startDate);
                     visitDate.setHours(0,0,0,0);
                     if (visitDate.getTime() === calendarDate.getTime()) {
