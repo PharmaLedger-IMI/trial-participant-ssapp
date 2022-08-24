@@ -70,8 +70,9 @@ export default class ConsentPreviewController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', (model) => {
+            const {versionId, ...state} = this.historyData;
             this.navigateToPageTag('site-consent-history', {
-                ...this.historyData
+                ...state
             });
         });
     }
