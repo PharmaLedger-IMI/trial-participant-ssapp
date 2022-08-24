@@ -136,8 +136,3 @@
     opacity: 0.84;
     cursor: not-allowed;
   }
-
-.questions-container {
-    display: flex;
-    justify-content: center;
-}
