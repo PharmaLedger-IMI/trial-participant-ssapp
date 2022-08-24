@@ -26,7 +26,7 @@
 
         <h4 class="share-did-label">{{@did}}</h4>
 
-        <div class="form-group">
+        <div class="form-group text-center">
             <label class="col-form-label">Would you like to be contacted to donate/use your data for clinical
                 studies?</label>
             <div class="d-flex flex-row justify-content-center align-items-center">
@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div data-if="@dp.contactMe.value">
+        <div class="questions-container" data-if="@dp.contactMe.value">
             <webc-template data-view-model="@" template="dp-template">
             </webc-template>
         </div>
