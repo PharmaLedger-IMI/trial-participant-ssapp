@@ -264,9 +264,30 @@
     font-size: 4rem;
 }
 
-.fa-star {
+.legend-item {
+    display:flex;
+    flex-direction: column;
+}
+
+.legend-container {
+    display: flex;
+    margin-top: 15px!important;
+}
+
+.calendar-legend {
+    display: flex;
+}
+
+.only-visits {
     color: #DA22BC;
-    padding-right: 10px;
+}
+
+.only-questionnaire {
+    color: #e8ac0f;
+}
+
+.visits-questionnaire {
+    color: #1aa999;
 }
 
 .buttons-container {
