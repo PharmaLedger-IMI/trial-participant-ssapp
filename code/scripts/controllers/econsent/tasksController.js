@@ -113,7 +113,16 @@ export default class eDiaryController extends WebcController {
                     }
                     break;
                 case "monthly":
-                    if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
+                    let monthlyDaysBetween = Math.round((clickedDate - startDate) / (1000 * 24 * 3600))
+                    let endOfPreviousMonth = new Date(clickedDate.getFullYear(), clickedDate.getMonth(), 0);
+                    let endOfStartDateMonth = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+
+                    if (endOfPreviousMonth > endOfStartDateMonth) {
+                        monthlyDaysBetween -= Math.round((endOfPreviousMonth - endOfStartDateMonth) / (1000 * 24 * 3600))
+                    }
+                    let calendarMonthDays = new Date(clickedDate.getFullYear(), clickedDate.getMonth() + 1, 0).getDate();
+
+                    if (monthlyDaysBetween % calendarMonthDays === 0) {
                         if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
                         if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     }
