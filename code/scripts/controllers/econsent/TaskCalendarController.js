@@ -7,27 +7,12 @@ const momentService  = commonServices.momentService;
 const BaseRepository = commonServices.BaseRepository;
 import {getTPService}  from "../../services/TPService.js"
 
-
-let getInitModel = () => {
-    return {
-        visits: []
-    };
-};
-
 export default class TaskCalendarController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model = {
-            ...getInitModel(),
-            visits: [],
-            selectedVisit: {
-                active: false,
-                details: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
-                toRemember: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
-                procedures: 'General details and description of the trial in case it provided by the Sponsor/Site regarding specific particularities of the Trial or general message for Trial Subject',
-            }
+            visits: []
         };
-
 
         this._initServices();
         this._initHandlers();
