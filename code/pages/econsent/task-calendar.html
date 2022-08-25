@@ -26,7 +26,8 @@
                     <ion-content fullscreen class="ion-padding">
 
                         <div class="title">Invitations</div>
-                        <div>
+                        <div data-if="@hasInvitations">
+                        <div slot="true">
                             <div data-for="@visits">
                                 <div class="invitations-container">
 
@@ -71,6 +72,12 @@
 
                             </div>
                         </div>
+                        <div slot="false">
+                            <div class="alert alert-light" role="alert">
+                                No new invitations were sent to you
+                            </div>
+                        </div>
+                        </div>
                     </ion-content>
                 </ion-tab>
 
@@ -82,7 +89,8 @@
                     </ion-tab-button>
                     <ion-tab-button tab="invitations">
                         <ion-label>Invitations</ion-label>
-                        <ion-icon name="medkit-outline"></ion-icon>
+                        <ion-badge>{{@invitationsNumber}}</ion-badge>
+                        <ion-icon name="mail-unread-outline"></ion-icon>
                     </ion-tab-button>
                 </ion-tab-bar>
             </ion-tabs>

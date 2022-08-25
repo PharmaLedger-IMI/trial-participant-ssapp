@@ -72,8 +72,9 @@ export default class TaskCalendarController extends WebcController {
         }
 
         this.model.visits = this.model.toObject('allVisits').filter(filterVisits);
-
-        if (this.model.visits && this.model.visits.length > 0) {
+        this.model.invitationsNumber = this.model.visits.length;
+        this.model.hasInvitations = this.model.visits.length>0;
+        if (this.model.visits.length > 0) {
             this.TPService.getTp((err, tp) => {
                 if (err) {
                     return console.log(err);
