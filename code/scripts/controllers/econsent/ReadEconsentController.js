@@ -201,6 +201,16 @@ export default class ReadEconsentController extends WebcController {
     }
 
     async _saveStatus(operation) {
+        const digitalSignatureOptions = {
+            path: this.econsentFilePath,
+            version: this.currentVersion.attachment,
+            signatureDate: new Date().toLocaleDateString(),
+            signatureAuthor: "Trial Participant Signature",
+            existingSignatures: 0
+        };
+        const arrayBufferSignedPdf = await this.PDFService.applyDigitalSignature(digitalSignatureOptions);
+        console.log("signed pdf", arrayBufferSignedPdf);
+
         if (this.model.status === undefined || this.model.status.uid === undefined) {
             //TODO implement when status is not set => optional consents
             return;

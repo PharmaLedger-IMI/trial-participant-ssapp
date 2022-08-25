@@ -8,6 +8,7 @@ addfile ../common-services/build/bundles/commonServices.js scripts/bundles/commo
 
 addfile ../common-services/utils/third-parties/pdf.js scripts/third-parties/pdf.js
 addfile ../common-services/utils/third-parties/pdf.worker.js scripts/third-parties/pdf.worker.js
+addfile ../common-services/utils/third-parties/pdf-lib.min.js scripts/third-parties/pdf-lib.min.js
 
 mount ../webcardinal/seed /webcardinal
 mount ../themes/trial-participant-theme/seed /themes/trial-participant-theme
