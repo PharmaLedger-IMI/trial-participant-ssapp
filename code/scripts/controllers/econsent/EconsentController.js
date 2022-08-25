@@ -74,8 +74,6 @@ export default class EconsentController extends WebcController {
             });
             this.model.status = status;
             this.model.status.latest = status.actions.length > 0 ? status.actions[status.actions.length - 1].name : 'N/A';
-            this.model.signed = ConsentStatusMapper.isSigned(this.model.status.actions);
-            this.model.declined = ConsentStatusMapper.isDeclined(this.model.status.actions);
         });
     }
 

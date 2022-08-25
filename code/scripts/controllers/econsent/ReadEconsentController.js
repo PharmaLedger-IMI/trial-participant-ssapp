@@ -99,7 +99,7 @@ export default class ReadEconsentController extends WebcController {
                     controller: 'general/ConfirmationAlertController',
                     disableExpanding: false,
                     disableBackdropClosing: false,
-                    question: 'Are you sure you want to sign this ecosent? ',
+                    question: 'Are you sure you want to sign this econsent? ',
                     title: 'Sign Econsent',
                 });
         });
@@ -171,7 +171,7 @@ export default class ReadEconsentController extends WebcController {
             }
                 this.model.tp = tp;
                 let sendObject = {
-                    operation: Constants.MESSAGES.HCO.UPDATE_ECOSENT,
+                    operation: Constants.MESSAGES.HCO.UPDATE_ECONSENT,
                     ssi: ssi,
                     useCaseSpecifics: {
                         trialSSI: this.model.historyData.trialuid,

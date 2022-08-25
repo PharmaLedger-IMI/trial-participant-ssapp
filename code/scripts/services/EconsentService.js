@@ -34,14 +34,14 @@ export default class EconsentService extends DSUService {
 
     }
 
-    _getEconsentsPath(ecosentID) {
+    _getEconsentsPath(econsentID) {
 
-        return this.ECONSENT_PATH + '/' + ecosentID;
+        return this.ECONSENT_PATH + '/' + econsentID;
     }
 
-    _getEconsentsFilePath(keySSI, ecosentId) {
+    _getEconsentsFilePath(keySSI, econsentId) {
 
-        return this._getEconsentsPath(ecosentId) + '/' + keySSI + '/';
+        return this._getEconsentsPath(econsentId) + '/' + keySSI + '/';
     }
 
     mountEconsent = (keySSI, callback) => this.mountEntity(keySSI, callback);
