@@ -9,46 +9,58 @@
         </div>
 
         <div class="main-navigation">
+
             <div class="feedback-container">
 
-                <button class="feedback-btn" data-tag="participating-studies">
-                    <i class="fa fa-calendar fa-4x"></i>
-                    <div class="feedback-item-container">
-                        <p class="title">Participating studies</p>
-                        <p>Existing participating studies
-                        </p>
-                    </div>
+                <ion-list>
+                    <ion-item data-tag="participating-studies" class="mb-2 mt-2">
+                        <ion-avatar slot="start">
+                            <ion-icon name="cloud-download" color="green" size="large"></ion-icon>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>Participating studies</h2>
+                            <p>Existing participating studies</p>
+                        </ion-label>
+                        <ion-badge slot="end" color="green"> 1 </ion-badge>
+                    </ion-item>
 
-                </button>
+
+                    <ion-item data-tag="pending-invitations" class="mb-2 mt-2">
+                        <ion-avatar slot="start">
+                            <ion-icon name="cloud-upload" color="green" size="large"></ion-icon>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>Pending Invitations</h2>
+                            <p>Accept or reject participation to studies</p>
+                        </ion-label>
+                        <ion-badge slot="end" color="green" size="large">3</ion-badge>
+                    </ion-item>
+
+                    <ion-item data-tag="completed-studies" class="mb-2 mt-2">
+                        <ion-avatar slot="start">
+                            <ion-icon name="cloud-done" color="green" size="large"></ion-icon>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>Completed Studies</h2>
+                            <p>Check the evidences and feedback</p>
+                        </ion-label>
+                        <ion-badge slot="end" color="green"> 2 </ion-badge>
+                    </ion-item>
 
 
-                <button class="feedback-btn" data-tag="pending-invitations">
-                    <i class="fa fa-clone fa-4x"></i>
-                    <div class="feedback-item-container">
-                        <p class="title">Pending Invitations</p>
-                        <p>Pending invitations of studies to accept or reject
-                        </p>
-                    </div>
+                    <ion-item data-tag="permissions" class="mb-2 mt-2">
+                        <ion-avatar slot="start">
+                            <ion-icon name="cloud-offline" color="green" size="large"></ion-icon>
+                        </ion-avatar>
+                        <ion-label>
+                            <h2>Permissions</h2>
+                            <p>Active permissions and history</p>
+                        </ion-label>
+                        <ion-badge slot="end" color="green"> 4 </ion-badge>
+                    </ion-item>
 
-                </button>
 
-                <button class="feedback-btn" data-tag="completed-studies">
-                    <i class="fa fa-check-square-o fa-4x"></i>
-                    <div class="feedback-item-container">
-                        <p class="title">Completed Studies</p>
-                        <p>Completed studies with evidence and feedback
-                        </p>
-                    </div>
-                </button>
-
-                <button class="feedback-btn" data-tag="permissions">
-                    <i class="fa fa-lock fa-4x"></i>
-                    <div class="feedback-item-container">
-                        <p class="title">Permissions</p>
-                        <p>Active permissions and history
-                        </p>
-                    </div>
-                </button>
+                </ion-list>
 
             </div>
         </div>

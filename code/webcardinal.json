@@ -147,10 +147,10 @@
             "tag": "view-study-details"
         },
         {
-            "name": "user-permission",
-            "path": "/user-permission",
-            "src": "iot/user-permission.html",
-            "tag": "user-permission"
+            "name": "sharing-permissions",
+            "path": "/sharing-permissions",
+            "src": "iot/sharing-permissions.html",
+            "tag": "sharing-permissions"
         },
         {
             "name": "eDiary",

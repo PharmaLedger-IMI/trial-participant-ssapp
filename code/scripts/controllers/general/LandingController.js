@@ -112,6 +112,11 @@ export default class LandingController extends WebcController {
                 this.navigateToPageTag('iot-health-studies');
             }
         });
+        this.onTagEvent("navigate:sharing-permissions", "click", () => {
+            if (!this.model.notAssigned) {
+                this.navigateToPageTag('sharing-permissions');
+            }
+        });
     }
 
     async initServices() {

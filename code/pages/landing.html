@@ -49,37 +49,68 @@
                 </div>
 
                 <div class="container">
-                    <div class="row">
-                        <div class="col-6">
-                            <button class="navigation-btn" data-tag="navigate:task-calendar" disabled="@notAssigned">
-                                <i class="fa fa-calendar"></i>
-                                <span>Tasks Calendar</span>
-                            </button>
-                        </div>
 
-                        <div class="col-6">
-                            <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
-                                <i class="fa fa-calculator"></i>
-                                <span>Device Data</span>
-                            </button>
-                        </div>
-                    </div>
+                    <ion-card>
+                        <ion-card-header>
+                            <ion-card-subtitle>Clinical Trial</ion-card-subtitle>
+                        </ion-card-header>
+                        <ion-card-content>
 
-                    <div class="row">
-                        <div class="col-6">
-                            <button class="navigation-btn" data-tag="navigate:consent-status" disabled="@notAssigned">
-                                <i class="fa fa-th-list"></i>
-                                <span>Consent Status</span>
-                            </button>
-                        </div>
+                            <div class="row">
+                                <div class="col-4 d-flex justify-content-around">
+                                    <button class="navigation-btn" data-tag="navigate:consent-status" disabled="@notAssigned">
+                                        <i class="fa fa-th-list"></i>
+                                        <span>Consents</span>
+                                    </button>
+                                </div>
 
-                        <div class="col-6">
-                            <button class="navigation-btn" data-tag="navigate:health-studies" disabled="@notAssigned">
-                                <i class="fa fa-database"></i>
-                                <span>Health Studies</span>
-                            </button>
-                        </div>
-                    </div>
+                                <div class="col-4 d-flex justify-content-around">
+                                    <button class="navigation-btn" data-tag="navigate:task-calendar" disabled="@notAssigned">
+                                        <i class="fa fa-calendar"></i>
+                                        <span>Calendar</span>
+                                    </button>
+                                </div>
+
+                                <div class="col-4 d-flex justify-content-around">
+                                    <button class="navigation-btn" data-tag="navigate:iot-devices" disabled="@notAssigned">
+                                        <i class="fa fa-calculator"></i>
+                                        <span>Medical Data</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </ion-card-content>
+                    </ion-card>
+
+
+                            <ion-card>
+                                <ion-card-header>
+                                    <ion-card-subtitle>Sharing Health Data</ion-card-subtitle>
+                                </ion-card-header>
+                                <ion-card-content>
+
+                                    <div class="row">
+
+                                        <div class="col-6 d-flex justify-content-around">
+                                            <button class="navigation-btn" data-tag="navigate:sharing-permissions" disabled="@notAssigned">
+                                                <i class="fa fa-check"></i>
+                                                <span>Permissions</span>
+                                            </button>
+                                        </div>
+
+
+                                        <div class="col-6 d-flex justify-content-around">
+                                            <button class="navigation-btn" data-tag="navigate:health-studies" disabled="@notAssigned">
+                                                <i class="fa fa-database"></i>
+                                                <span>Health studies</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ion-card-content>
+                            </ion-card>
+
+
+
 
                 </div>
 

@@ -1,21 +1,4 @@
 /* css for ionic checkboxes */
-:root {
-	--ion-color-green: #008798;
-	--ion-color-green-rgb: 0,135,152;
-	--ion-color-green-contrast: #ffffff;
-	--ion-color-green-contrast-rgb: 255,255,255;
-	--ion-color-green-shade: #007786;
-	--ion-color-green-tint: #1a93a2;
-}
-
-.ion-color-green {
-	--ion-color-base: var(--ion-color-green);
-	--ion-color-base-rgb: var(--ion-color-green-rgb);
-	--ion-color-contrast: var(--ion-color-green-contrast);
-	--ion-color-contrast-rgb: var(--ion-color-green-contrast-rgb);
-	--ion-color-shade: var(--ion-color-green-shade);
-	--ion-color-tint: var(--ion-color-green-tint);
-}
 
 .btn.next, .btn.edit, .btn.save, .btn.delete {
     border-radius: 50%;
