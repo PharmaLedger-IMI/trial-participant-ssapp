@@ -3,9 +3,7 @@ const BaseRepository = commonServices.BaseRepository;
 const { WebcController } = WebCardinal.controllers;
 import {getNotificationService} from "../../services/NotificationService.js";
 const momentService = commonServices.momentService;
-const commons = {
-  DateTimeFormatPattern: 'DD-MMM-YYYY, HH:mm'
-}
+const Constants = commonServices.Constants;
 
 export default class NotificationsController extends WebcController {
   constructor(...props) {
@@ -25,8 +23,8 @@ export default class NotificationsController extends WebcController {
   async getNotifications() {
     let notifications = await this.notificationService.getNotifications();
     notifications.map(notification => {
-      notification.date = momentService(notification.date).format(commons.DateTimeFormatPattern);
-    })
+      notification.date = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+    });
     this.model.setChainValue('notifications', notifications);
     this.model.notificationsEmpty = (notifications.length == 0);
     this.viewNotificationHandler();
