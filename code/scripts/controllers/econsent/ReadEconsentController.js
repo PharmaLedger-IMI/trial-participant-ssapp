@@ -87,8 +87,9 @@ export default class ReadEconsentController extends WebcController {
                 (event) => {
                     const response = event.detail;
                     if (response) {
-                        this.model.status.actions.push({name: 'signed', version:this.currentVersion.version});
-                        this._saveStatus('sign');
+                        let operation = ConsentStatusMapper.consentStatuses.signed.name;
+                        this.model.status.actions.push({name: operation, version: this.currentVersion.version});
+                        this._saveStatus(operation);
                     }
                 },
                 (event) => {
@@ -115,10 +116,7 @@ export default class ReadEconsentController extends WebcController {
                     const response = event.detail;
                     if (response) {
                         let operation = ConsentStatusMapper.consentStatuses.decline.name;
-                        this.model.status.actions.push({
-                            name: ConsentStatusMapper.consentStatuses.decline.name,
-                            version: this.currentVersion.version
-                        });
+                        this.model.status.actions.push({name: operation, version: this.currentVersion.version});
                         this._saveStatus(operation);
                     }
                 },
@@ -144,11 +142,10 @@ export default class ReadEconsentController extends WebcController {
                 'econsent/withdraw-econsent',
                 (event) => {
                     const response = event.detail;
-                    let operation = 'withdraw';
-                    let message = 'TP withdraw consent.';
                     if (response.withdraw) {
-                        this.model.status.actions.push({name: 'withdraw', version:this.currentVersion.version});
-                        this._saveStatus('withdraw');
+                        let operation = ConsentStatusMapper.consentStatuses.withdraw.name;
+                        this.model.status.actions.push({name: operation, version:this.currentVersion.version});
+                        this._saveStatus(operation);
                     }
                 },
                 (event) => {
