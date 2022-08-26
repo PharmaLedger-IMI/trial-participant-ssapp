@@ -1,7 +1,7 @@
 import TrialConsentService from "../../services/TrialConsentService.js";
-import ConsentStatusMapper from "../../utils/ConsentStatusMapper.js";
 
 const commonServices = require('common-services');
+const ConsentStatusMapper = commonServices.ConsentStatusMapper;
 const DateTimeService = commonServices.DateTimeService;
 const BaseRepository = commonServices.BaseRepository;
 const {WebcController} = WebCardinal.controllers;

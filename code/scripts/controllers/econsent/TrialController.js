@@ -1,8 +1,8 @@
 import TrialService from '../../services/TrialService.js';
-import ConsentStatusMapper from "../../utils/ConsentStatusMapper.js";
 import TrialConsentService from "../../services/TrialConsentService.js";
 
 const commonServices = require('common-services');
+const ConsentStatusMapper = commonServices.ConsentStatusMapper;
 const DateTimeService = commonServices.DateTimeService;
 const BaseRepository = commonServices.BaseRepository;
 import {getTPService}  from "../../services/TPService.js"

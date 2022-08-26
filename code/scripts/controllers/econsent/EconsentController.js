@@ -1,8 +1,8 @@
 import TrialService from '../../services/TrialService.js';
-import ConsentStatusMapper from '../../utils/ConsentStatusMapper.js';
 import TrialConsentService from "../../services/TrialConsentService.js";
 
 const commonServices = require('common-services');
+const ConsentStatusMapper = commonServices.ConsentStatusMapper;
 const FileDownloaderService = commonServices.FileDownloaderService;
 const BaseRepository = commonServices.BaseRepository;
 
@@ -41,8 +41,6 @@ export default class EconsentController extends WebcController {
         this._attachHandlerSignEconsent();
         this._attachHandlerDownload();
         this._attachHandlerVersions();
-
-        this._attachHandlerWithdraw();
     }
 
     _initEconsent() {
@@ -112,25 +110,6 @@ export default class EconsentController extends WebcController {
                 trialConsentId: model.econsent.trialConsentId,
                 status: this.model.status.latest,
                 ...this.historyData
-            });
-        });
-    }
-
-    _attachHandlerWithdraw() {
-        this.on('econsent:withdraw', (event) => {
-            this.showModal('withdrawEconsent', {}, (err, response) => {
-                if (err) {
-                    return console.log(err);
-                }
-                if (response) {
-                    this.model.status.actions.push({name: 'withdraw', version: this.currentVersion.version});
-                    this.model.status.latest = 'Withdraw';
-                }
-                this.EconsentsStatusRepository.update(this.model.status.uid, this.model.status, (err, response) => {
-                    if (err) {
-                        return console.log(err);
-                    }
-                });
             });
         });
     }
