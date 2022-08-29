@@ -165,31 +165,25 @@ export default class ReadEconsentController extends WebcController {
         const currentDate = new Date();
         currentDate.setDate(currentDate.getDate());
 
-        this.TPService.getTp((err, tp)=>{
-            if(err){
-                return console.log(err);
-            }
-                this.model.tp = tp;
-                let sendObject = {
-                    operation: Constants.MESSAGES.HCO.UPDATE_ECONSENT,
-                    ssi: ssi,
-                    useCaseSpecifics: {
-                        trialSSI: this.model.historyData.trialuid,
-                        tpNumber: this.model.tp.number,
-                        tpDid: this.model.tp.did,
-                        version: this.model.historyData.ecoVersion,
-                        siteSSI: this.model.tp.site?.keySSI,
-                        action: {
-                            name: action,
-                            date: currentDate.toISOString(),
-                            toShowDate: currentDate.toLocaleDateString(),
-                            consentType: this.model.status.type,
-                        },
-                    },
-                    shortDescription: shortMessage,
-                };
-                this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
-        });
+        let sendObject = {
+            operation: Constants.MESSAGES.HCO.UPDATE_ECONSENT,
+            ssi: ssi,
+            useCaseSpecifics: {
+                trialSSI: this.model.historyData.trialuid,
+                tpNumber: this.model.tp.number,
+                tpDid: this.model.tp.did,
+                version: this.model.historyData.ecoVersion,
+                siteSSI: this.model.tp.site?.keySSI,
+                action: {
+                    name: action,
+                    date: currentDate.toISOString(),
+                    toShowDate: currentDate.toLocaleDateString(),
+                    consentType: this.model.status.type,
+                },
+            },
+            shortDescription: shortMessage,
+        };
+        this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
     }
 
     _attachHandlerBack() {
@@ -201,15 +195,16 @@ export default class ReadEconsentController extends WebcController {
     }
 
     async _saveStatus(operation) {
+        this.model.tp = await this.TPService.getTpAsync();
         const digitalSignatureOptions = {
             path: this.econsentFilePath,
             version: this.currentVersion.attachment,
-            signatureDate: new Date().toLocaleDateString(),
+            signatureDate: `Digital Signature ${new Date().toLocaleDateString()}`,
             signatureAuthor: "Trial Participant Signature",
-            existingSignatures: 0
+            signatureDid: this.model.tp.did,
+            isRightSide: false
         };
-        const arrayBufferSignedPdf = await this.PDFService.applyDigitalSignature(digitalSignatureOptions);
-        console.log("signed pdf", arrayBufferSignedPdf);
+        this.PDFService.applyDigitalSignature(digitalSignatureOptions);
 
         if (this.model.status === undefined || this.model.status.uid === undefined) {
             //TODO implement when status is not set => optional consents
