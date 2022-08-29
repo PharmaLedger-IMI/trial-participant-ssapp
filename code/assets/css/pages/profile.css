@@ -1,4 +1,8 @@
-/* css for ionic checkboxes */
+.container-child.full-height {
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 100%;
+    display: grid;
+}
 
 .btn.next, .btn.edit, .btn.save, .btn.delete {
     border-radius: 50%;

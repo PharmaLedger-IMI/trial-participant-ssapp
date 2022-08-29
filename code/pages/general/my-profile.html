@@ -1,48 +1,54 @@
 <link href="./assets/css/pages/profile.css" rel="stylesheet">
 <webc-container controller="general/MyProfileController">
-    <div class="container-child">
+    <div class="container-child full-height">
         <div class="header-title">
             <button class="navigate-back" data-tag="back">
                 <i class="fa fa-angle-left"></i>
             </button>
             <h3>My Profile</h3>
         </div>
-
-        <div class="form-group">
-            <div class="avatar-upload">
-                <div class="avatar-edit">
-                    <input type='file' id="profileImageUpload" accept=".png, .jpg, .jpeg"/>
-                    <label for="profileImageUpload"></label>
-                </div>
-                <div class="avatar-preview">
-                    <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="@profilePicture"
-                         alt="User profile picture">
+        <div>
+            <div class="form-group">
+                <div class="avatar-upload">
+                    <div class="avatar-edit">
+                        <input type='file' id="profileImageUpload" accept=".png, .jpg, .jpeg"/>
+                        <label for="profileImageUpload"></label>
+                    </div>
+                    <div class="avatar-preview">
+                        <img class="profile-user-img img-responsive img-circle" id="imagePreview" src="@profilePicture"
+                             alt="User profile picture">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="p-1 text-center">
-            <h2 class="title">Subject Name: {{@tp.subjectName}}</h2>
-        </div>
 
-        <h4 class="share-did-label">{{@did}}</h4>
 
-        <div class="form-group text-center">
-            <label class="col-form-label">Would you like to be contacted to donate/use your data for clinical
-                studies?</label>
-            <div class="d-flex flex-row justify-content-center align-items-center">
-                <ion-item>
-                    <ion-label>Yes, I want to receive studies invites</ion-label>
-                    <ion-toggle class="p-2" color="green" slot="start" checked="@dp.contactMe.value"
-                                value="@dp.contactMe.value"></ion-toggle>
-                </ion-item>
+            <div class="form-group mb-2">
+                <label>Patient Name:</label>
+                <input type="email" class="form-control" value="@tp.subjectName" readonly>
+            </div>
 
+            <div class="form-group mb-2">
+                <label>Patient DID:</label>
+                <input type="email" class="form-control" value="@publicDid" readonly>
+            </div>
+
+            <div class="form-group mb-2">
+                <label>Anonymized DID:</label>
+                <input type="email" class="form-control" value="@tp.did" readonly>
+            </div>
+
+            <div class="form-group mb-2">
+                <label>Email address</label>
+                <input type="email" class="form-control" placeholder="Enter email" value="@contactData.emailAddress">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label>Phone number</label>
+                <input type="tel" class="form-control" placeholder="Phone number" value="@contactData.phoneNumber">
             </div>
         </div>
 
-        <div class="d-flex justify-content-center" data-if="@dp.contactMe.value">
-            <webc-template data-view-model="@" template="dp-template">
-            </webc-template>
-        </div>
 
         <div class="button-group-wrapper text-center p-1">
             <div class="d-flex justify-content-between">

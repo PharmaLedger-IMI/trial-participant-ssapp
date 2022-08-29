@@ -9,6 +9,22 @@ class ProfileService extends DSUService {
         this.hasProfilePicture = false
     }
 
+    getContactData(callback){
+        this.getEntities((err, contactData)=>{
+            if(err){
+                return callback(err);
+            }
+            callback(undefined, contactData[0]);
+        });
+    }
+
+    saveContactData(contactData, callback){
+        if(contactData.uid){
+            return this.updateEntity(contactData, callback);
+        }
+        this.saveEntity(contactData, callback);
+    }
+
     saveProfilePicture(filedata, callback) {
         this.writeFile("/profile-pic", $$.Buffer.from(filedata), (err,data)=>{
             // this.hasProfilePicture = false
