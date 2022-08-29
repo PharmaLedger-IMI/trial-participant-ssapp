@@ -23,7 +23,6 @@ class NotificationService  extends DSUService {
     async getNotifications() {
         if(this.notifications === null) {
             let notifications = await this.storageService.filter(this.NOTIFICATIONS_TABLE);
-            notifications = notifications.sort((a, b) => b.date - a.date);
             this.notifications = notifications;
         }
         return this.notifications;
@@ -31,7 +30,7 @@ class NotificationService  extends DSUService {
 
     async insertNotification(notification) {
         const id = uuidv4();
-        const newRecord = await this.storageService.insertRecord(this.NOTIFICATIONS_TABLE, id, notification);
+        const newRecord = await this.storageService.insertRecordAsync(this.NOTIFICATIONS_TABLE, id, notification);
         this.notifications.push(newRecord);
         for(let subscriber of this.subscribers) {
             subscriber();

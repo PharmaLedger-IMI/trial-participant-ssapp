@@ -11,8 +11,8 @@ export default class NotificationsController extends WebcController {
     this._initServices().then(async () => {
       await this.getNotifications();
     });
-    this._attachHandlerBack()
-    // this.markNotificationHandler();
+    this._attachHandlerBack();
+    this.viewNotificationHandler();
   }
 
   async _initServices() {
@@ -22,12 +22,12 @@ export default class NotificationsController extends WebcController {
 
   async getNotifications() {
     let notifications = await this.notificationService.getNotifications();
-    notifications.map(notification => {
-      notification.date = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+    notifications.forEach(notification => {
+      notification.toShowDate = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
     });
+    notifications.sort((a, b) => b.date - a.date);
     this.model.setChainValue('notifications', notifications);
-    this.model.notificationsEmpty = (notifications.length == 0);
-    this.viewNotificationHandler();
+    this.model.notificationsEmpty = (notifications.length === 0);
   }
 
   viewNotificationHandler() {
