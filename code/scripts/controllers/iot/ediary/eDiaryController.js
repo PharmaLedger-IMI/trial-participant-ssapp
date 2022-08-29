@@ -76,39 +76,39 @@ export default class eDiaryController extends WebcIonicController {
             this.model.siteDID = this.model.questionnaire.siteDID;
 
             this.model.questions = this.model.questionnaire[ediaryType]
-                .map((prom, i) => {
+                .map((q, i) => {
 
                     // Cast to these types
                     // tempo fix change the model of questionnaire in clinical site //
-                    if (prom.type==="checkbox") {
-                        prom.options.forEach(option => option['value'] = option['optionValue'])
-                        prom.options.forEach(option => delete option.optionValue)
+                    if (q.type==="checkbox") {
+                        q.options.forEach(option => option['value'] = option['optionValue'])
+                        q.options.forEach(option => delete option.optionValue)
                     }
-                    if (prom.type==="free text") prom.type="string";
+                    if (q.type==="free text") q.type="string";
                     // tempo fix change the model of questionnaire in clinical site //
 
-                    let templateType = 'question-' + prom.type + '-template';
+                    let templateType = 'question-' + q.type + '-template';
 
                     let questionModel = {
 
-                        uid: prom.uid,
-                        type: prom.type,
+                        uid: q.uid,
+                        type: q.type,
                         task: ediaryType,
-                        title: prom.question,
+                        title: q.question,
                         template: QUESTIONNAIRE_TEMPLATE_PREFIX + templateType,
                     }
 
-                    if (prom.type === "slider") {
+                    if (q.type === "slider") {
                         questionModel['slider']=
-                            {   "min": prom.minLabel,
-                                "value": prom.minLabel,
-                                "steps": prom.steps,
-                                "max": prom.maxLabel,
-                                "minLabel": prom.minLabel,
-                                "maxLabel": prom.maxLabel};
+                            {   "min": q.minLabel,
+                                "value": q.minLabel,
+                                "steps": q.steps,
+                                "max": q.maxLabel,
+                                "minLabel": q.minLabel,
+                                "maxLabel": q.maxLabel};
                     }
                     else {
-                        questionModel['options'] = prom.options;
+                        questionModel['options'] = q.options;
                         questionModel.value = "";
 
                         this.model.onChange("questions." + i, (changeDetails) => {
