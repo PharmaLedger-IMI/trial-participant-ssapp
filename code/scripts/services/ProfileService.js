@@ -18,11 +18,28 @@ class ProfileService extends DSUService {
         });
     }
 
-    saveContactData(contactData, callback){
-        if(contactData.uid){
-            return this.updateEntity(contactData, callback);
+    saveContactData(contactData, callback) {
+        if (contactData.uid) {
+            return this.updateEntity(contactData, (err, saveProfileData) => {
+                if (err) {
+                    return callback(err);
+                }
+                this.getMountedSSI(saveProfileData.uid, (err, saveProfileDataIdentifier) => {
+                    if (err) {
+                        return callback(err);
+                    }
+                    const profilesReadSSI = this.getSReadSSI(saveProfileDataIdentifier);
+                    callback(undefined, profilesReadSSI);
+                })
+
+            });
         }
-        this.saveEntity(contactData, callback);
+        this.saveEntity(contactData, (err, saveProfileData) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(undefined, saveProfileData.sReadSSI);
+        });
     }
 
     saveProfilePicture(filedata, callback) {

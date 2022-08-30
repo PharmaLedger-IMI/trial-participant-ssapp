@@ -67,7 +67,14 @@ export default class MyProfileController extends WebcIonicController {
             const communicationService = getCommunicationServiceInstance();
 
             const updateContactInformation = (callback) => {
-                this.profileService.saveContactData(this.model.toObject("contactData"), callback);
+                this.profileService.saveContactData(this.model.toObject("contactData"), (err, contactDataSReadSSI)=>{
+                    if (err) {
+                        return console.log(err);
+                    }
+                    //send to HCO
+                    console.log(contactDataSReadSSI);
+                    callback();
+                });
             }
 
             if (this.profilePictureChanged) {
