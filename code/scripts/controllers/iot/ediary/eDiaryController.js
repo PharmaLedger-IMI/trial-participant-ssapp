@@ -33,8 +33,8 @@ export default class eDiaryController extends WebcIonicController {
         this.ResponsesService = new ResponsesService();
         this.QuestionnaireService = new QuestionnaireService();
 
-        let prevState = this.getState();
-        this.model.title = prevState.title;
+        this.prevState = this.getState();
+        this.model.title = this.prevState.title;
 
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {
@@ -44,7 +44,7 @@ export default class eDiaryController extends WebcIonicController {
             this.model.patientDID = tp.did;
         })
 
-        this.loadEdiary(prevState.type);
+        this.loadEdiary(this.prevState.type);
         this._attachHandlers();
 
         this.model.onChange("questionIndex",()=>{
@@ -165,7 +165,8 @@ export default class eDiaryController extends WebcIonicController {
         });
 
         this.onTagClick('finish-questionnaire', (event) => {
-            this.navigateToPageTag('home');
+            const { month,day,year,today,visits, ...infos } = this.prevState;
+            this.navigateToPageTag('econsent-tasks', {month, day, year, today, visits});
         });
 
         this.onTagClick('navigation:go-back', () => {

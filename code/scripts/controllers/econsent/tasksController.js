@@ -153,9 +153,10 @@ export default class eDiaryController extends WebcController {
 
     _attachHandlerVisitDetails() {
         this.onTagClick('visit-details', (model) => {
+            const {month, day, year, today, visits, ...infos} = this.model.toObject();
             let visitsInfo = {
                 ...model,
-                visits: this.model.toObject('visits')
+                month, day, year, today, visits
             }
             this.navigateToPageTag('visit-details', visitsInfo);
         });
@@ -167,14 +168,24 @@ export default class eDiaryController extends WebcController {
             if (this.model.today === false) {
                 return;
             }
-            this.navigateToPageTag("ediary", { type: 'prom' , title: 'Health questions'});
+            const {month, day, year, today, visits, ...infos} = this.model.toObject();
+            this.navigateToPageTag("ediary", {
+                type: 'prom',
+                title: 'Health questions',
+                month, day, year, today, visits
+            });
         });
 
         this.onTagClick("navigate:ediary-prem", () => {
+            const {month, day, year, today, visits, ...infos} = this.model.toObject();
             if (this.model.today === false) {
                 return;
             }
-            this.navigateToPageTag("ediary", { type: 'prem', title:'Rate your experience'});
+            this.navigateToPageTag("ediary", {
+                type: 'prem',
+                title: 'Rate your experience',
+                month, day, year, today, visits
+            });
         });
     }
 
