@@ -1,6 +1,4 @@
-import TrialService from '../../services/TrialService.js';
 import TrialConsentService from "../../services/TrialConsentService.js";
-
 const commonServices = require('common-services');
 const ConsentStatusMapper = commonServices.ConsentStatusMapper;
 const BaseRepository = commonServices.BaseRepository;
@@ -26,7 +24,6 @@ export default class ReadEconsentController extends WebcController {
     }
 
     async _initServices() {
-        this.TrialService = new TrialService();
         this.TPService = getTPService();
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
         this.EconsentsStatusRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.ECOSESENT_STATUSES);
