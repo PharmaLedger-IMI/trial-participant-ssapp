@@ -1,5 +1,6 @@
 import DPModel from '../../models/DPModel.js';
 import DPService from '../../services/DPService.js';
+import {getTPService} from "../../services/TPService.js";
 
 const commonServices = require("common-services");
 const {getCommunicationServiceInstance} = commonServices.CommunicationService;
@@ -72,6 +73,17 @@ export default class MyProfileController extends WebcIonicController {
         }
     }
 
+    getTP(callback) {
+        const tpService = getTPService();
+        tpService.getTp((err, participant) => {
+            if (err) {
+                return callback(err);
+            }
+            callback(undefined, participant.tp)
+        })
+    }
+
+
     addTagsListeners() {
         this.onTagClick('sharing-permissions:save', () => {
             window.WebCardinal.loader.hidden = false;
@@ -79,74 +91,82 @@ export default class MyProfileController extends WebcIonicController {
             let dpData = {
                 contactMe: dp.contactMe.value,
             };
-            if (this.model.tp) {
-                let ageGroup = this.findAgeGroup(this.model.tp.birthdate);
-                dpData.tp = {
-                    name: this.model.tp.subjectName,
-                    gender: this.model.tp.gender,
-                    did: this.model.tp.did
-                }
-                if(ageGroup) {
-                    dpData.tp.ageGroup = ageGroup;
-                }
-            }
-            if (this.model.dp.contactMe.value === false) {
-                dpData.perm = {
-                    wantToShare: false,
-                    givePermisionEachTime: false,
-                    shareWithHospitals: false,
-                    shareWithPharmas: false,
-                    shareWithResearchers: false,
-                    areaToParticipateCancer: false,
-                    areaToParticipateDiabets: false,
-                    areaToParticipateCOPD: false
-                }
-            } else {
-                dpData.perm = {
-                    wantToShare: dp.perm.wantToShare.value,
-                    givePermisionEachTime: dp.perm.givePermisionEachTime.value,
-                    shareWithHospitals: dp.perm.shareWithHospitals.value,
-                    shareWithPharmas: dp.perm.shareWithPharmas.value,
-                    shareWithResearchers: dp.perm.shareWithResearchers.value,
-                    areaToParticipateCancer: dp.perm.areaToParticipateCancer.value,
-                    areaToParticipateDiabets: dp.perm.areaToParticipateDiabets.value,
-                    areaToParticipateCOPD: dp.perm.areaToParticipateCOPD.value
-                }
-            }
 
-            let dpCreatedOrUpdatedHandler = (err) => {
+            this.getTP((err, tp) => {
 
-                if (err) {
-                    return console.log(err);
+                if(err){
+                    return console.error(err);
                 }
 
-                window.WebCardinal.loader.hidden = true;
-                this.navigateToPageTag("home");
-            }
+                if (tp) {
+                    let ageGroup = this.findAgeGroup(tp.birthdate);
+                    dpData.tp = {
+                        name: tp.subjectName,
+                        gender: tp.gender,
+                        did: tp.did
+                    }
+                    if (ageGroup) {
+                        dpData.tp.ageGroup = ageGroup;
+                    }
+                }
+                if (this.model.dp.contactMe.value === false) {
+                    dpData.perm = {
+                        wantToShare: false,
+                        givePermisionEachTime: false,
+                        shareWithHospitals: false,
+                        shareWithPharmas: false,
+                        shareWithResearchers: false,
+                        areaToParticipateCancer: false,
+                        areaToParticipateDiabets: false,
+                        areaToParticipateCOPD: false
+                    }
+                } else {
+                    dpData.perm = {
+                        wantToShare: dp.perm.wantToShare.value,
+                        givePermisionEachTime: dp.perm.givePermisionEachTime.value,
+                        shareWithHospitals: dp.perm.shareWithHospitals.value,
+                        shareWithPharmas: dp.perm.shareWithPharmas.value,
+                        shareWithResearchers: dp.perm.shareWithResearchers.value,
+                        areaToParticipateCancer: dp.perm.areaToParticipateCancer.value,
+                        areaToParticipateDiabets: dp.perm.areaToParticipateDiabets.value,
+                        areaToParticipateCOPD: dp.perm.areaToParticipateCOPD.value
+                    }
+                }
 
-            const communicationService = getCommunicationServiceInstance();
+                let dpCreatedOrUpdatedHandler = (err) => {
 
-            if (!this.dpExists) {
-                this.dpService.saveDP(dpData, async (err, profile) => {
                     if (err) {
-                        return console.error(err);
+                        return console.log(err);
                     }
 
-                    await communicationService.sendMessageToIotAdapter({
-                        operation: Constants.MESSAGES.PATIENT.CREATE_DP,
-                        sReadSSI: profile.sReadSSI
-                    });
-
-                    dpCreatedOrUpdatedHandler();
-                })
-
-            } else {
-
-                if (this.dpData) {
-                    this.dpData = {...this.dpData, ...dpData}
+                    window.WebCardinal.loader.hidden = true;
+                    this.navigateToPageTag("home");
                 }
-                this.dpService.updateDP(this.dpData, dpCreatedOrUpdatedHandler)
-            }
+
+                const communicationService = getCommunicationServiceInstance();
+
+                if (!this.dpExists) {
+
+                    this.dpService.saveDP(dpData, async (err, dpDsuData) => {
+                        if (err) {
+                            return console.error(err);
+                        }
+                        await communicationService.sendMessageToIotAdapter({
+                            operation: Constants.MESSAGES.PATIENT.CREATE_DP,
+                            sReadSSI: dpDsuData.sReadSSI
+                        });
+
+                        dpCreatedOrUpdatedHandler();
+                    })
+
+                } else {
+
+                    if (this.dpData) {
+                        this.dpData = {...this.dpData, ...dpData}
+                    }
+                    this.dpService.updateDP(this.dpData, dpCreatedOrUpdatedHandler)
+                }
+            })
 
         })
 
