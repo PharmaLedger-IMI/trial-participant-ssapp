@@ -1,7 +1,6 @@
 const commonServices = require('common-services');
 const {WebcController} = WebCardinal.controllers;
  import TaskService from "../../services/TaskService.js";
-// import {getHL7TaskModel} from "../../models/TaskModel.js"
 const {QuestionnaireService} = commonServices;
 
 
@@ -62,7 +61,7 @@ export default class eDiaryController extends WebcController {
                         if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
                             tasksItemList[i].showTask = true;
                         }
-                        break;0
+                        break;
                     case "monthly":
                         if(startDate.getDate().valueOf()===clickedDate.getDate().valueOf()){
                             tasksItemList[i].showTask = true;
@@ -153,7 +152,7 @@ export default class eDiaryController extends WebcController {
 
     _attachHandlerVisitDetails() {
         this.onTagClick('visit-details', (model) => {
-            const {month, day, year, today, visits, ...infos} = this.model.toObject();
+            const {month, day, year, today, visits} = this.model.toObject();
             let visitsInfo = {
                 ...model,
                 month, day, year, today, visits
@@ -164,28 +163,25 @@ export default class eDiaryController extends WebcController {
 
     _attachHandlerPREMAndPROM() {
 
-        this.onTagClick("navigate:ediary-prom", () => {
+        const navigateToEdiary = (title, questionnaireType)=>{
             if (this.model.today === false) {
                 return;
             }
-            const {month, day, year, today, visits, ...infos} = this.model.toObject();
+            const {month, day, year, today, visits} = this.model.toObject();
             this.navigateToPageTag("ediary", {
-                type: 'prom',
-                title: 'Health questions',
+                type: questionnaireType,
+                title: title,
                 month, day, year, today, visits
             });
+        }
+
+
+        this.onTagClick("navigate:ediary-prom", () => {
+            navigateToEdiary("Health questions", "prom");
         });
 
         this.onTagClick("navigate:ediary-prem", () => {
-            const {month, day, year, today, visits, ...infos} = this.model.toObject();
-            if (this.model.today === false) {
-                return;
-            }
-            this.navigateToPageTag("ediary", {
-                type: 'prem',
-                title: 'Rate your experience',
-                month, day, year, today, visits
-            });
+            navigateToEdiary("Rate your experience", "prem");
         });
     }
 
