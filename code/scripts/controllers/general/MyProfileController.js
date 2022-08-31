@@ -23,6 +23,7 @@ export default class MyProfileController extends WebcIonicController {
 
         this.profilePictureChanged = false;
         this.profileService = ProfileService.getProfileService();
+        this.CommunicationService = getCommunicationServiceInstance();
 
         this.profileService.getContactData((err, contactData) => {
             if (err) {
@@ -57,6 +58,7 @@ export default class MyProfileController extends WebcIonicController {
                 return console.log(err);
             }
             this.model.tp = participant.tp;
+            this.hcoIdentity = participant.hcoIdentity;
         })
     }
 
@@ -64,15 +66,17 @@ export default class MyProfileController extends WebcIonicController {
     addTagsListeners() {
         this.onTagClick('profile:save', () => {
             window.WebCardinal.loader.hidden = false;
-            const communicationService = getCommunicationServiceInstance();
+            let contactData = this.model.toObject("contactData");
 
             const updateContactInformation = (callback) => {
-                this.profileService.saveContactData(this.model.toObject("contactData"), (err, contactDataSReadSSI)=>{
+                this.profileService.saveContactData(contactData, (err, contactDataSReadSSI)=>{
                     if (err) {
                         return console.log(err);
                     }
-                    //send to HCO
-                    console.log(contactDataSReadSSI);
+
+                    if(this.model.contactData.uid === undefined) {
+                        this.sendMessageToHCO(this.hcoIdentity, Constants.MESSAGES.PATIENT.TP_CONTACT_DATA, contactData, "TP updated contact data!");
+                    }
                     callback();
                 });
             }
@@ -94,6 +98,15 @@ export default class MyProfileController extends WebcIonicController {
 
         })
 
+    }
+
+    sendMessageToHCO(siteDID, operation, data, shortMessage) {
+        this.CommunicationService.sendMessage(siteDID, {
+            operation: operation,
+            data: data,
+            tpDid: this.model.tp.did,
+            shortDescription: shortMessage,
+        });
     }
 
     _attachHandlerBack() {

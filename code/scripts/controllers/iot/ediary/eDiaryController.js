@@ -3,6 +3,7 @@ const commonServices = require('common-services');
 const {QuestionnaireService, ResponsesService} = commonServices;
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
+const Constants = commonServices.Constants;
 import {getTPService}  from "../../../services/TPService.js"
 
 
@@ -205,7 +206,7 @@ export default class eDiaryController extends WebcIonicController {
                 }
 
                 if(this.responsesOfCurrentType === undefined) {
-                    this.sendMessageToClinicalSite(this.model.siteDID, "questionnaire-responses", data, "")
+                    this.sendMessageToClinicalSite(this.model.siteDID, Constants.MESSAGES.PATIENT.QUESTIONNAIRE_RESPONSE, data, "");
                 }
             });
         });
