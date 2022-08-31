@@ -44,7 +44,7 @@ export default class eDiaryController extends WebcIonicController {
             this.model.patientDID = tp.did;
         })
 
-        this.loadEdiary(this.prevState.type);
+        this.getResponses();
         this._attachHandlers();
 
         this.model.onChange("questionIndex",()=>{
@@ -66,6 +66,28 @@ export default class eDiaryController extends WebcIonicController {
         this.computeButtonStates();
     }
 
+    getResponses() {
+        this.ResponsesService.getResponses((err, responses) => {
+            if (err) {
+                return console.log(err);
+            }
+
+            this.responsesOfCurrentType = responses.find(response => {
+                if(response.questionResponses[0].question.task !== this.prevState.type) {
+                    return false;
+                }
+                let date = new Date();
+                date.setHours(0, 0, 0, 0);
+                let responseDate = new Date(response.questionResponses[0].responseDate);
+                responseDate.setHours(0, 0, 0, 0);
+                return date.getTime() === responseDate.getTime();
+            })
+
+            this.loadEdiary(this.prevState.type);
+
+        });
+    }
+
     loadEdiary(ediaryType) {
 
         this.QuestionnaireService.getAllQuestionnaires((err, data) => {
@@ -77,6 +99,11 @@ export default class eDiaryController extends WebcIonicController {
 
             this.model.questions = this.model.questionnaire[ediaryType]
                 .map((q, i) => {
+
+                    let questionResponse;
+                    if(this.responsesOfCurrentType) {
+                        questionResponse = this.responsesOfCurrentType.questionResponses.find(response => response.question.uid === q.uid);
+                    }
 
                     // Cast to these types
                     // tempo fix change the model of questionnaire in clinical site //
@@ -105,11 +132,20 @@ export default class eDiaryController extends WebcIonicController {
                                 "steps": q.steps,
                                 "max": q.maxLabel,
                                 "minLabel": q.minLabel,
-                                "maxLabel": q.maxLabel};
+                                "maxLabel": q.maxLabel
+                            };
+                        if(questionResponse !== undefined) {
+                            Object.assign(questionModel['slider'], {
+                                "value": questionResponse.answer
+                            })
+                        }
                     }
                     else {
                         questionModel['options'] = q.options;
                         questionModel.value = "";
+                        if(questionResponse !== undefined) {
+                            questionModel.value = questionResponse.answer;
+                        }
 
                         this.model.onChange("questions." + i, (changeDetails) => {
                         });
@@ -146,7 +182,7 @@ export default class eDiaryController extends WebcIonicController {
         this.onTagClick('send-feedback', (event) => {
             this.model.fillMode = false;
 
-            const questionResponse = this.model.questions.map((question) => {
+            const questionResponses = this.model.questions.map((question) => {
                 return {
                     question: question,
                     responseDate: new Date().getTime(),
@@ -155,12 +191,22 @@ export default class eDiaryController extends WebcIonicController {
                 }
             });
 
-            this.ResponsesService.saveResponse(questionResponse, (err, data) => {
+            let wrappedResponses = {
+                questionResponses: questionResponses,
+            }
+
+            if(this.responsesOfCurrentType) {
+                wrappedResponses.uid = this.responsesOfCurrentType.uid;
+            }
+
+            this.ResponsesService.saveResponse(wrappedResponses, (err, data) => {
                 if (err) {
                     return console.log(err);
                 }
-                console.log(data);
-                this.sendMessageToClinicalSite(this.model.siteDID, "questionnaire-responses", data.sReadSSI, "")
+
+                if(this.responsesOfCurrentType === undefined) {
+                    this.sendMessageToClinicalSite(this.model.siteDID, "questionnaire-responses", data, "")
+                }
             });
         });
 
