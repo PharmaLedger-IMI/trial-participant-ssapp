@@ -49,7 +49,31 @@ export default class MyProfileController extends WebcIonicController {
         this.addProfilePictureHandler();
 
         this._attachHandlerBack();
+        this.validateInputs();
     }
+
+    validateInputs() {
+        this.model.isBtnDisabled = true;
+        const validateEmail = (email) => {
+            return String(email)
+                .toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        };
+
+        const observeInputs = () => {
+            if (this.model.contactData.emailAddress.trim() !== '' && validateEmail(this.model.contactData.emailAddress) &&
+                this.model.contactData.phoneNumber.trim() !== '') {
+                this.model.isBtnDisabled = false;
+            } else this.model.isBtnDisabled = true;
+        }
+
+        this.model.onChange('contactData.emailAddress', observeInputs)
+        this.model.onChange('contactData.phoneNumber', observeInputs)
+    }
+
+
 
     async getParticipantName() {
         const tpService = getTPService();
