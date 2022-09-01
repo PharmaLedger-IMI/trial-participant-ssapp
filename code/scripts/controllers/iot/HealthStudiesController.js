@@ -281,7 +281,6 @@ export default class HealthStudiesController extends WebcController {
     }
 
     async initServices() {
-        this.model.isLoading = true;
         this.profileService = ProfileService.getProfileService();
         this.profileService.getProfilePicture((err,data)=>{
             this.model.profilePicture = data
