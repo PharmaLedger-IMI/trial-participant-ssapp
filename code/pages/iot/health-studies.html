@@ -9,7 +9,6 @@
         </div>
 
         <div class="main-navigation">
-
             <div class="feedback-container">
 
                 <ion-list>
@@ -21,7 +20,7 @@
                             <h2>Participating studies</h2>
                             <p>Existing participating studies</p>
                         </ion-label>
-                        <ion-badge slot="end" color="green"> 1 </ion-badge>
+                        <ion-badge slot="end" color="green"> {{@numberOfParticipatingStudies}} </ion-badge>
                     </ion-item>
 
 
@@ -33,7 +32,7 @@
                             <h2>Pending Invitations</h2>
                             <p>Accept or reject participation to studies</p>
                         </ion-label>
-                        <ion-badge slot="end" color="green" size="large">3</ion-badge>
+                        <ion-badge slot="end" color="green" size="large">{{@numberOfPendingInvitations}}</ion-badge>
                     </ion-item>
 
                     <ion-item data-tag="completed-studies" class="mb-2 mt-2">
@@ -44,7 +43,7 @@
                             <h2>Completed Studies</h2>
                             <p>Check the evidences and feedback</p>
                         </ion-label>
-                        <ion-badge slot="end" color="green"> 2 </ion-badge>
+                        <ion-badge slot="end" color="green"> {{@numberOfCompletedStudies}} </ion-badge>
                     </ion-item>
 
 
@@ -56,7 +55,7 @@
                             <h2>Study Permissions</h2>
                             <p>Active permissions and history</p>
                         </ion-label>
-                        <ion-badge slot="end" color="green"> 4 </ion-badge>
+                        <ion-badge slot="end" color="green"> {{@numberOfStudyPermissions}} </ion-badge>
                     </ion-item>
 
 

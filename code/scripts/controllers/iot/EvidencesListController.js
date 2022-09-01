@@ -8,8 +8,8 @@ export default class EvidencesListController extends WebcController {
     constructor(...props) {
         super(...props);
         this.initServices();
-        const prevState = this.getState() || {};
-        this.model.studyID = prevState.studyID;
+        this.prevState = this.getState() || {};
+        this.model.studyID = this.prevState.studyID;
         this._attachHandlerBack();
     }
 
@@ -43,7 +43,9 @@ export default class EvidencesListController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('completed-studies');
+            this.navigateToPageTag('completed-studies', {
+                participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
+            });
         });
     }
 }

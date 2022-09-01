@@ -7,8 +7,7 @@ const {WebcController} = WebCardinal.controllers;
 export default class ViewStudyDetailsController extends WebcController {
     constructor(...props) {
         super(...props);
-        const prevState = this.getState() || {};
-        this.model = prevState;
+        this.model = this.getState() || {};
 
         this.onTagClick('confirm', (model) => {
             window.WebCardinal.loader.hidden = false;
@@ -74,12 +73,9 @@ export default class ViewStudyDetailsController extends WebcController {
         });
 
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('iot-health-studies');
-        });
-
-
-        this.onTagClick('navigation:back-to-completed-studies', () => {
-            this.navigateToPageTag('completed-studies');
+            this.navigateToPageTag('completed-studies', {
+                participatingCompletedFullStudies: this.model.toObject('participatingCompletedFullStudies')
+            });
         });
 
         this.onTagClick('reject', (model) => {
