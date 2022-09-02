@@ -97,10 +97,7 @@ export default class MyProfileController extends WebcIonicController {
                     if (err) {
                         return console.log(err);
                     }
-
-                    if(this.model.contactData.uid === undefined) {
-                        this.sendMessageToHCO(this.hcoIdentity, Constants.MESSAGES.PATIENT.TP_CONTACT_DATA, contactData, "TP updated contact data!");
-                    }
+                    this.sendMessageToHCO(this.hcoIdentity, Constants.MESSAGES.PATIENT.TP_CONTACT_DATA, contactDataSReadSSI, "TP updated contact data!");
                     callback();
                 });
             }
@@ -124,10 +121,10 @@ export default class MyProfileController extends WebcIonicController {
 
     }
 
-    sendMessageToHCO(siteDID, operation, data, shortMessage) {
+    sendMessageToHCO(siteDID, operation, ssi, shortMessage) {
         this.CommunicationService.sendMessage(siteDID, {
             operation: operation,
-            data: data,
+            ssi: ssi,
             tpDid: this.model.tp.did,
             shortDescription: shortMessage,
         });
