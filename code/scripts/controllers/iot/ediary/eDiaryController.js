@@ -40,7 +40,7 @@ export default class eDiaryController extends WebcIonicController {
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {
             if (err) {
-                return console.log(err);
+                return console.error(err);
             }
             this.model.patientDID = tp.did;
         })
@@ -70,7 +70,7 @@ export default class eDiaryController extends WebcIonicController {
     getResponses() {
         this.ResponsesService.getResponses((err, responses) => {
             if (err) {
-                return console.log(err);
+                return console.error(err);
             }
 
             this.responsesOfCurrentType = responses.find(response => {
@@ -93,7 +93,7 @@ export default class eDiaryController extends WebcIonicController {
 
         this.QuestionnaireService.getAllQuestionnaires((err, data) => {
             if (err) {
-                return reject(err);
+                return console.error(err);
             }
             this.model.questionnaire = data[0];
             this.model.siteDID = this.model.questionnaire.siteDID;
@@ -147,9 +147,6 @@ export default class eDiaryController extends WebcIonicController {
                         if(questionResponse !== undefined) {
                             questionModel.value = questionResponse.answer;
                         }
-
-                        this.model.onChange("questions." + i, (changeDetails) => {
-                        });
                     }
 
                     return questionModel;
@@ -192,27 +189,27 @@ export default class eDiaryController extends WebcIonicController {
                 }
             });
 
-            let wrappedResponses = {
+            let responsesDSU = {
                 questionResponses: questionResponses,
             }
 
             if(this.responsesOfCurrentType) {
-                wrappedResponses.uid = this.responsesOfCurrentType.uid;
+                responsesDSU.uid = this.responsesOfCurrentType.uid;
             }
 
-            this.ResponsesService.saveResponse(wrappedResponses, (err, data) => {
+            this.ResponsesService.saveResponse(responsesDSU, (err, data) => {
                 if (err) {
                     return console.log(err);
                 }
 
-                if(this.responsesOfCurrentType === undefined) {
+                if(typeof this.responsesOfCurrentType === "undefined") {
                     this.sendMessageToClinicalSite(this.model.siteDID, Constants.MESSAGES.PATIENT.QUESTIONNAIRE_RESPONSE, data, "");
                 }
             });
         });
 
-        this.onTagClick('finish-questionnaire', (event) => {
-            const { month,day,year,today,visits, ...infos } = this.prevState;
+        this.onTagClick('finish-questionnaire', () => {
+            const { month,day,year,today,visits } = this.prevState;
             this.navigateToPageTag('econsent-tasks', {month, day, year, today, visits});
         });
 
