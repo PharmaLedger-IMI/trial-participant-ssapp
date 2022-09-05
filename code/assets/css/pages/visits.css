@@ -260,10 +260,6 @@
     border-bottom: 1px solid gray;
 }
 
-.fa-calendar {
-    font-size: 4rem;
-}
-
 .legend-item {
     display:flex;
     flex-direction: column;
@@ -294,7 +290,7 @@
     font-style: italic;
 }
 
-.buttons-container button, .buttons-container label, .visit-state {
+.buttons-container button, .buttons-container label{
     color: #26C28A;
 }
 
@@ -302,12 +298,12 @@
     color: #008798;
 }
 
-.others-title {
-    border-top: 1px solid gray;
-}
-
 .date-star-container {
     display: flex;
+}
+.visit-date{
+    font-size: 14px;
+
 }
 
 .visits-schedule {

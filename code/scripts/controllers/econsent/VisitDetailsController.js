@@ -10,6 +10,15 @@ export default class VisitDetailsController extends WebcController {
             ...this.getState()
         };
 
+        this.model.visits.forEach(visit=>{
+            if (typeof visit.accepted === "undefined" && typeof visit.declined === "undefined" && typeof visit.rescheduled === "undefined") {
+                visit.pending = true;
+            }
+        })
+        this.model.visits = this.model.visits.filter((visit) => {
+            return visit.uid !== this.model.uid
+        })
+
         if(this.model.schedule.startDate) {
             this.model.toShowDate = momentService(this.model.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
         }
