@@ -14,7 +14,7 @@ export default class ReadEconsentController extends WebcController {
         super(...props);
         this.model.econsent = {};
         this._initServices();
-        this.model.historyData = this.getState();
+        this.historyData = this.getState();
         this.model.required = {};
         this.model.declined = {};
         this.model.signed = {};
@@ -38,8 +38,8 @@ export default class ReadEconsentController extends WebcController {
     }
 
     _initConsent() {
-        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.model.historyData.ecoId)
-        let ecoVersion = this.model.historyData.ecoVersion;
+        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.historyData.ecoId)
+        let ecoVersion = this.historyData.ecoVersion;
         this.model.econsent = econsent;
         this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
         this.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
@@ -52,7 +52,7 @@ export default class ReadEconsentController extends WebcController {
             if (err) {
                 return console.error(err);
             }
-            let relevantStatuses = data.filter((element) => element.foreignConsentId === this.model.historyData.ecoId);
+            let relevantStatuses = data.filter((element) => element.foreignConsentId === this.historyData.ecoId);
             let currentStatus = relevantStatuses.length > 0 ? relevantStatuses[relevantStatuses.length - 1] : {actions: []}
             this.model.status = currentStatus;
             this.model.signed = ConsentStatusMapper.isSigned(this.model.status.actions);
@@ -166,11 +166,11 @@ export default class ReadEconsentController extends WebcController {
             operation: Constants.MESSAGES.HCO.UPDATE_ECONSENT,
             ssi: ssi,
             useCaseSpecifics: {
-                trialSSI: this.model.historyData.trialuid,
-                tpNumber: this.model.tp.number,
-                tpDid: this.model.tp.did,
-                version: this.model.historyData.ecoVersion,
-                siteSSI: this.model.tp.site?.keySSI,
+                trialSSI: this.historyData.trialuid,
+                tpNumber: this.tp.number,
+                tpDid: this.tp.did,
+                version: this.historyData.ecoVersion,
+                siteSSI: this.tpData.site?.keySSI,
                 action: {
                     name: action,
                     date: currentDate.toISOString(),
@@ -180,7 +180,7 @@ export default class ReadEconsentController extends WebcController {
             },
             shortDescription: shortMessage,
         };
-        this.CommunicationService.sendMessage(this.model.tp.hcoIdentity, sendObject);
+        this.CommunicationService.sendMessage(this.tpData.hcoIdentity, sendObject);
     }
 
     _attachHandlerBack() {
@@ -192,13 +192,14 @@ export default class ReadEconsentController extends WebcController {
     }
 
     async _saveStatus(operation) {
-        this.model.tp = await this.TPService.getTpAsync();
+        this.tpData = await this.TPService.getTpAsync();
+        this.tp = this.tpData.tp;
         const digitalSignatureOptions = {
             path: this.econsentFilePath,
             version: this.currentVersion.attachment,
             signatureDate: `Digital Signature ${new Date().toLocaleDateString()}`,
             signatureAuthor: "Trial Participant Signature",
-            signatureDid: this.model.tp.did,
+            signatureDid: this.tp.did,
             isRightSide: false
         };
         this.PDFService.applyDigitalSignature(digitalSignatureOptions);
@@ -214,7 +215,7 @@ export default class ReadEconsentController extends WebcController {
 
     _finishActionSave() {
         this.navigateToPageTag('trial', {
-            uid: this.model.historyData.trialuid
+            uid: this.historyData.trialuid
         });
     }
 }
