@@ -73,9 +73,7 @@ export default class ViewStudyDetailsController extends WebcController {
         });
 
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('completed-studies', {
-                participatingCompletedFullStudies: this.model.toObject('participatingCompletedFullStudies')
-            });
+            this.navigateToPageTag('pending-invitations', {invitationsFullStudies: this.model.toObject('invitationsFullStudies')});
         });
 
         this.onTagClick('reject', (model) => {
