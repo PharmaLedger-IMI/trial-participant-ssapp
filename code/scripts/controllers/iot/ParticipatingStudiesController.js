@@ -11,7 +11,8 @@ export default class ParticipatingStudiesController extends WebcController {
         this.onTagClick('view-study-details', (model) => {
             let invitationState = {
                 pageType: 'participating-study',
-                study: model
+                study: model,
+                participatingFullStudies: this.model.toObject('participatingFullStudies')
             }
             this.navigateToPageTag('view-study-details', invitationState)
         });

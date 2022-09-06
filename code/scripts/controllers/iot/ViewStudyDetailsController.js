@@ -72,8 +72,16 @@ export default class ViewStudyDetailsController extends WebcController {
             this.navigateToPageTag('iot-health-studies');
         });
 
-        this.onTagClick('navigation:go-back', () => {
+        this.onTagClick('navigation:go-back-participating-study', () => {
+            this.navigateToPageTag('participating-studies', {participatingFullStudies: this.model.toObject('participatingFullStudies')});
+        });
+
+        this.onTagClick('navigation:go-back-pending-invitations', () => {
             this.navigateToPageTag('pending-invitations', {invitationsFullStudies: this.model.toObject('invitationsFullStudies')});
+        });
+
+        this.onTagClick('navigation:go-back-completed-study', () => {
+            this.navigateToPageTag('completed-studies', {participatingCompletedFullStudies: this.model.toObject('participatingCompletedFullStudies')});
         });
 
         this.onTagClick('reject', (model) => {

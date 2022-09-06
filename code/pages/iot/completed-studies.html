@@ -9,32 +9,33 @@
             <h3>Completed Studies</h3>
         </div>
 
-<!--        <h1 class="title text-center m-2">Completed Studies</h1>-->
-
         <div class="container justify-content-start">
 
             <div data-if="@has_participatingCompletedStudies">
 
-                <webc-spinner slot="loading"></webc-spinner>
                 <div slot="false" class="alert alert-warning" role="alert">
                     <h4 class="alert-heading">There are no completed studies yet!</h4>
                 </div>
-                <div class="common-datatable completed-studies-datatable dt-2-col" slot="true">
-                    <webc-datatable datasource="@participatingCompletedFullStudiesDataSource">
-                        <div slot="header">Title</div>
-                        <div slot="header">Options</div>
 
-                        <div class="cell">{{ @title }}</div>
-                        <div class="cell">
-                            <button data-tag="view:study" class="link option">View</button>
-                            <label> | </label>
+                <div slot="true" data-for="@participatingCompletedFullStudies">
+                    <ion-card class="card">
+                        <ion-card-content>
+                            <div class="card-item title-container">
+                                <p class="study-title">
+                                    {{ @title }}
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Options: </span>
+                                <ion-button data-tag="view:study">View</ion-button>
+                                <ion-button data-tag="view:feedback">Feedback</ion-button>
+                                <ion-button data-tag="view:evidence">Evidence</ion-button>
+                            </div>
+                            <div>
 
-                            <button data-tag="view:feedback" class="link option">Feedback</button>
-                            <label> | </label>
-
-                            <button data-tag="view:evidence" class="link option">Evidence</button>
-                        </div>
-                    </webc-datatable>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
 
             </div>
