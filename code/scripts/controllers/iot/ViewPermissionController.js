@@ -1,7 +1,6 @@
 const commonServices = require("common-services");
 const {DPService, StudiesService} = commonServices;
 const {WebcController} = WebCardinal.controllers;
-const DataSourceFactory = commonServices.getDataSourceFactory();
 const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
 
 
@@ -14,13 +13,12 @@ export default class ViewPermissionController extends WebcController {
         this.dpService = DPService.getDPService();
         this.studiesService = new StudiesService();
         this.model.has_permissions = this.model.permissions.length > 0;
-        this.model.permissionsDataSource = DataSourceFactory.createDataSource(8, 10, this.model.permissions);
 
-        this._attachHandlerGoBack();
+        this._attachHandlers();
     }
 
 
-    _attachHandlerGoBack() {
+    _attachHandlers() {
         this.onTagClick('navigation:go-back', () => {
             this.navigateToPageTag('iot-health-studies');
         });
@@ -45,7 +43,6 @@ export default class ViewPermissionController extends WebcController {
                         console.log(err);
                     }
                     console.log(data);
-                    console.log("DPermission removed!");
                     this.CommunicationService.sendMessageToIotAdapter({
                         operation: "dp_updated_remove",
                         studyUID: model.studyID,

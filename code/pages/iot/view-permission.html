@@ -14,29 +14,38 @@
 
                 <div data-if="@has_permissions">
 
-                    <webc-spinner slot="loading"></webc-spinner>
                     <div slot="false" class="alert alert-warning" role="alert">
                         <h4 class="alert-heading">There are no permissions yet!</h4>
                     </div>
-                    <div class="common-datatable permissions-datatable dt-5-col" slot="true">
-                        <webc-datatable datasource="@permissionsDataSource">
-                            <div slot="header">Study title</div>
-                            <div slot="header">Data type</div>
-                            <div slot="header">Status</div>
-                            <div slot="header">Date</div>
-                            <div slot="header">Options</div>
 
-                            <div class="cell">{{ @studyTitle }}</div>
-                            <div class="cell">{{ @dataType }}</div>
-                            <div class="cell">{{ @status }}</div>
-                            <div class="cell">
-                                <span class="badge badge-primary"> {{@date}} </span>
-                            </div>
+                    <div slot="true" data-for="@permissions">
+                        <ion-card class="card">
+                            <ion-card-content>
 
-                            <div class="cell">
-                                <button data-tag="revoke" class="link-button" disabled="@disabled">Revoke</button>
-                            </div>
-                        </webc-datatable>
+                                <div class="d-flex justify-content-between">
+                                    <webc-switch condition="@status">
+                                        <span slot="Approved" class="badge badge-success study-status">Approved</span>
+                                        <span slot="Revoked" class="badge badge-danger study-status">Revoked</span>
+                                    </webc-switch>
+                                    <span>{{ @date }}</span>
+                                </div>
+
+                                <div class="card-item">
+                                    <p class="study-title">
+                                        {{ @studyTitle }}
+                                    </p>
+                                </div>
+                                <div class="d-flex shared-data-container card-item">
+                                    <span>Type of shared data: </span>
+                                    <span class="badge badge-primary study-datatype"> {{ @dataType }}</span>
+                                </div>
+                                <div>
+                                    <ion-button expand="block" color="light" data-tag="revoke" disabled="@disabled">
+                                        Revoke
+                                    </ion-button>
+                                </div>
+                            </ion-card-content>
+                        </ion-card>
                     </div>
 
                 </div>
