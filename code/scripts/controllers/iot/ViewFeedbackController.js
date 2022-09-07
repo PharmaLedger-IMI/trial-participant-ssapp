@@ -5,13 +5,9 @@ export default class ViewFeedbackController extends WebcController {
     constructor(...props) {
         super(...props);
 
-        const prevState = this.getState() || {};
-
-        this.model.feedback_uid = prevState.feedbackID;
-        this.model.feedback_id = prevState.studyID;
-        this.model.studyTitle = prevState.studyTitle;
-        this.model.studyID = prevState.studyID;
-        this.model.header = "View Feedback";
+        this.prevState = this.getState() || {};
+        this.model.feedback_uid = this.prevState.feedbackID;
+        this.model.studyID = this.prevState.studyID;
 
         this.FeedbackService= new FeedbackService();
         this.FeedbackService.getFeedback(this.model.feedback_uid, (err, feedback) => {
@@ -24,46 +20,20 @@ export default class ViewFeedbackController extends WebcController {
         this._attachHandlerGoBack();
     }
 
-
     _attachHandlerGoBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('iot-feedback', {studyID: this.model.studyID});
+            this.navigateToPageTag('iot-feedback', {
+                studyID: this.model.studyID,
+                participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
+            });
         });
     }
 
     getFeedbackDetailsViewModel(feedback) {
         return {
-            feedback_subject: {
-                name: 'feedback_subject',
-                id: 'feedback_subject',
-                label: "Feedback subject:",
-                placeholder: 'Subject',
-                required: true,
-                value: feedback.feedback_subject || ""
-            },
-            date: {
-                name: 'date',
-                id: 'date',
-                label: "Date: ",
-
-                required: true,
-                value: feedback.date || ""
-            },
-            feedback_content: {
-                name: 'feedback_content',
-                id: 'feedback_content',
-                label: "Description: ",
-
-                value: feedback.feedback_content || ""
-            },
-
-
-            id: {
-                name: 'id of the feedback',
-                label: "ID:",
-
-                value: feedback.uid || ""
-            }
+            feedback_subject: feedback.feedback_subject,
+            date: feedback.date,
+            feedback_content:feedback.feedback_content,
         }
     }
 

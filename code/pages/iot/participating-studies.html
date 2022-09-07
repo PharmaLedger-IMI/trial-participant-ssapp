@@ -11,26 +11,34 @@
             </div>
         </header>
 
-        <div class="main-navigation">
+        <div>
             <div data-if="@has_participating_studies">
 
                 <div slot="false" class="alert alert-warning" role="alert">
                     <h4 class="alert-heading">You do not have any participating studies yet. Please review your pending invitations or check the completed studies. </h4>
                 </div>
 
-                <div data-for="@participatingFullStudies" slot="true">
-                    <div class="feedback-container">
-                        <button class="feedback-btn" data-tag="view-study-details">
-                            <i class="fa fa-files-o fa-4x"></i>
-                            <div class="feedback-item-container">
-                                <p class="title">{{@title}}</p>
-                                <p>Data donating: {{@data}}</p>
+                <div slot="true" data-for="@participatingFullStudies">
+                    <ion-card class="card">
+                        <ion-card-content>
+                            <div class="card-item">
+                                <p class="study-title">
+                                    {{@title}}
+                                </p>
                             </div>
-                        </button>
-                    </div>
+                            <div class="card-item title-container">
+                                <span>Data donating: </span>
+                                <span class="badge badge-primary study-datatype">{{@data}}</span>
+                            </div>
+                            <div>
+                                <ion-button expand="block" color="green" data-tag="view-study-details">
+                                    View
+                                </ion-button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
             </div>
-
         </div>
     </div>
 

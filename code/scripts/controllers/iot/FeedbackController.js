@@ -1,9 +1,4 @@
 import FeedbackService from "../../services/FeedbackService.js";
-
-const commonServices = require("common-services");
-const DataSourceFactory = commonServices.getDataSourceFactory();
-
-
 const {WebcController} = WebCardinal.controllers;
 
 export default class FeedbackController extends WebcController {
@@ -30,21 +25,18 @@ export default class FeedbackController extends WebcController {
         }
 
         getFeedback().then(data => {
-            let feedback = data.filter(data => data.studyID === this.model.studyID);
-            this.model.hasFeedback = feedback.length !== 0;
-            this.model.feedbackDataSource = DataSourceFactory.createDataSource(3, 5, feedback);
-            const { feedbackDataSource } = this.model;
+            this.model.feedbacks = data.filter(data => data.studyID === this.model.studyID);
+            this.model.hasFeedbacks = this.model.feedbacks.length !== 0;
 
             this.onTagClick("view-feedback", (model) => {
                 let state = {
                     studyID: this.model.studyID,
                     studyTitle: this.model.studyTitle,
                     feedbackID: model.uid,
+                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
                 }
                 this.navigateToPageTag('view-feedback', state);
             });
-            this.onTagClick("prev-page", () => feedbackDataSource.goToPreviousPage());
-            this.onTagClick("next-page", () => feedbackDataSource.goToNextPage());
         })
     }
 

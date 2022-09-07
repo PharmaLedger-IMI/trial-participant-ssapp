@@ -10,33 +10,32 @@
 
 
         <div class="container justify-content-start">
+            <div data-if="@hasFeedbacks">
 
-            <div data-if="@hasFeedback">
-
-                <webc-spinner slot="loading"></webc-spinner>
                 <div slot="false" class="alert alert-warning" role="alert">
                     <h4 class="alert-heading">No feedback received yet!</h4>
                 </div>
-                <div class="common-datatable feedback-datatable dt-3-col" slot="true">
-                    <webc-datatable datasource="@feedbackDataSource">
 
-                        <div slot="header" data-sortable>Feedback Subject</div>
-                        <div slot="header" data-sortable>Date</div>
-                        <div slot="header">Options</div>
-
-                        <div class="cell">{{ @feedback_subject }}</div>
-                        <div class="cell">{{ @date }}</div>
-                        <div class="cell">
-                            <button data-tag="view-feedback" class="link option">View</button>
-                        </div>
-
-                    </webc-datatable>
+                <div slot="true" data-for="@feedbacks">
+                    <ion-card class="card">
+                        <ion-card-content>
+                            <div class="card-item title-container d-flex justify-content-between">
+                                <p class="study-title">
+                                    {{ @feedback_subject }}
+                                </p>
+                                <span>{{ @date }}</span>
+                            </div>
+                            <div>
+                                <ion-button expand="block" color="green" data-tag="view-feedback">
+                                    View
+                                </ion-button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
 
             </div>
         </div>
-
-
     </div>
 
     </div>
