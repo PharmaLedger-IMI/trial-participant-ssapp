@@ -6,21 +6,25 @@ const momentService = commonServices.momentService;
 export default class VisitDetailsController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.model = {
+        this.state = {
             ...this.getState()
         };
 
-        this.model.visits.forEach(visit=>{
+        this.model.details = this.state.details;
+
+        this.state.visits.forEach(visit=>{
             if (typeof visit.accepted === "undefined" && typeof visit.declined === "undefined" && typeof visit.rescheduled === "undefined" && typeof visit.confirmed==='undefined') {
                 visit.pending = true;
             }
         })
-        this.model.visits = this.model.visits.filter((visit) => {
-            return visit.uid !== this.model.uid
+        this.state.visits = this.state.visits.filter((visit) => {
+            return visit.uid !== this.state.uid
         })
 
-        if(this.model.schedule.startDate) {
-            this.model.toShowDate = momentService(this.model.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+        this.model.visits = this.state.visits.sort((a, b) => a.proposedDate - b.proposedDate);
+
+        if(this.state.schedule.startDate) {
+            this.model.toShowDate = momentService(this.state.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
         }
         this._initHandlers();
     }
