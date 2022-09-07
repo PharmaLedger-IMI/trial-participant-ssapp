@@ -14,7 +14,7 @@ export default class PendingInvitationsController extends WebcController {
             let invitationState = {
                 pageType: 'pending-invitations',
                 study: model,
-                invitationsFullStudies: this.model.toObject('invitationsFullStudies')
+                invitationsFullStudies: this.model.toObject('studyInvitations')
             }
             this.navigateToPageTag('view-study-details', invitationState)
         });
