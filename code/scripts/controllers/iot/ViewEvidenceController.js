@@ -8,12 +8,9 @@ export default class ViewEvidenceController extends WebcController {
     constructor(...props) {
         super(...props);
 
-        const prevState = this.getState() || {};
-        this.model.evidence_uid = prevState.evidenceID;
-        this.model.study_id = prevState.studyID;
-
+        this.prevState = this.getState() || {};
         this.EvidenceService = new EvidenceService();
-        this.EvidenceService.getEvidence(this.model.evidence_uid, (err, evidence) => {
+        this.EvidenceService.getEvidence(this.prevState.evidenceID, (err, evidence) => {
             if (err){
                 return console.log(err);
             }
@@ -25,119 +22,22 @@ export default class ViewEvidenceController extends WebcController {
 
     _attachHandlerBackMenu() {
         this.onTagClick('navigation:go-back', (event) => {
-            this.navigateToPageTag('evidences-list', {studyID: this.model.study_id});
+            this.navigateToPageTag('evidences-list', {
+                studyID: this.prevState.studyID,
+                participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
+            });
         });
     }
 
     getEvidenceDetailsViewModel(evidence) {
         return {
-            title: {
-                name: 'title',
-                id: 'title',
-                label: "Title: ",
-                placeholder: 'Title of the Evidence',
-                required: true,
-                value: evidence.title || ""
-            },
-            subtitle: {
-                name: 'subtitle',
-                id: 'subtitle',
-                label: "Subtitle: ",
-                placeholder: 'Subtitle of the Evidence',
-                value: evidence.subtitle || ""
-            },
-            version: {
-                name: 'version',
-                id: 'Version',
-                label: "Version",
-                placeholder: 'Version',
-                value: evidence.version || ""
-            },
-            status: {
-                label: "Status",
-                required: true,
-                options: [{
-                    label: "Draft",
-                    value: 'draft'
-                },
-                    {
-                        label: "Active",
-                        value: 'active'
-                    },
-                    {
-                        label: "Retired",
-                        value: 'retired'
-                    },
-                    {
-                        label: "Unknown",
-                        value: 'unknown'
-                    }
-                ],
-                value: evidence.status || ""
-            },
-            topics: {
-                label: "Topics",
-                required: true,
-                options: [{
-                    label: "Topic 1",
-                    value: 'Topic 1'
-                },
-                    {
-                        label: "Topic 2",
-                        value: 'Topic 2'
-                    },
-                    {
-                        label: "Topic 3",
-                        value: 'Topic 3'
-                    },
-                    {
-                        label: "Topic 4",
-                        value: 'Topic 4'
-                    }
-                ],
-                value: evidence.topics || ""
-            },
-            exposureBackground: {
-                name: 'exposure background',
-                id: 'Exposure Background',
-                placeHolder: 'Exposure Background',
-                label: 'Exposure Background',
-                options: [{
-                    label: "EP_1",
-                    value: 'EP_1'
-                },
-                    {
-                        label: "EP_2",
-                        value: 'EP_2'
-                    },
-                    {
-                        label: "EP_3",
-                        value: 'EP_3'
-                    },
-                    {
-                        label: "EP_4",
-                        value: 'EP_4'
-                    },
-                ],
-                value: evidence.exposureBackground || ""
-            },
-            description: {
-                name: 'description',
-                label: "Description",
-                placeholder: 'Provide description of the evidence',
-                required: true,
-                value: evidence.description || ""
-            },
-            id: {
-                name: 'id of the evidence',
-                label: "ID:",
-                placeholder: 'id of the evidence',
-                value: evidence.uid || ""
-            }
+            title: evidence.title,
+            subtitle: evidence.subtitle,
+            version: evidence.version,
+            status: evidence.status,
+            topics:  evidence.topics,
+            exposureBackground: evidence.exposureBackground,
+            description: evidence.description,
         }
     }
-
-
-
-
 }

@@ -8,45 +8,30 @@
             <h3>Evidences List</h3>
         </div>
 
-        <header>
-            <div class=" p-5 text-center logo-container">
-                <img src="./assets/images/pharma_logo.png" class="img-fluid" alt="Responsive image">
-            </div>
-        </header>
-
-        <h1 class="title text-center m-2">Evidences List</h1>
-
         <div class="container justify-content-start">
 
             <div data-if="@hasEvidences">
 
-                <webc-spinner slot="loading"></webc-spinner>
                 <div slot="false" class="alert alert-warning" role="alert">
                     <h4 class="alert-heading">No evidences received yet!</h4>
                 </div>
-                <div class="common-datatable col-8-datatable dt-8-col" slot="true">
-                    <webc-datatable datasource="@evidencesDataSource">
-                        <div slot="header">Title</div>
-                        <div slot="header">Subtitle</div>
-                        <div slot="header">Exposure Background</div>
-                        <div slot="header">Version</div>
-                        <div slot="header">Topic</div>
-                        <div slot="header">Status</div>
-                        <div slot="header">Description</div>
-                        <div slot="header">Options</div>
 
-                        <div class="cell">{{ @title }}</div>
-                        <div class="cell">{{ @subtitle }}</div>
-                        <div class="cell">{{ @exposureBackground }}</div>
-                        <div class="cell">{{ @version }}</div>
-                        <div class="cell">{{ @topics }}</div>
-                        <div class="cell">{{ @status}}</div>
-                        <div class="cell">{{ @description }}</div>
-                        <div class="cell">
-                            <button data-tag="view-evidence" class="link option">View</button>
-                        </div>
-
-                    </webc-datatable>
+                <div slot="true" data-for="@evidences">
+                    <ion-card class="card">
+                        <ion-card-content>
+                            <div class="card-item title-container d-flex justify-content-between">
+                                <p class="study-title">
+                                    {{ @title }}
+                                </p>
+                                <span>Version: {{@version}}</span>
+                            </div>
+                            <div>
+                                <ion-button expand="block" color="green" data-tag="view-evidence">
+                                    View
+                                </ion-button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
 
             </div>

@@ -1,7 +1,4 @@
 import EvidenceService from "../../services/EvidenceService.js";
-const commonServices = require("common-services");
-const DataSourceFactory = commonServices.getDataSourceFactory();
-
 const {WebcController} = WebCardinal.controllers;
 
 export default class EvidencesListController extends WebcController {
@@ -28,13 +25,13 @@ export default class EvidencesListController extends WebcController {
         }
 
         getEvidences().then(data => {
-            let evidences = data.filter(data => data.studyID === this.model.studyID);
-            this.model.hasEvidences = evidences.length !== 0;
-            this.model.evidencesDataSource = DataSourceFactory.createDataSource(8, 5, evidences);
+            this.model.evidences = data.filter(data => data.studyID === this.model.studyID);
+            this.model.hasEvidences = this.model.evidences.length !== 0;
             this.onTagClick("view-evidence", (model) => {
                 let evidenceState = {
                     studyID: model.studyID,
                     evidenceID: model.uid,
+                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
                 }
                 this.navigateToPageTag('view-evidence' ,evidenceState);
             });
