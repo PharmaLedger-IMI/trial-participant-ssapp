@@ -11,7 +11,7 @@ export default class VisitDetailsController extends WebcController {
         };
 
         this.model.visits.forEach(visit=>{
-            if (typeof visit.accepted === "undefined" && typeof visit.declined === "undefined" && typeof visit.rescheduled === "undefined") {
+            if (typeof visit.accepted === "undefined" && typeof visit.declined === "undefined" && typeof visit.rescheduled === "undefined" && typeof visit.confirmed==='undefined') {
                 visit.pending = true;
             }
         })

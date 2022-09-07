@@ -17,6 +17,7 @@ async function schedule_visit(data) {
 }
 
 async function visit_confirmed(data) {
+    await _updateVisit(data.useCaseSpecifics.visit);
     const taskService = TaskService.getTaskService();
 
     let visitDetails = data.useCaseSpecifics.visit;

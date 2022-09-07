@@ -65,7 +65,7 @@ export default class TaskCalendarController extends WebcController {
             });
 
         function filterVisits(visit) {
-            if(visit.declined === true || visit.accepted === true || visit.rescheduled === true) {
+            if(visit.declined === true || visit.accepted === true || visit.rescheduled === true || visit.confirmed === true) {
                 return;
             }
             return visit;
