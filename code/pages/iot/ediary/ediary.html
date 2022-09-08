@@ -9,22 +9,50 @@
                 </button>&nbsp;
                 <h3>{{@title}}</h3>
             </div>
-           
-        </header>
-        
-            <div class="container questionnaire-container" data-if="@fillMode" >
-                <webc-template  slot="true" template="iot/questionnaire/questionnaire-template" data-view-model="@"></webc-template>
-                <div class="questionnaire-completed" slot="false" >
-                    <h3>Thank you!</h3>
-                    <h5>You have successfully answered all the questions.</h5>
-                    <div class="button-group-wrapper">
-                        <button type="button" class="general-button" data-tag="finish-questionnaire">Ok</button>
-                    </div>
-                </div>
-            </div>
 
+        </header>
+
+        <div class="container questionnaire-container" data-if="@fillMode">
+            <webc-template slot="true" template="iot/questionnaire/questionnaire-template"
+                           data-view-model="@"></webc-template>
+
+            <div class="questionnaire-completed" slot="false">
+                <h3>Thank you!</h3>
+                <i class="fa fa-check-circle fa-4x"></i>
+                <webc-switch condition="@type">
+
+                    <div slot="prom">
+                        <h5>You have answered to all health questions.</h5>
+                        <div data-if="@hasComplementaryQuestionnaire">
+                            <div class="alert alert-info" role="alert">
+                                <i class="fa fa-exclamation-circle pr-1"></i><span>Don't forget to rate your experience as well.</span>
+                            </div>
+                        </div>
+                        <div class="button-group-wrapper m-2">
+                            <button type="button" class="general-button w-75" data-tag="finish-questionnaire">Continue
+                            </button>
+                        </div>
+                    </div>
+
+                    <div slot="prem">
+                        <h5>You have rated your experience.</h5>
+                        <div data-if="@hasComplementaryQuestionnaire">
+                            <div class="alert alert-info" role="alert">
+                                <i class="fa fa-exclamation-circle pr-1"></i><span>Don't forget to answer to health questions as well.</span>
+                            </div>
+                        </div>
+                        <div class="button-group-wrapper m-2">
+                            <button type="button" class="general-button w-75" data-tag="finish-questionnaire">Continue
+                            </button>
+                        </div>
+                    </div>
+
+                </webc-switch>
+
+            </div>
         </div>
 
+    </div>
 
 
 </webc-container>

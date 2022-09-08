@@ -36,6 +36,8 @@ export default class eDiaryController extends WebcIonicController {
 
         this.prevState = this.getState();
         this.model.title = this.prevState.title;
+        this.model.type = this.prevState.type;
+        this.model.hasComplementaryQuestionnaire = this.prevState.hasComplementaryQuestionnaire;
 
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {

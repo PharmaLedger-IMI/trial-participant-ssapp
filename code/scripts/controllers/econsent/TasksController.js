@@ -4,7 +4,7 @@ const {WebcController} = WebCardinal.controllers;
 const {QuestionnaireService} = commonServices;
 
 
-export default class eDiaryController extends WebcController {
+export default class TasksController extends WebcController {
 
     constructor(...props) {
         super(...props);
@@ -168,9 +168,12 @@ export default class eDiaryController extends WebcController {
                 return;
             }
             const {month, day, year, today, visits} = this.model.toObject();
+            let hasComplementaryQuestionnaire = this.model.showProms && this.model.showPrems;
+
             this.navigateToPageTag("ediary", {
                 type: questionnaireType,
                 title: title,
+                hasComplementaryQuestionnaire,
                 month, day, year, today, visits
             });
         }
