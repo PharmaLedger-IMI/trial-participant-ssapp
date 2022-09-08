@@ -14,18 +14,18 @@ export default class ResultsListController extends WebcController {
     async initServices() {
         this.EvidenceService= new EvidenceService();
 
-        const getEvidences = () => {
+        const getResults = () => {
             return new Promise ((resolve, reject) => {
-                this.EvidenceService.getEvidences((err, evidences) => {
+                this.EvidenceService.getEvidences((err, results) => {
                     if (err) {
                         return reject(err);
                     }
-                    resolve(evidences)
+                    resolve(results)
                 })
             })
         }
 
-        getEvidences().then(data => {
+        getResults().then(data => {
             this.model.results = data.filter(data => data.studyID === this.model.studyID);
             this.model.hasResults = this.model.results.length !== 0;
             this.onTagClick("view-result", (model) => {
