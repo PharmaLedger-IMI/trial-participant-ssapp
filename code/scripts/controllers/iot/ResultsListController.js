@@ -1,7 +1,8 @@
-import EvidenceService from "../../services/EvidenceService.js";
+const commonServices = require('common-services');
+const EvidenceService = commonServices.EvidenceService;
 const {WebcController} = WebCardinal.controllers;
 
-export default class EvidencesListController extends WebcController {
+export default class ResultsListController extends WebcController {
     constructor(...props) {
         super(...props);
         this.initServices();
@@ -25,15 +26,15 @@ export default class EvidencesListController extends WebcController {
         }
 
         getEvidences().then(data => {
-            this.model.evidences = data.filter(data => data.studyID === this.model.studyID);
-            this.model.hasEvidences = this.model.evidences.length !== 0;
-            this.onTagClick("view-evidence", (model) => {
-                let evidenceState = {
+            this.model.results = data.filter(data => data.studyID === this.model.studyID);
+            this.model.hasResults = this.model.results.length !== 0;
+            this.onTagClick("view-result", (model) => {
+                let resultState = {
                     studyID: model.studyID,
-                    evidenceID: model.uid,
+                    resultID: model.uid,
                     participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
                 }
-                this.navigateToPageTag('view-evidence' ,evidenceState);
+                this.navigateToPageTag('view-result' ,resultState);
             });
         })
     }

@@ -1,6 +1,4 @@
 const { WebcController } = WebCardinal.controllers;
-const commonServices = require('common-services');
-const DataSourceFactory = commonServices.getDataSourceFactory();
 
 export default class CompletedStudiesController extends WebcController {
     constructor(...props) {
@@ -15,12 +13,12 @@ export default class CompletedStudiesController extends WebcController {
         this.onTagClick('navigation:go-back', () => {
             this.navigateToPageTag('iot-health-studies');
         });
-        this.onTagClick("view:evidence", (model) => {
+        this.onTagClick("view:results", (model) => {
             let state = {
                 studyID: model.uid,
                 participatingCompletedFullStudies: this.model.toObject('participatingCompletedFullStudies')
             }
-            this.navigateToPageTag('evidences-list', state)
+            this.navigateToPageTag('results-list', state)
         });
         this.onTagClick("view:feedback", (model) => {
             let state = {

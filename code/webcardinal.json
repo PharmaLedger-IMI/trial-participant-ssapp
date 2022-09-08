@@ -99,16 +99,16 @@
             "tag": "completed-studies"
         },
         {
-            "name": "Evidences List",
-            "path": "/iot-evidences-list",
-            "src": "iot/evidences-list.html",
-            "tag": "evidences-list"
+            "name": "Results List",
+            "path": "/iot-results-list",
+            "src": "iot/results-list.html",
+            "tag": "results-list"
         },
         {
-            "name": "View Evidence",
-            "path": "/iot-view-evidence",
-            "src": "iot/view-evidence.html",
-            "tag": "view-evidence"
+            "name": "View Result",
+            "path": "/iot-view-result",
+            "src": "iot/view-result.html",
+            "tag": "view-result"
         },
         {
             "name": "Health Studies",
