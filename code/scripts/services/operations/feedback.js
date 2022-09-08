@@ -1,6 +1,6 @@
-import FeedbackService from "../FeedbackService.js";
-import { saveNotification } from './commons/index.js';
 const commonServices = require('common-services');
+const FeedbackService = commonServices.FeedbackService;
+import { saveNotification } from './commons/index.js';
 const Constants = commonServices.Constants;
 const feedbackService = new FeedbackService();
 

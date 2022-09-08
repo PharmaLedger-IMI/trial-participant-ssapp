@@ -1,4 +1,5 @@
-import FeedbackService from "../../services/FeedbackService.js";
+const commonServices = require('common-services');
+const FeedbackService = commonServices.FeedbackService;
 const {WebcController} = WebCardinal.controllers;
 
 export default class FeedbackController extends WebcController {
