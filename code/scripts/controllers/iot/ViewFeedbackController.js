@@ -22,10 +22,20 @@ export default class ViewFeedbackController extends WebcController {
 
     _attachHandlerGoBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('iot-feedback', {
-                studyID: this.model.studyID,
-                participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
-            });
+            if(this.prevState.origin==="participatingStudies") {
+                this.navigateToPageTag('iot-feedback', {
+                    studyID: this.model.studyID,
+                    participatingFullStudies: this.prevState.participatingFullStudies,
+                    origin: this.prevState.origin
+                });
+            }
+            else {
+                this.navigateToPageTag('iot-feedback', {
+                    studyID: this.model.studyID,
+                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies,
+                    origin: this.prevState.origin
+                });
+            }
         });
     }
 

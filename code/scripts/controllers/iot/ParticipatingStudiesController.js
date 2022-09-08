@@ -17,6 +17,15 @@ export default class ParticipatingStudiesController extends WebcController {
             this.navigateToPageTag('view-study-details', invitationState)
         });
 
+        this.onTagClick('view-study-feedback', (model)=> {
+            let state = {
+                studyID: model.uid,
+                participatingFullStudies: this.model.toObject('participatingFullStudies'),
+                origin: "participatingStudies"
+            }
+            this.navigateToPageTag('iot-feedback', state);
+        });
+
         this.onTagClick('navigation:go-back', () => {
             this.navigateToPageTag('iot-health-studies')
         });

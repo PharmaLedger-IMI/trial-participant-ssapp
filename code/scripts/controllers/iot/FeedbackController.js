@@ -33,7 +33,9 @@ export default class FeedbackController extends WebcController {
                     studyID: this.model.studyID,
                     studyTitle: this.model.studyTitle,
                     feedbackID: model.uid,
-                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
+                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies,
+                    participatingFullStudies: this.prevState.participatingFullStudies,
+                    origin: this.prevState.origin
                 }
                 this.navigateToPageTag('view-feedback', state);
             });
@@ -42,9 +44,16 @@ export default class FeedbackController extends WebcController {
 
     _attachHandlerBack() {
         this.onTagClick('navigation:go-back', () => {
-            this.navigateToPageTag('completed-studies',{
-                participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
-            });
+            if(this.prevState.origin==="participatingStudies") {
+                this.navigateToPageTag('participating-studies', {
+                    participatingFullStudies: this.prevState.participatingFullStudies
+                });
+            }
+            else {
+                this.navigateToPageTag('completed-studies', {
+                    participatingCompletedFullStudies: this.prevState.participatingCompletedFullStudies
+                });
+            }
         });
     }
 }
