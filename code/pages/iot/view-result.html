@@ -13,9 +13,13 @@
                 <ion-card class="card">
                     <ion-card-content>
                         <div class="card-item d-flex justify-content-between">
-                            <span>
-                                {{@status}}
-                            </span>
+                            <webc-switch condition="@status">
+                                <span slot="draft" class="badge badge-primary study-status">Draft</span>
+                                <span slot="active" class="badge badge-success study-status">Active</span>
+                                <span slot="retired" class="badge badge-info study-status">Retired</span>
+                                <span slot="unknown" class="badge badge-secondary study-status">Unknown</span>
+                            </webc-switch>
+
                             <span>Version: {{@version}}</span>
                         </div>
                         <div class="card-item">
