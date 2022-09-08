@@ -62,21 +62,12 @@
 
                             <h5>{{@name}}</h5>
 
-                            <span data-if="@accepted">
-                                <span class="badge badge-success">Accepted</span>
-                            </span>
+                            <webc-switch condition="@status">
+                                <span slot="accepted" class="badge badge-success">Accepted</span>
+                                <span slot="rescheduled" class="badge badge-warning">Rescheduled</span>
+                                <span slot="pending" class="badge badge-dark">Pending</span>
+                            </webc-switch>
 
-                            <span data-if="@confirmed">
-                                <span class="badge badge-success">Accepted</span>
-                            </span>
-
-                            <span data-if="@rescheduled">
-                                <span class="badge badge-warning">Rescheduled</span>
-                            </span>
-
-                            <span data-if="@pending">
-                                <span class="badge badge-dark">Pending response</span>
-                            </span>
                             <span class="visit-date">{{@visitDate}}</span>
 
                         </div>
