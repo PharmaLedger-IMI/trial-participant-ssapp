@@ -24,7 +24,15 @@
                     <ion-card class="card">
                         <ion-card-content>
                             <div class="card-item d-flex justify-content-between">
-                                <span class="study-title">{{@study.status}}</span>
+                                <webc-switch condition="@study.status">
+                                    <span slot="approved" class="badge badge-primary study-status">Approved</span>
+                                    <span slot="active" class="badge badge-success study-status">Active</span>
+                                    <span slot="cancelled" class="badge badge-danger study-status">Cancelled</span>
+                                    <span slot="onHold" class="badge badge-warning study-status">On Hold</span>
+                                    <span slot="closed" class="badge badge-secondary study-status">Closed</span>
+                                    <span slot="withdrawn" class="badge badge-dark study-status">Withdrawn</span>
+                                    <span slot="completed" class="badge badge-complete study-status">Completed</span>
+                                </webc-switch>
                                 <span>
                                         {{ @study.startdate }} - {{ @study.enddate }}
                                 </span>
@@ -99,7 +107,7 @@
                                     <p>{{@study.description}}</p>
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <ion-button color="green" data-tag="reject">
+                                    <ion-button color="danger" data-tag="reject">
                                         Reject
                                     </ion-button>
                                     <ion-button color="green" data-tag="confirm">
