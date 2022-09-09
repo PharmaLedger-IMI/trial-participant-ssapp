@@ -1,5 +1,5 @@
 const commonServices = require('common-services');
-const EvidenceService = commonServices.EvidenceService;
+const ResultsService = commonServices.ResultsService;
 const {WebcController} = WebCardinal.controllers;
 
 
@@ -8,8 +8,8 @@ export default class ViewResultController extends WebcController {
         super(...props);
 
         this.prevState = this.getState() || {};
-        this.EvidenceService = new EvidenceService();
-        this.EvidenceService.getEvidence(this.prevState.resultID, (err, results) => {
+        this.ResultsService = new ResultsService();
+        this.ResultsService.getResult(this.prevState.resultID, (err, results) => {
             if (err){
                 return console.log(err);
             }

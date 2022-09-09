@@ -1,5 +1,5 @@
 const commonServices = require('common-services');
-const EvidenceService = commonServices.EvidenceService;
+const ResultsService = commonServices.ResultsService;
 const {WebcController} = WebCardinal.controllers;
 
 export default class ResultsListController extends WebcController {
@@ -12,11 +12,11 @@ export default class ResultsListController extends WebcController {
     }
 
     async initServices() {
-        this.EvidenceService= new EvidenceService();
+        this.ResultsService= new ResultsService();
 
         const getResults = () => {
             return new Promise ((resolve, reject) => {
-                this.EvidenceService.getEvidences((err, results) => {
+                this.ResultsService.getResults((err, results) => {
                     if (err) {
                         return reject(err);
                     }
