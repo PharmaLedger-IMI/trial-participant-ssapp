@@ -182,7 +182,31 @@ export default class HealthStudiesController extends WebcController {
                 return callback();
             }
             console.log("Found %d matches.", DP.matches.length);
+
             DP.matches.forEach(match => {
+
+                if (match.dpermissionRejectedDate) {
+                    let permission = {
+                        studyID: match.studyUID,
+                        date: new Date(match.dpermissionRejectedDate).toDateString(),
+                        dataType: match.patient.patientDataType,
+                        status: "Rejected",
+                        disabled: true
+                    }
+                    return this.permissions.push(permission);
+                }
+
+                if (match.dpermissionStopSharingDate) {
+                    let permission = {
+                        studyID: match.studyUID,
+                        date: new Date(match.dpermissionStopSharingDate).toDateString(),
+                        dataType: match.patient.patientDataType,
+                        status: "Revoked",
+                        disabled: true
+                    }
+                    return this.permissions.push(permission);
+                }
+
                 if (match.dpermissionStartSharingDate) {
                     let permission = {
                         studyID: match.studyUID,
@@ -193,26 +217,7 @@ export default class HealthStudiesController extends WebcController {
                     }
                     this.permissions.push(permission);
                 }
-                if (match.dpermissionStopSharingDate) {
-                    let permission = {
-                        studyID: match.studyUID,
-                        date: new Date(match.dpermissionStopSharingDate).toDateString(),
-                        dataType: match.patient.patientDataType,
-                        status: "Revoked",
-                        disabled: true
-                    }
-                    this.permissions.push(permission);
-                }
-                if (match.dpermissionRejectedDate) {
-                    let permission = {
-                        studyID: match.studyUID,
-                        date: new Date(match.dpermissionRejectedDate).toDateString(),
-                        dataType: match.patient.patientDataType,
-                        status: "Rejected",
-                        disabled: true
-                    }
-                    this.permissions.push(permission);
-                }
+
             })
 
             const getStudies = () => {
