@@ -8,6 +8,13 @@ export default class ViewStudyDetailsController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model = this.getState() || {};
+        const study = this.model.toObject('study');
+        const checkStatus = () => {
+            return study.status === 'closed' ? false
+            : study.status === 'withdrawn' ? false
+            : study.status !== 'completed';
+        }
+        this.model.showBtns = checkStatus();
 
         this.onTagClick('confirm', (model) => {
             window.WebCardinal.loader.hidden = false;
