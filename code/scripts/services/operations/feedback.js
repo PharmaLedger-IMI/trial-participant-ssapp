@@ -5,11 +5,16 @@ const Constants = commonServices.Constants;
 const feedbackService = new FeedbackService();
 
 export async function new_feedback(data) {
-    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_FEEDBACK);
-    feedbackService.mount(data.ssi, (err, data) => {
+    feedbackService.mount(data.ssi, async (err, data) => {
         if (err) {
             return console.error(err);
         }
+        const notificationTitle = `${Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_FEEDBACK.notificationTitle} for ${data.studyTitle}`;
+        let notificationInfo = {
+            ...Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_FEEDBACK,
+            notificationTitle: notificationTitle
+        }
+        await saveNotification(data, notificationInfo);
         feedbackService.getFeedbacks((err, feedbacks) => {
             if (err) {
                 return console.error(err);
