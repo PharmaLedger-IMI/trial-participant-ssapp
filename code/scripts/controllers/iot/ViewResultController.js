@@ -1,6 +1,7 @@
 const commonServices = require('common-services');
 const ResultsService = commonServices.ResultsService;
 const {WebcController} = WebCardinal.controllers;
+const FileDownloaderService = commonServices.FileDownloaderService;
 
 
 export default class ViewResultController extends WebcController {
@@ -8,6 +9,7 @@ export default class ViewResultController extends WebcController {
         super(...props);
 
         this.prevState = this.getState() || {};
+        this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
         this.ResultsService = new ResultsService();
         this.ResultsService.getResult(this.prevState.resultID, (err, results) => {
             if (err){
@@ -15,8 +17,22 @@ export default class ViewResultController extends WebcController {
             }
             this.model = this.getResultDetailsViewModel(results);
         });
-
+        this._attachHandlerDownload()
         this._attachHandlerBackMenu();
+    }
+
+    getResultFilePath(uid) {
+        return 'results' + '/' + uid+ '/files/';
+    }
+
+    _attachHandlerDownload() {
+        this.onTagClick('download-file', async (model, target, event) => {
+            if (this.model.filename) {
+                let path = this.getResultFilePath(this.model.id);
+                await this.fileDownloaderService.prepareDownloadFromDsu(path, this.model.filename);
+                this.fileDownloaderService.downloadFileToDevice(this.model.filename);
+            }
+        });
     }
 
     _attachHandlerBackMenu() {
@@ -30,6 +46,7 @@ export default class ViewResultController extends WebcController {
 
     getResultDetailsViewModel(results) {
         return {
+            id: results.uid,
             title: results.title,
             subtitle: results.subtitle,
             version: results.version,
@@ -37,6 +54,13 @@ export default class ViewResultController extends WebcController {
             topics:  results.topics,
             exposureBackground: results.exposureBackground,
             description: results.description,
+            attachedFile: {
+                name: "file uploaded",
+                label: "File Uploaded",
+                placeholder: "File uploaded",
+                button: results.filename ? "Download" : "Not uploaded"
+            },
+            filename: results.filename
         }
     }
 }

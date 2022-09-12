@@ -35,6 +35,12 @@
                         <div class="card-item">
                             <p>{{@description}}</p>
                         </div>
+                        <div data-if="@filename">
+                            <div class="card-item d-flex justify-content-between">
+                                <p>{{@attachedFile.label}}</p>
+                                    <button data-tag="download-file" class="badge badge-primary study-status">{{@attachedFile.button}}</button>
+                            </div>
+                        </div>
                     </ion-card-content>
                 </ion-card>
             </main>
