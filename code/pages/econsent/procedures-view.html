@@ -5,31 +5,23 @@
             <button class="navigate-back" data-tag="back">
                 <i class="fa fa-angle-left"></i>
             </button>
-            <h3>Procedures</h3>
+            <h3>Procedures Attendance</h3>
         </div>
-
-        <div class="procedures-table">
-            <div class="procedures-header">
-                    <label class="table-cell-header"></label>
-                    <label class="table-cell-header">Completed</label>
-                <hr/>
-            </div>
-            <div class="procedures-content-container" data-for="@procedures">
-                <div class="procedures-content-item">
-                    <label class="table-cell-content">{{@name}}</label>
-                    <webc-switch condition="@status">
-                        <div slot="Completed">
-                            <label>COMPLETED</label>
-                        </div>
-
-                        <div slot="Missed">
-                            <label>MISSED</label>
-                        </div>
-                    </webc-switch>
-                </div>
-            </div>
+            <ion-list data-for="@procedures">
+                <ion-item>
+                    <ion-avatar  slot="start" class="mr-2">
+                        <webc-switch condition="@status">
+                            <i class="fa fa-check-circle fa-2x text-success" slot="Completed">
+                            </i>
+                            <i class="fa fa-times-circle fa-2x text-danger" slot="Missed">
+                            </i>
+                        </webc-switch>
+                    </ion-avatar>
+                    <ion-label>
+                        <p>{{@name}}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
         </div>
-
-    </div>
     </div>
 </webc-container>

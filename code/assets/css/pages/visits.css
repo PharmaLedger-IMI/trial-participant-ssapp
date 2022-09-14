@@ -340,22 +340,6 @@
     flex-direction: row;
 }
 
-.procedures-header {
-    display: flex;
-    flex-direction: row;
-    border-bottom: 2px solid gray;
-    margin-bottom: 20px;
-}
-
-.table-cell-header ,.table-cell-content{
-    width: 50%;
-    font-size: 18px;
-}
-
-.table-cell-header {
-    font-weight: 700;
-}
-
 .ionic-wrapper{
     margin: 5rem 1rem;
 }
