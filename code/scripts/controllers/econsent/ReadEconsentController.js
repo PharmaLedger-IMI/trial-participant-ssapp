@@ -200,7 +200,7 @@ export default class ReadEconsentController extends WebcController {
             signatureDate: `Digital Signature ${new Date().toLocaleDateString()}`,
             signatureAuthor: "Trial Participant Signature",
             signatureDid: this.tp.did,
-            isRightSide: false
+            isBottomSide: false
         };
         this.PDFService.applyDigitalSignature(digitalSignatureOptions);
 
