@@ -202,7 +202,10 @@ export default class ReadEconsentController extends WebcController {
             signatureDid: this.tp.did,
             isBottomSide: false
         };
-        this.PDFService.applyDigitalSignature(digitalSignatureOptions);
+
+        if(operation === ConsentStatusMapper.consentStatuses.signed.name){
+            this.PDFService.applyDigitalSignature(digitalSignatureOptions);
+        }
 
         if (this.model.status === undefined || this.model.status.uid === undefined) {
             //TODO implement when status is not set => optional consents
