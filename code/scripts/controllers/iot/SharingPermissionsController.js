@@ -42,7 +42,7 @@ export default class MyProfileController extends WebcIonicController {
 
 
     findAgeGroup(date) {
-        const ageGroups = ['Age 10-30', "Age 30-40", "Age 40-50", "Age 50-60", "Age 60+"];
+        const ageGroups = ['18-30', "30-40", "40-50", "50-60", "60+"];
 
         const getAge = dateString => {
             let today = new Date();
@@ -58,7 +58,7 @@ export default class MyProfileController extends WebcIonicController {
         let age = getAge(date);
 
         switch (true) {
-            case (age >= 10) && (age <= 30):
+            case (age >= 18) && (age <= 30):
                 return ageGroups[0];
             case age > 30 && age <= 40:
                 return ageGroups[1];
