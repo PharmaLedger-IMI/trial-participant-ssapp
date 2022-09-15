@@ -198,6 +198,7 @@ export default class TaskCalendarController extends WebcController {
                     question: 'Are you sure you want to reschedule this visit?',
                     title: 'Reschedule visit',
                     suggestedInterval: model.suggestedInterval,
+                    isExtended: model.isExtended
                 }
             );
         });
