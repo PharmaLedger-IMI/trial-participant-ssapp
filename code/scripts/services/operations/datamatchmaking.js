@@ -8,14 +8,19 @@ const studiesService = new StudiesService();
 
 export async function datamatchmaking(data) {
 
-    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_INVITATION);
-
     const mountStudy = () => {
         return new Promise ((resolve, reject) => {
-            studiesService.mount(data.studysReadSSI,  (err, mounted_study) => {
+            studiesService.mount(data.studysReadSSI,  async (err, mounted_study) => {
                 if (err) {
                     return reject(err);
                 }
+                const notificationTitle = `${Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_INVITATION.notificationTitle} for ${mounted_study.title}`;
+                let notificationInfo = {
+                    ...Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_INVITATION,
+                    notificationTitle: notificationTitle
+                }
+                await saveNotification(data, notificationInfo);
+
                 resolve(mounted_study)
             })
         })
