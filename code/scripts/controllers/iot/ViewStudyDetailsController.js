@@ -2,6 +2,7 @@ const commonServices = require('common-services');
 const {DPService} = commonServices;
 const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
 const {WebcController} = WebCardinal.controllers;
+const Constants = commonServices.Constants;
 
 
 export default class ViewStudyDetailsController extends WebcController {
@@ -37,7 +38,7 @@ export default class ViewStudyDetailsController extends WebcController {
                     console.log(data);
                     console.log("DPermission added!");
                     this.CommunicationService.sendMessageToIotAdapter({
-                        operation: "dp_updated_add",
+                        operation: Constants.MESSAGES.RESEARCHER.ADD_DYNAMIC_PERMISSION,
                         studyUID: this.model.study.uid,
                         dpUID: data.uid
                     })
@@ -69,7 +70,7 @@ export default class ViewStudyDetailsController extends WebcController {
                     console.log(data);
                     console.log("DPermission removed!");
                     this.CommunicationService.sendMessageToIotAdapter({
-                        operation: "dp_updated_remove",
+                        operation: Constants.MESSAGES.RESEARCHER.REMOVE_DYNAMIC_PERMISSION,
                         studyUID: this.model.study.uid,
                         dpUID: data.uid
                     })
@@ -112,7 +113,7 @@ export default class ViewStudyDetailsController extends WebcController {
                     console.log(data);
                     console.log("DPermission rejected!");
                     this.CommunicationService.sendMessageToIotAdapter({
-                        operation: "dp_updated_reject",
+                        operation: Constants.MESSAGES.RESEARCHER.REJECT_DYNAMIC_PERMISSION,
                         studyUID: this.model.study.uid,
                         dpUID: data.uid
                     });

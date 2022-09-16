@@ -55,10 +55,10 @@ export default class ViewResultController extends WebcController {
             exposureBackground: results.exposureBackground,
             description: results.description,
             attachedFile: {
-                name: "file uploaded",
-                label: "File Uploaded",
-                placeholder: "File uploaded",
-                button: results.filename ? "Download" : "Not uploaded"
+                name: "results attached",
+                label: "Results Attached",
+                placeholder: "results attached",
+                button: results.filename ? "Download" : "Not attached"
             },
             filename: results.filename
         }

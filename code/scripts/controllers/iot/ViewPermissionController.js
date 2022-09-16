@@ -2,6 +2,7 @@ const commonServices = require("common-services");
 const {DPService, StudiesService} = commonServices;
 const {WebcController} = WebCardinal.controllers;
 const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
+const Constants = commonServices.Constants;
 
 
 export default class ViewPermissionController extends WebcController {
@@ -44,7 +45,7 @@ export default class ViewPermissionController extends WebcController {
                     }
                     console.log(data);
                     this.CommunicationService.sendMessageToIotAdapter({
-                        operation: "dp_updated_remove",
+                        operation: Constants.MESSAGES.RESEARCHER.REMOVE_DYNAMIC_PERMISSION,
                         studyUID: model.studyID,
                         dpUID: data.uid
                     })
