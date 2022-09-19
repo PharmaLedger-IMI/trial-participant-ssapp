@@ -205,7 +205,7 @@ export default class eDiaryController extends WebcIonicController {
 
             let responsesDSU = {
                 questionResponses: questionResponses,
-                trialSSI: this.trial.uid
+                trialUid: this.trial.uid
             }
 
             if(this.responsesOfCurrentType) {
