@@ -7,8 +7,9 @@ export default class PendingInvitationsController extends WebcController {
 
         const state = this.getState();
         const invitationsFullStudies = state.invitationsFullStudies;
-        this.model.hasInvitations = invitationsFullStudies.length !== 0;
-        this.model.studyInvitations = invitationsFullStudies;
+
+        this.model.studyInvitations = invitationsFullStudies.filter(s => (s.status ==="approved" ||  s.status==="active"));
+        this.model.hasInvitations = this.model.studyInvitations.length !== 0;
 
         this.onTagClick('view-study-details', (model) => {
             let invitationState = {
