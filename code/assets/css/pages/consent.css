@@ -40,17 +40,27 @@
     margin-left: 10%;
 }
 
+#pdf-wrapper {
+    width: 84vw;
+    height: 70vh;
+    overflow: auto;
+}
+
 #canvas-wrapper {
     justify-content: space-evenly;
     align-items: center;
-    overflow: scroll;
-    width: fit-content;
-    overflow-x: hidden;
-    height: 600px;
+    overflow: hidden;
+    height: 70vh;
 }
 
 #canvas-parent {
-    max-height: 700px;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+#canvas-parent::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
 }
 
 #canvas-parent > * {
