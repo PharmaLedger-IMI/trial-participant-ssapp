@@ -1,3 +1,5 @@
+import {getTPService}  from "../../services/TPService.js";
+import TaskService from "../../services/TaskService.js";
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
 const CommunicationService = commonServices.CommunicationService;
@@ -5,7 +7,7 @@ const DateTimeService = commonServices.DateTimeService;
 const Constants = commonServices.Constants;
 const momentService  = commonServices.momentService;
 const BaseRepository = commonServices.BaseRepository;
-import {getTPService}  from "../../services/TPService.js"
+const taskService = TaskService.getTaskService();
 
 export default class TaskCalendarController extends WebcController {
     constructor(...props) {
@@ -205,6 +207,23 @@ export default class TaskCalendarController extends WebcController {
     }
 
     async _updateVisit(visit) {
+        if(visit.declined === true) {
+            taskService.getTasks((err,tasks) => {
+                if(err) {
+                    return console.error(err);
+                }
+                let index = tasks.item.findIndex(t => t.uid === visit.uid);
+                if(index === -1) {
+                    return;
+                }
+                tasks.item.splice(index, 1);
+                taskService.updateTasks(tasks,(err) => {
+                    if(err) {
+                        console.error(err);
+                    }
+                })
+            })
+        }
         let objIndex = this.model.visits.findIndex((obj => obj.pk === visit.pk));
         this.model.visits[objIndex] = visit;
         await this.VisitsAndProceduresRepository.updateAsync(visit.pk, visit);
