@@ -189,10 +189,9 @@ export default class TasksController extends WebcController {
     }
 
     getDefaultModel() {
-        const prevState = this.getState() || {};
         return {
-            ...prevState,
-            tasks: []
+            tasks: [],
+            ...this.getState()
         }
     }
 

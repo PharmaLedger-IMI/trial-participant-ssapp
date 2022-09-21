@@ -1,11 +1,12 @@
+import TrialService from "../../../services/TrialService.js";
+import {getTPService}  from "../../../services/TPService.js"
+
 const CommunicationService = require("common-services").CommunicationService;
 const commonServices = require('common-services');
 const {QuestionnaireService, ResponsesService} = commonServices;
 const {WebcIonicController} = WebCardinal.controllers;
 const QUESTIONNAIRE_TEMPLATE_PREFIX = "iot/questionnaire/";
 const Constants = commonServices.Constants;
-import {getTPService}  from "../../../services/TPService.js"
-
 
 const getInitModel = () => {
     return {
@@ -39,6 +40,7 @@ export default class eDiaryController extends WebcIonicController {
         this.model.type = this.prevState.type;
         this.model.hasComplementaryQuestionnaire = this.prevState.hasComplementaryQuestionnaire;
 
+        this.TrialService = new TrialService();
         this.TPService = getTPService();
         this.TPService.getTp((err, tp) => {
             if (err) {
@@ -49,6 +51,7 @@ export default class eDiaryController extends WebcIonicController {
 
         this.getResponses();
         this._attachHandlers();
+        this._initTrial();
 
         this.model.onChange("questionIndex",()=>{
             const currentIndex = this.model.questionIndex;
@@ -61,6 +64,15 @@ export default class eDiaryController extends WebcIonicController {
             this.computeButtonStates();
 
         })
+    }
+
+    _initTrial() {
+        this.TrialService.getTrials((err, data) => {
+            if (err) {
+                return console.error(err);
+            }
+            this.trial = data[0];
+        });
     }
 
     onReady(){
@@ -193,12 +205,12 @@ export default class eDiaryController extends WebcIonicController {
 
             let responsesDSU = {
                 questionResponses: questionResponses,
+                trialUid: this.trial.uid
             }
 
             if(this.responsesOfCurrentType) {
                 responsesDSU.uid = this.responsesOfCurrentType.uid;
             }
-
             this.ResponsesService.saveResponse(responsesDSU, (err, data) => {
                 if (err) {
                     return console.log(err);
