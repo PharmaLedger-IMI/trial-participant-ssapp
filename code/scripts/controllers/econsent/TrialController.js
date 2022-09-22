@@ -62,7 +62,7 @@ export default class TrialController extends WebcController {
             let lastAction = 'Consent required';
             let statusesMappedByConsent = {};
             let statuses = await this.EconsentsStatusRepository.findAllAsync();
-            statuses.filter(status => status.tpDid == this.model.tpDid);
+            statuses.filter(status => status.tpDid === this.model.tpDid);
 
             statuses.forEach(status => {
                 statusesMappedByConsent[status.foreignConsentId] = status;
@@ -112,6 +112,12 @@ export default class TrialController extends WebcController {
                     ...importantVersion
                 }
             })
+            let econs = this.model.econsents;
+            let index = econs.findIndex(item => item.econsentType === 'mandatory');
+            if(index>-1) {
+                [econs[0], econs[index]] = [econs[index], econs[0]]
+            }
+
             this._setTpStatus(statuses);
             if (consents.length > 0) {
                 this.model.econsents[0].isMain = true;
