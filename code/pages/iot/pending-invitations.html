@@ -20,6 +20,10 @@
                 <div slot="true" data-for="@studyInvitations">
                     <ion-card class="card">
                         <ion-card-content>
+                            <div data-if="@canJoin" class="mb-2">
+                                <span slot="true" class="w-100 study-datatype badge badge-success">Study enrolment is opened</span>
+                                <span slot="false" class="w-100 study-datatype badge badge-secondary">Study enrolment is closed</span>
+                            </div>
                             <div class="card-item">
                                 <p class="study-title">
                                     {{@title}}

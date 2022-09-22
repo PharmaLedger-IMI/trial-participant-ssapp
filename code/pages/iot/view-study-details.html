@@ -106,7 +106,7 @@
                                 <div class="card-item">
                                     <p>{{@study.description}}</p>
                                 </div>
-                                <div data-if="@showBtns" >
+                                <div data-if="@canJoinStudy" >
                                         <div slot="true" class="btns-container">
                                             <div class="d-flex justify-content-between btns-container-item">
                                                 <ion-button color="danger" data-tag="reject">
@@ -117,6 +117,12 @@
                                                 </ion-button>
                                             </div>
                                         </div>
+                                    <div slot="false" class="btns-container">
+                                        <ion-button  color="danger" data-tag="reject" class="w-100 mt-2">
+                                            Dismiss
+                                        </ion-button>
+                                    </div>
+
                                 </div>
                             </ion-card-content>
                         </ion-card>

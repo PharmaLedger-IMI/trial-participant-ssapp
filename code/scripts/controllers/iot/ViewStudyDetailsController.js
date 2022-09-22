@@ -1,5 +1,5 @@
 const commonServices = require('common-services');
-const {DPService} = commonServices;
+const {DPService,StudiesService} = commonServices;
 const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
 const {WebcController} = WebCardinal.controllers;
 const Constants = commonServices.Constants;
@@ -10,12 +10,8 @@ export default class ViewStudyDetailsController extends WebcController {
         super(...props);
         this.model = this.getState() || {};
         const study = this.model.toObject('study');
-        const checkStatus = () => {
-            return study.status === 'closed' ? false
-            : study.status === 'withdrawn' ? false
-            : study.status !== 'completed';
-        }
-        this.model.showBtns = checkStatus();
+
+        this.model.canJoinStudy = study.status === "active";
 
         this.onTagClick('confirm', (model) => {
             window.WebCardinal.loader.hidden = false;
@@ -122,5 +118,12 @@ export default class ViewStudyDetailsController extends WebcController {
             window.WebCardinal.loader.hidden = true;
             this.navigateToPageTag('iot-health-studies');
         });
+        this.onTagClick('dismiss', (model) => {
+            const studiesService = new StudiesService();
+            studiesService.unMount(model.uid, () => {
+                window.WebCardinal.loader.hidden = true;
+                this.navigateToPageTag('iot-health-studies');
+            })
+        })
     }
 }

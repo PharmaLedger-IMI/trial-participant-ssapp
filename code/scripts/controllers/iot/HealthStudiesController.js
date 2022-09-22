@@ -49,7 +49,7 @@ export default class HealthStudiesController extends WebcController {
                 }
                 this.invitationsStudiesUIDs.forEach(studyUID => {
                     studies.forEach(mountedStudy => {
-                        if (mountedStudy.uid === studyUID && mountedStudy.status==="active") {
+                        if (mountedStudy.uid === studyUID) {
                             this.invitationsFullStudies.push(mountedStudy);
                         }
                     })
