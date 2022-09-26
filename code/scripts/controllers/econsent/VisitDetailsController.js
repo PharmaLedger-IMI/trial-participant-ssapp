@@ -13,6 +13,7 @@ export default class VisitDetailsController extends WebcController {
         this.model.details = this.state.details;
 
         this.state.visits.forEach(visit=>{
+            visit.visitDate = (new Date(visit.proposedDate)).toLocaleString();
             if(visit.accepted === true || visit.confirmed === true) {
                 return visit.status = 'accepted';
             }
@@ -29,7 +30,7 @@ export default class VisitDetailsController extends WebcController {
         this.model.visits = this.state.visits.sort((a, b) => a.proposedDate - b.proposedDate);
 
         if(this.state.schedule.startDate) {
-            this.model.toShowDate = momentService(this.state.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+            this.model.toShowDate = (new Date(this.state.schedule.startDate)).toLocaleString();
         }
         this._initHandlers();
     }

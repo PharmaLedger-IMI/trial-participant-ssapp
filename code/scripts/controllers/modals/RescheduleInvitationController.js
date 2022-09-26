@@ -46,8 +46,8 @@ export default class RescheduleInvitationController extends WebcController {
                 this.model.desiredDate.min = firstDateFormatted.date + 'T' + firstDateFormatted.time;
                 this.model.desiredDate.max = secondDateFormatted.date + 'T' + secondDateFormatted.time;
 
-                let from = momentService(props[0].suggestedInterval[0]).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
-                let to = momentService(props[0].suggestedInterval[1]).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+                let from = (new Date(props[0].suggestedInterval[0])).toLocaleString();
+                let to = (new Date(props[0].suggestedInterval[1])).toLocaleString();
                 this.model.datesInformation = `Choose a date from: ${from} to ${to}`;
                 if(!this.model.desiredDate.value) {
                     this.model.isBtnDisabled = true;
@@ -71,7 +71,7 @@ export default class RescheduleInvitationController extends WebcController {
             let minDate = (new Date(this.model.desiredDate.min)).getTime();
             this.model.isBtnDisabled = true;
             this.getProcedureDateElement().classList.add("is-invalid");
-            let from = momentService(minDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+            let from = (new Date(minDate)).toLocaleString();
             this.model.haveSuggestedInterval = true;
             this.model.datesInformation = `Choose a date from: ${from}`;
 
