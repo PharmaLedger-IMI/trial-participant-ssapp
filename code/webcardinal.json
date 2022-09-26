@@ -33,10 +33,10 @@
             "tag": "trial"
         },
         {
-            "name": "Site Consent History",
-            "path": "/site-consent-history",
-            "src": "econsent/site-consent-history.html",
-            "tag": "site-consent-history"
+            "name": "Consent History",
+            "path": "/consent-history",
+            "src": "econsent/consent-history.html",
+            "tag": "consent-history"
         },
         {
             "name": "Consent Preview",

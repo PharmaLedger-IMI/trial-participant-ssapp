@@ -104,7 +104,7 @@ export default class EconsentController extends WebcController {
         this.onTagClick('econsent:versions', (model, target, event) => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            this.navigateToPageTag('site-consent-history', {
+            this.navigateToPageTag('consent-history', {
                 trialConsentId: model.econsent.trialConsentId,
                 status: this.model.status.latest,
                 ...this.historyData

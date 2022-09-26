@@ -6,7 +6,7 @@ const DateTimeService = commonServices.DateTimeService;
 const BaseRepository = commonServices.BaseRepository;
 const {WebcController} = WebCardinal.controllers;
 
-export default class SiteConsentHistoryController extends WebcController {
+export default class ConsentHistoryController extends WebcController {
     constructor(...props) {
         super(...props);
         this.state = this.getState();
