@@ -60,7 +60,7 @@ export default class TaskCalendarController extends WebcController {
             .map(visit => {
                 return {
                     ...visit,
-                    visitDate: (new Date(visit.proposedDate)).toLocaleString(),
+                    visitDate: momentService(visit.proposedDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern),
                     proposedDate: visit.proposedDate,
                     toShowDate: DateTimeService.convertStringToLocaleDate(visit.date)
                 }

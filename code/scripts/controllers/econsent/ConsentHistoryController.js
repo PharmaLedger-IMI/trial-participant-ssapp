@@ -2,7 +2,7 @@ import TrialConsentService from "../../services/TrialConsentService.js";
 
 const commonServices = require('common-services');
 const ConsentStatusMapper = commonServices.ConsentStatusMapper;
-const DateTimeService = commonServices.DateTimeService;
+const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const {WebcController} = WebCardinal.controllers;
 
@@ -34,7 +34,7 @@ export default class ConsentHistoryController extends WebcController {
             })
             this.model.consentName = consent.name;
             let importantVersionDate = consent.versions[consent.versions.length - 1].versionDate;
-            this.model.consentDate = DateTimeService.convertStringToLocaleDate(importantVersionDate);
+            this.model.consentDate = (new Date(importantVersionDate)).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK);
             this.model.status = this.state.status;
             await this.getConsentStatus();
         });

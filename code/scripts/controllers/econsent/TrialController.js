@@ -3,7 +3,7 @@ import TrialConsentService from "../../services/TrialConsentService.js";
 
 const commonServices = require('common-services');
 const ConsentStatusMapper = commonServices.ConsentStatusMapper;
-const DateTimeService = commonServices.DateTimeService;
+const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 import {getTPService}  from "../../services/TPService.js"
 
@@ -103,7 +103,7 @@ export default class TrialController extends WebcController {
 
                 return econsent.versions.length === 0 ? econsent : {
                     ...econsent,
-                    versionDateAsString: DateTimeService.convertStringToLocaleDate(importantVersion.versionDate),
+                    versionDateAsString: (new Date(importantVersion.versionDate)).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK),
                     status: {
                         name: lastAction,
                         statusType: statusType

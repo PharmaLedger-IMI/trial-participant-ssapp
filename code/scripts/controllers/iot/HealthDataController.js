@@ -1,6 +1,6 @@
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
-
+const Constants = commonServices.Constants;
 
 export default class HealthDataController extends WebcController {
     constructor(...props) {
@@ -22,7 +22,7 @@ export default class HealthDataController extends WebcController {
                 title: data1.code.text,
                 value: data1.valueQuantity.value,
                 unit: data1.valueQuantity.unit,
-                date: dateTime1[0],
+                date: (new Date(dateTime1[0])).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK),
                 time: time1[0]
             });
         }

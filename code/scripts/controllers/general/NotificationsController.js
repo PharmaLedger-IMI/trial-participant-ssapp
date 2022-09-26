@@ -23,7 +23,7 @@ export default class NotificationsController extends WebcController {
   async getNotifications() {
     let notifications = await this.notificationService.getNotifications();
     notifications.forEach(notification => {
-      notification.toShowDate = (new Date(notification.date)).toLocaleString();
+      notification.toShowDate = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
     });
     notifications.sort((a, b) => b.date - a.date);
     this.model.setChainValue('notifications', notifications);
