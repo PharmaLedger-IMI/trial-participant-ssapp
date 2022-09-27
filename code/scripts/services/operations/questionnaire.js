@@ -15,5 +15,8 @@ async function clinical_site_questionnaire(data) {
     });
 }
 
+async function clinical_site_questionnaire_update(data) {
+    await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.CLINICAL_SITE_QUESTIONNAIRE_UPDATE);
+}
 
-export { clinical_site_questionnaire }
+export { clinical_site_questionnaire, clinical_site_questionnaire_update }
