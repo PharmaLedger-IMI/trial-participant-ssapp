@@ -34,7 +34,7 @@ export default class ConsentHistoryController extends WebcController {
             })
             this.model.consentName = consent.name;
             let importantVersionDate = consent.versions[consent.versions.length - 1].versionDate;
-            this.model.consentDate = (new Date(importantVersionDate)).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK);
+            this.model.consentDate = (new Date(importantVersionDate)).toLocaleDateString(Constants.DATE_UTILS.DATE_LOCALE);
             this.model.status = this.state.status;
             await this.getConsentStatus();
         });

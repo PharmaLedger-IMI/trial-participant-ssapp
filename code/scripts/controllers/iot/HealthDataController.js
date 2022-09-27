@@ -22,7 +22,7 @@ export default class HealthDataController extends WebcController {
                 title: data1.code.text,
                 value: data1.valueQuantity.value,
                 unit: data1.valueQuantity.unit,
-                date: (new Date(dateTime1[0])).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK),
+                date: (new Date(dateTime1[0])).toLocaleDateString(Constants.DATE_UTILS.DATE_LOCALE),
                 time: time1[0]
             });
         }

@@ -103,7 +103,7 @@ export default class TrialController extends WebcController {
 
                 return econsent.versions.length === 0 ? econsent : {
                     ...econsent,
-                    versionDateAsString: (new Date(importantVersion.versionDate)).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK),
+                    versionDateAsString: (new Date(importantVersion.versionDate)).toLocaleDateString(Constants.DATE_UTILS.DATE_LOCALE),
                     status: {
                         name: lastAction,
                         statusType: statusType

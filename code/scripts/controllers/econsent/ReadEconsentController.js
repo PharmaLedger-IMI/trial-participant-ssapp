@@ -174,7 +174,7 @@ export default class ReadEconsentController extends WebcController {
                 action: {
                     name: action,
                     date: currentDate.toISOString(),
-                    toShowDate: currentDate.toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK),
+                    toShowDate: currentDate.toLocaleDateString(Constants.DATE_UTILS.DATE_LOCALE),
                     consentType: this.model.status.type,
                 },
             },
@@ -197,7 +197,7 @@ export default class ReadEconsentController extends WebcController {
         const digitalSignatureOptions = {
             path: this.econsentFilePath,
             version: this.currentVersion.attachment,
-            signatureDate: `Digital Signature ${(new Date()).toLocaleDateString(Constants.DATE_UTILS.FORMATS.EN_UK)}`,
+            signatureDate: `Digital Signature ${(new Date()).toLocaleDateString(Constants.DATE_UTILS.DATE_LOCALE)}`,
             signatureAuthor: "Trial Participant Signature",
             signatureDid: this.tp.did,
             isBottomSide: false
