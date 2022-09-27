@@ -6,6 +6,11 @@ const healthDataService = new HealthDataService();
 
 export async function new_healthdata(data) {
     await saveNotification(data, Constants.PATIENT_NOTIFICATIONS_TYPE.NEW_HEALTHDATA);
+    //health data update in existing dsu;
+    if(typeof data.sReadSSI === "undefined"){
+        console.log("Health data was updated");
+        return;
+    }
     healthDataService.mountObservation(data.sReadSSI, (err, healthData) => {
         if (err) {
             console.log(err);
