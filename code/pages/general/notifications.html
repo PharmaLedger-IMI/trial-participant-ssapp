@@ -12,23 +12,28 @@
                 No notifications yet!
             </div>
 
-            <div slot="true" data-for="@notifications">
 
-                <div class="p-2 notification-item">
-                    <div class="notification-title" data-tag="view-notification">
-                        <div data-if="@read" >
+            <ion-list slot="true" data-for="@notifications">
+                <ion-item>
+                    <ion-avatar slot="start" data-tag="view-notification">
+                        <div data-if="@read">
                             <i class="fa fa-star" slot="false"></i>
                             <i class="far fa-star" slot="true"></i>
                         </div>
-                        <button>{{@type}}</button>
-                    </div>
-                    <div class="notification-details">
-                        <div class="notification-description">{{@details}}</div>
-                        <div class="notification-date">{{@toShowDate}}</div>
-                    </div>
-                </div>
+                    </ion-avatar>
+                    <ion-label class="ion-text-wrap" data-tag="view-notification">
+                        {{@type}}
+                    </ion-label>
 
-            </div>
+                    <ion-label slot="end">
+                        <small>{{@toShowDate}}</small>
+                        <i class="fa fa-trash" data-tag="remove-notification"></i>
+                    </ion-label>
+
+                </ion-item>
+            </ion-list>
+
+
         </div>
 
     </div>

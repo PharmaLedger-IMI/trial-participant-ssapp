@@ -1,4 +1,5 @@
-import { uuidv4 } from "../utils/utils.js";
+import {uuidv4} from "../utils/utils.js";
+
 const commonServices = require('common-services');
 const DSUService = commonServices.DSUService;
 const SharedStorage = commonServices.SharedStorage;
@@ -22,8 +23,20 @@ class NotificationService  extends DSUService {
 
     async getNotifications() {
         if(this.notifications === null) {
-            let notifications = await this.storageService.filter(this.NOTIFICATIONS_TABLE);
-            this.notifications = notifications;
+            this.notifications = await this.storageService.filter(this.NOTIFICATIONS_TABLE);
+        }
+        return this.notifications;
+    }
+
+    async removeNotification(removedNotification){
+        const notificationIndex = this.notifications.findIndex(notification=>{
+            return notification.pk === removedNotification.pk;
+        });
+        if (notificationIndex === -1) {
+            console.log("Notification marked for deletion not found.")
+        } else {
+            await this.storageService.deleteRecordAsync(this.NOTIFICATIONS_TABLE, removedNotification.pk);
+            this.notifications.splice(notificationIndex, 1);
         }
         return this.notifications;
     }

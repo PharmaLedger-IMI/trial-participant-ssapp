@@ -2,8 +2,7 @@ const commonServices = require('common-services');
 const BaseRepository = commonServices.BaseRepository;
 const { WebcController } = WebCardinal.controllers;
 import {getNotificationService} from "../../services/NotificationService.js";
-const momentService = commonServices.momentService;
-const Constants = commonServices.Constants;
+const DateTimeService = commonServices.DateTimeService;
 
 export default class NotificationsController extends WebcController {
   constructor(...props) {
@@ -11,8 +10,7 @@ export default class NotificationsController extends WebcController {
     this._initServices().then(async () => {
       await this.getNotifications();
     });
-    this._attachHandlerBack();
-    this.viewNotificationHandler();
+    this.attachHandlers();
   }
 
   async _initServices() {
@@ -23,14 +21,14 @@ export default class NotificationsController extends WebcController {
   async getNotifications() {
     let notifications = await this.notificationService.getNotifications();
     notifications.forEach(notification => {
-      notification.toShowDate = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+      notification.toShowDate = DateTimeService.timeAgo(notification.date, true)
     });
     notifications.sort((a, b) => b.date - a.date);
     this.model.setChainValue('notifications', notifications);
     this.model.notificationsEmpty = (notifications.length === 0);
   }
 
-  viewNotificationHandler() {
+  attachHandlers() {
     this.onTagClick('view-notification', async (model) => {
       await this.markNotificationHandler(model);
       //TODO disabled navigation for the moment according with https://github.com/PharmaLedger-IMI/eco-iot-pmed-workspace/issues/514
@@ -38,6 +36,18 @@ export default class NotificationsController extends WebcController {
       // if (tagPage) {
       //   this.navigateToPageTag(tagPage);
       // }
+    });
+
+
+    this.onTagClick('remove-notification', async (notification) => {
+      window.WebCardinal.loader.hidden = false;
+      await this.notificationService.removeNotification(notification);
+      await this.getNotifications();
+      window.WebCardinal.loader.hidden = true;
+    });
+
+    this.onTagClick('navigation:go-back', () => {
+      this.navigateToPageTag("home");
     });
   }
 
@@ -48,9 +58,4 @@ export default class NotificationsController extends WebcController {
       window.WebCardinal.loader.hidden = true;
   }
 
-  _attachHandlerBack() {
-    this.onTagClick('navigation:go-back', () => {
-      this.navigateToPageTag("home");
-    });
-  }
 }
