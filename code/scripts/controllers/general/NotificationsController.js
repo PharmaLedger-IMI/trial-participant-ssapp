@@ -24,7 +24,6 @@ export default class NotificationsController extends WebcController {
     let notifications = await this.notificationService.getNotifications();
     notifications.forEach(notification => {
       notification.toShowDate = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
-      notification.tagPage = null;
     });
     notifications.sort((a, b) => b.date - a.date);
     this.model.setChainValue('notifications', notifications);
@@ -34,10 +33,11 @@ export default class NotificationsController extends WebcController {
   viewNotificationHandler() {
     this.onTagClick('view-notification', async (model) => {
       await this.markNotificationHandler(model);
-      const {tagPage} = model;
-      if (tagPage) {
-        this.navigateToPageTag(tagPage);
-      }
+      //TODO disabled navigation for the moment according with https://github.com/PharmaLedger-IMI/eco-iot-pmed-workspace/issues/514
+      //const {tagPage} = model;
+      // if (tagPage) {
+      //   this.navigateToPageTag(tagPage);
+      // }
     });
   }
 
