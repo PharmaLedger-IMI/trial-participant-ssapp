@@ -3,6 +3,7 @@ const {DPService,StudiesService} = commonServices;
 const  {getCommunicationServiceInstance} = commonServices.CommunicationService;
 const {WebcController} = WebCardinal.controllers;
 const Constants = commonServices.Constants;
+const {STUDY_STATUSES} = Constants;
 
 
 export default class ViewStudyDetailsController extends WebcController {
@@ -11,7 +12,7 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = this.getState() || {};
         const study = this.model.toObject('study');
 
-        this.model.canJoinStudy = study.status === "active";
+        this.model.canJoinStudy = study.status === STUDY_STATUSES.STATUS_ACTIVE;
 
         this.onTagClick('confirm', (model) => {
             window.WebCardinal.loader.hidden = false;

@@ -3,6 +3,7 @@ import ProfileService from '../../services/ProfileService.js';
 const {WebcController} = WebCardinal.controllers;
 const commonServices = require('common-services');
 const {DPService, StudiesService} = commonServices;
+const {STUDY_STATUSES} = commonServices.Constants;
 
 export default class HealthStudiesController extends WebcController {
     constructor(...props) {
@@ -97,7 +98,7 @@ export default class HealthStudiesController extends WebcController {
                 }
                 this.participatingStudiesUIDs.forEach(studyUID => {
                     studies.forEach(mountedStudy => {
-                        if (mountedStudy.uid === studyUID && mountedStudy.status !== "completed") {
+                        if (mountedStudy.uid === studyUID && mountedStudy.status !== STUDY_STATUSES.STATUS_COMPLETED) {
                             this.has_participating_studies = true;
                             this.participatingFullStudies.push(mountedStudy);
                         }
@@ -151,7 +152,7 @@ export default class HealthStudiesController extends WebcController {
             getCompletedStudies().then(studies => {
                 this.uidsParticipatingStudies.forEach(studyUID => {
                     studies.forEach(mountedStudy => {
-                        if (mountedStudy.uid === studyUID && mountedStudy.status === "completed") {
+                        if (mountedStudy.uid === studyUID && mountedStudy.status === STUDY_STATUSES.STATUS_COMPLETED) {
                             this.participatingCompletedFullStudies.push(mountedStudy);
                         }
                     })
@@ -250,7 +251,7 @@ export default class HealthStudiesController extends WebcController {
                             }
                         })
                     }
-                    if (permission.studyStatus==="completed"){
+                    if (permission.studyStatus===STUDY_STATUSES.STATUS_COMPLETED){
                         permission.disabled = true;
                     }
                 })

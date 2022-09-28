@@ -1,5 +1,6 @@
+const commonServices = require("common-services");
+const {STUDY_STATUSES} = commonServices.Constants;
 const {WebcController} = WebCardinal.controllers;
-
 
 export default class PendingInvitationsController extends WebcController {
     constructor(...props) {
@@ -8,7 +9,7 @@ export default class PendingInvitationsController extends WebcController {
         const state = this.getState();
         this.model.studyInvitations = JSON.parse(JSON.stringify(state.invitationsFullStudies));
         this.model.studyInvitations.forEach(study => {
-            study.canJoin = study.status === "active";
+            study.canJoin = study.status === STUDY_STATUSES.STATUS_ACTIVE;
         });
 
         this.model.hasInvitations = this.model.studyInvitations.length !== 0;
