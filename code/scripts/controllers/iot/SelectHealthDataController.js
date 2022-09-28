@@ -70,16 +70,16 @@ export default class SelectHealthDataController extends WebcController {
                         value: 'SpO2'
                     },
                     {
-                        label: "Age",
-                        value: 'Age'
+                        label: "Body temperature",
+                        value: 'Body temperature'
                     },
                     {
-                        label: "Height",
-                        value: 'Height'
+                        label: "Heart rate",
+                        value: 'Heart rate'
                     },
                     {
-                        label: "Weight",
-                        value: 'Weight'
+                        label: "Calories burned",
+                        value: 'Calories burned'
                     }
                 ],
                 value: ""
