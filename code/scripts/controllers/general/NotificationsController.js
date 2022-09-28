@@ -24,6 +24,11 @@ export default class NotificationsController extends WebcController {
     let notifications = await this.notificationService.getNotifications();
     notifications.forEach(notification => {
       notification.toShowDate = momentService(notification.date).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+      if ( notification.operation === Constants.MESSAGES.HCO.CLINICAL_SITE_QUESTIONNAIRE ||
+          notification.operation === Constants.MESSAGES.HCO.CLINICAL_SITE_QUESTIONNAIRE_UPDATE
+        ) {
+        notification.tagPage = null;
+      }
     });
     notifications.sort((a, b) => b.date - a.date);
     this.model.setChainValue('notifications', notifications);
