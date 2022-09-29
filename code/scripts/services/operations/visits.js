@@ -6,6 +6,30 @@ const Constants = commonServices.Constants;
 const BaseRepository = commonServices.BaseRepository;
 const CONSTANTS = commonServices.Constants;
 
+async function refresh_visits(data) {
+    await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.REFRESH_VISITS);
+    const VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
+
+    let allVisits = await VisitsAndProceduresRepository.findAllAsync();
+    for(let i = 0; i < allVisits.length; i++) {
+        await VisitsAndProceduresRepository.deleteRecordAsync(allVisits[i].pk);
+    }
+
+    const taskService = TaskService.getTaskService();
+    taskService.getTasks(async (err,tasks) => {
+        if(err) {
+            return console.error(err);
+        }
+        tasks.item = [];
+
+        taskService.updateTasks(tasks,(err) => {
+            if(err) {
+                console.error(err);
+            }
+        })
+    })
+}
+
 async function update_visit(data) {
     await saveNotification(data, CONSTANTS.PATIENT_NOTIFICATIONS_TYPE.VISIT_UPDATE);
     await _updateVisit(data.useCaseSpecifics.visit);
@@ -83,4 +107,4 @@ async function _updateVisit(visitToBeUpdated) {
     })
 }
 
-export { update_visit, schedule_visit, visit_confirmed }
+export { refresh_visits, update_visit, schedule_visit, visit_confirmed }
