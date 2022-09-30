@@ -223,24 +223,34 @@ label.home-title {
     width: 130px;
 }
 
-.prom-prem-button{
-    background-color: #008798;
+.prom-prem-button,
+.prom-prem-button:hover,
+.prom-prem-button:focus,
+.prom-prem-button:active{
+    background-color: transparent;
     border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 20px;
-    border-radius: 5px;
-    height: 80px;
-    width: 70%;
+    outline: none;
+    color:#008798;
+}
+
+.prom-prem-button:hover{
+    color: #026773;
+    outline: none;
+}
+
+
+.prom-prem-button[disabled],
+.prom-prem-button[disabled]:focus,
+.prom-prem-button[disabled]:active,
+.prom-prem-button[disabled]:hover{
+    background-color: transparent;
+    color: rgba(0, 135, 152, 0.5);
+    border: none;
+    outline: none;
 }
 
 .visits-cards-container {
     margin-bottom: 20px;
-}
-
-.view-btn {
-    width:150px;
 }
 
 .left-image-eu img {

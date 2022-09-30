@@ -9,79 +9,79 @@
         </div>
 
 
-        <div>
+        <ion-card class="current-visit">
+            <ion-card-header>
+                <ion-card-subtitle>
+                    <h2 class="w-100 text-center pl-3 pr-3">{{@details.name}}</h2>
+                </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <div>
+                    <div class="invitation justify-content-between">
+                        <div class="calendar-icon-container">
+                            <i class="fa fa-calendar"></i> <span class="visit-date">{{@toShowDate}}</span>
+                        </div>
 
-            <div class="invitation">
-
-                <div class="layout-content calendar-icon-container">
-                    <i class="fa fa-calendar fa-3x"></i>
-                </div>
-
-                <div class="layout-content invitation-details">
-                    <div class="item1">
-                        <h1>
-                            {{@details.name}}
-                        </h1>
+                        <div class="invitation-details">
+                            <div>
+                                <span class="badge badge-success">Accepted</span>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="d-flex item1 date-container">
-                        <h1 class="visit-details-date">
-                            {{@toShowDate}}
-                        </h1>
+                    <div class="button-group-wrapper">
                         <button class="general-button w-50 reschedule-btn" data-tag="reschedule-visit">
-                            Reschedule Visit
+                            <i class="fa fa-calendar-check-o"></i>
+                            Reschedule
+                        </button>
+                        <button class="general-button w-50" data-tag="navigate:procedures">
+                            <i class="fa fa-list"></i>
+                            Procedures
                         </button>
                     </div>
-
-                    <div class="item1">
-                        <span class="badge badge-success">Accepted</span>
-                    </div>
                 </div>
-            </div>
-            <div class="button-group-wrapper">
-                <button class="general-button w-75 m-2" data-tag="navigate:procedures">
-                    Check Procedures Details
-                </button>
-            </div>
-        </div>
+
+            </ion-card-content>
+        </ion-card>
 
 
+        <ion-card>
+            <ion-card-header>
+                <ion-card-subtitle>
+                    <h2 class=" w-100 text-center pl-3 pr-3">Other Visits Scheduled</h2>
+                </ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
 
-        <h2 class="align-content-center w-100 text-center">Other Visits Scheduled</h2>
+                <div data-for="@visits">
+                    <div class="other-visits-container">
 
-
-        <div data-for="@visits">
-            <div class="schedule-visits-container">
-
-                <div class="visits-schedule">
-
-                    <div class="calendar-icon-container">
-                        <i class="fa fa-calendar fa-3x"></i>
-                    </div>
-
-                    <div class="invitation-details">
-
-                        <div class="item1">
+                        <div class="invitation-details">
 
                             <h5>{{@name}}</h5>
 
-                            <webc-switch condition="@status">
-                                <span slot="accepted" class="badge badge-success">Accepted</span>
-                                <span slot="rescheduled" class="badge badge-warning">Rescheduled</span>
-                                <span slot="pending" class="badge badge-dark">Pending</span>
-                            </webc-switch>
+                            <div class="invitation justify-content-between">
 
-                            <span class="visit-date">{{@visitDate}}</span>
+                                <div class="calendar-icon-container">
+                                    <i class="fa fa-calendar"></i> <span class="visit-date">{{@visitDate}}</span>
+                                </div>
+                                <div class="invitation-details">
+                                    <webc-switch condition="@status">
+                                        <span slot="accepted" class="badge badge-success">Accepted</span>
+                                        <span slot="rescheduled" class="badge badge-warning">Rescheduled</span>
+                                        <span slot="pending" class="badge badge-dark">Pending</span>
+                                    </webc-switch>
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
 
                 </div>
+            </ion-card-content>
+        </ion-card>
 
-            </div>
-
-        </div>
 
     </div>
     </div>

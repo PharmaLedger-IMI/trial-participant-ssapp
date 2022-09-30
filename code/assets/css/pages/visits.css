@@ -306,28 +306,20 @@
 
 }
 
-.visits-schedule {
-    display:flex;
-}
-
-.visits-schedule h1, .visits-schedule i {
-    color: #6B7879;
-}
-
 .item1 h1 {
     margin-top: 10px;
 }
 
-.schedule-visits-container {
+.other-visits-container {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+.other-visits-container h1, .other-visits-container i {
+    color: #6B7879;
+}
 
-.calendar-icon-container {
+.current-visit .calendar-icon-container {
     color: #008798;
-    margin: auto;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 
 .procedures-content-container {
@@ -351,4 +343,12 @@
 
 .visit-details-date {
     font-size: 20px;
+}
+
+ion-card.current-visit{
+    margin-bottom: 20px;
+}
+
+.current-visit h2{
+    color:#008798;
 }
