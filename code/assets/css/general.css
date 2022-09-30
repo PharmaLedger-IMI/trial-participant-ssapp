@@ -235,6 +235,14 @@ label.home-title {
     width: 70%;
 }
 
+.visits-cards-container {
+    margin-bottom: 20px;
+}
+
+.view-btn {
+    width:150px;
+}
+
 .left-image-eu img {
     max-width: 100%;
 }

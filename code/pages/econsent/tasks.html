@@ -38,14 +38,21 @@
 
         <div data-if="@tasksLoaded">
             <webc-spinner slot="loading"></webc-spinner>
+
             <div data-for="@tasks" slot="true">
-                <div data-if="@showTask">
-                    <div class="button-group-wrapper">
-                        <button class="prom-prem-button" data-tag="@tag" type="button">
-                            {{@task}}
-                        </button>
-                    </div>
-                    <br>
+                <div data-if="@showTask" class="visits-cards-container">
+                    <ion-card>
+                        <ion-card-content class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <h1>{{@details.name}}</h1>
+                            </div>
+                            <div class="button-group-wrapper">
+                                <button class="prom-prem-button view-btn" data-tag="@tag" type="button">
+                                    View Visit
+                                </button>
+                            </div>
+                        </ion-card-content>
+                    </ion-card>
                 </div>
                 <div slot="no-data">
                     <p>
@@ -56,21 +63,34 @@
         </div>
 
         <div data-if="@showProms" slot="true">
+            <ion-card>
+                <ion-card-content class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <h1>Health questions</h1>
+                    </div>
                     <div class="button-group-wrapper">
-                <button class="prom-prem-button" data-tag="navigate:ediary-prom" type="button" disabled="@promdisable">
-                    Health questions
-                </button>
-            </div>
+                        <button class="prom-prem-button view-btn" data-tag="navigate:ediary-prom" type="button" disabled="@promdisable">
+                            View questions
+                        </button>
+                    </div>
+                </ion-card-content>
+            </ion-card>
             <br>
          </div>
 
         <div data-if="@showPrems" slot="true">
-            <div class="button-group-wrapper">
-                <button class="prom-prem-button" data-tag="navigate:ediary-prem" type="button" disabled="@premdisable">
-                    Rate your experience
-                </button>
-            </div>
-            <br>
+            <ion-card>
+                <ion-card-content class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <h1>Rate your experience</h1>
+                    </div>
+                    <div class="button-group-wrapper">
+                        <button class="prom-prem-button view-btn" data-tag="navigate:ediary-prem" type="button" disabled="@premdisable">
+                            View questions
+                        </button>
+                    </div>
+                </ion-card-content>
+            </ion-card>
         </div>
 
     </div>
