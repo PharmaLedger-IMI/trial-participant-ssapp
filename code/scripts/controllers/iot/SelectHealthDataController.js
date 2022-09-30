@@ -80,6 +80,18 @@ export default class SelectHealthDataController extends WebcController {
                     {
                         label: "Calories burned",
                         value: 'Calories burned'
+                    },
+                    {
+                        label: "Steps",
+                        value: 'Steps'
+                    },
+                    {
+                        label: "Activity Duration",
+                        value: 'Duration'
+                    },
+                    {
+                        label: "Activity Distance",
+                        value: 'Distance'
                     }
                 ],
                 value: ""
