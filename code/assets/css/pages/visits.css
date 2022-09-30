@@ -343,3 +343,12 @@
 .ionic-wrapper{
     margin: 5rem 1rem;
 }
+
+.reschedule-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.visit-details-date {
+    font-size: 20px;
+}
