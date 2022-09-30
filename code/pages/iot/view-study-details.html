@@ -42,7 +42,9 @@
                                     {{@study.title}}
                                 </p>
                                 <span>Data being gathered:</span>
-                                <span class="badge badge-primary study-datatype">{{@study.data}}</span>
+                                <div data-for="@study.data">
+                                    <span class="badge badge-primary study-datatype">{{@}}</span>
+                                </div>
                             </div>
                             <div class="card-item title-container">
                                 <p>{{@study.description}}</p>
@@ -101,7 +103,9 @@
                                         {{@study.title}}
                                     </p>
                                     <span>Data being gathered:</span>
-                                    <span class="badge badge-primary study-datatype">{{@study.data}}</span>
+                                    <div data-for="@study.data">
+                                        <span class="badge badge-primary study-datatype">{{@}}</span>
+                                    </div>
                                 </div>
                                 <div class="card-item">
                                     <p>{{@study.description}}</p>
@@ -164,7 +168,9 @@
                                         {{@study.title}}
                                     </p>
                                     <span>Data being gathered:</span>
-                                    <span class="badge badge-primary study-datatype">{{@study.data}}</span>
+                                    <div data-for="@study.data">
+                                        <span class="badge badge-primary study-datatype">{{@}}</span>
+                                    </div>
                                 </div>
                                 <div class="card-item">
                                     <p>{{@study.description}}</p>

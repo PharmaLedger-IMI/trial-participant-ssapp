@@ -31,7 +31,9 @@
                             </div>
                             <div class="card-item title-container">
                                 <span>Data requested: </span>
-                                <span class="badge badge-primary study-datatype">{{@data}}</span>
+                                <div data-for="@data">
+                                    <span class="badge badge-primary study-datatype">{{@}}</span>
+                                </div>
                             </div>
                             <div>
                                 <ion-button expand="block" color="green" data-tag="view-study-details">
