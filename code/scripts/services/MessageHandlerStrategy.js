@@ -1,8 +1,40 @@
 import * as operations from './operations/index.js';
-
+const loader = window.WebCardinal.loader;
+let currentTimeout = null;
 export default function (operationsRegistry){
 
     return async function messageHandlerStrategy(message) {
+
+    const onConfirmRefresh = function (event) {
+        event.preventDefault();
+        return event.returnValue = "Are you sure you want to leave?";
+    }
+
+    const blockUI = () =>{
+
+        if(currentTimeout){
+            loader.removeAttribute("completed");
+        }
+
+        loader.hidden = false;
+        loader.setAttribute("data-value","Updating wallet. Please wait...")
+        window.addEventListener("beforeunload", onConfirmRefresh, { capture: true });
+    }
+
+    const unBlockUI = ()=>{
+
+        loader.setAttribute("data-value", "Update successfully completed");
+        loader.setAttribute("completed","");
+        currentTimeout = setTimeout(() => {
+            loader.removeAttribute("data-value");
+            loader.removeAttribute("completed");
+            loader.hidden = true;
+            currentTimeout = null;
+        } ,2000)
+
+        window.removeEventListener("beforeunload", onConfirmRefresh, { capture: true });
+    }
+
 
     try {
         message = JSON.parse(message);
@@ -13,6 +45,9 @@ export default function (operationsRegistry){
     }
 
     if (typeof operations[message.operation] === "function") {
+
+        blockUI();
+
         const operationResult = operations[message.operation](message);
         if(operationResult instanceof Promise) {
 
@@ -28,13 +63,16 @@ export default function (operationsRegistry){
             try{
                 const result = await operationResult;
                 await callHookFn(undefined, result);
+                unBlockUI();
 
             }
             catch (err) {
                 await callHookFn(err);
-
+                unBlockUI();
             }
-
+        }
+        else{
+            unBlockUI();
         }
 
     } else {

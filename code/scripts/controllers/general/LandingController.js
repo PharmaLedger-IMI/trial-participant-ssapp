@@ -141,7 +141,6 @@ export default class LandingController extends WebcController {
 
     _attachMessageHandlers() {
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_HCO_DSU_TO_PATIENT, async (err, data) => {
-            window.WebCardinal.loader.hidden = false;
             if (err) {
                 return console.error(err);
             }
@@ -168,14 +167,12 @@ export default class LandingController extends WebcController {
                     this._sendTrialConsentToHCO(hcoIdentity);
                     this._initTrials();
                     resolve();
-                    window.WebCardinal.loader.hidden = true;
                 });
             })
 
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.SEND_REFRESH_CONSENTS_TO_PATIENT, async (err, data) => {
-            window.WebCardinal.loader.hidden = false;
             if(err) {
                 return console.error(err);
             }
@@ -188,7 +185,6 @@ export default class LandingController extends WebcController {
                 await this._saveConsentsStatuses(this.model.trialConsent.volatile?.ifc);
             }
 
-            window.WebCardinal.loader.hidden = true;
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.PATIENT.UPDATE_TP_NUMBER, (err, data) => {
@@ -210,12 +206,9 @@ export default class LandingController extends WebcController {
         });
 
         this.OperationsHookRegistry.register(CONSTANTS.MESSAGES.HCO.VISIT_CONFIRMED, async(err, data) => {
-            window.WebCardinal.loader.hidden = false;
             if(err) {
                 return console.error(err);
             }
-
-            window.WebCardinal.loader.hidden = true;
         });
 
         MessageHandlerService.init(handlerOperations(this.OperationsHookRegistry));
