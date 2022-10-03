@@ -35,13 +35,13 @@ export default class HealthStudiesController extends WebcController {
             if (!DP || !(("matches" in DP) && (DP.matches.length > 0))) {
                 return callback();
             }
-            console.log("Found %d matches.", DP.matches.length);
+            //console.log("Found %d matches.", DP.matches.length);
             DP.matches.forEach(match => {
                 if (match.dpermission === true || match.dpermissionRejectedDate || match.dpermissionStopSharingDate) return;
                 this.invitationsStudiesUIDs.push(match.studyUID)
             })
             if (this.invitationsStudiesUIDs.length > 0) {
-                console.log("Found %d invitations.", this.invitationsStudiesUIDs.length);
+                //console.log("Found %d invitations.", this.invitationsStudiesUIDs.length);
             }
 
             this.studiesService.getStudies((err, studies) => {
@@ -84,14 +84,14 @@ export default class HealthStudiesController extends WebcController {
                 return callback();
             }
 
-            console.log("Found %d matches.", DP.matches.length);
+            //console.log("Found %d matches.", DP.matches.length);
             DP.matches.forEach(match => {
                 if (match.dpermission === true) {
                     this.participatingStudiesUIDs.push(match.studyUID);
                 }
                 ;
             })
-            console.log("Found %d participating studies.", this.participatingStudiesUIDs.length);
+            //console.log("Found %d participating studies.", this.participatingStudiesUIDs.length);
             this.studiesService.getStudies((err, studies) => {
                 if (err) {
                     return callback(err);
@@ -130,13 +130,13 @@ export default class HealthStudiesController extends WebcController {
             if (!DP || !(("matches" in DP) && (DP.matches.length > 0))) {
                 return callback();
             }
-            console.log("Found %d matches.", DP.matches.length);
+            //console.log("Found %d matches.", DP.matches.length);
             DP.matches.forEach(match => {
                 if (match.dpermission === true) {
                     this.uidsParticipatingStudies.push(match.studyUID);
                 }
             })
-            console.log("Found %d participating studies.", this.uidsParticipatingStudies.length);
+            //console.log("Found %d participating studies.", this.uidsParticipatingStudies.length);
 
             const getCompletedStudies = () => {
                 return new Promise((resolve, reject) => {
@@ -182,7 +182,7 @@ export default class HealthStudiesController extends WebcController {
             if (!DP || !(("matches" in DP) && (DP.matches.length > 0))) {
                 return callback();
             }
-            console.log("Found %d matches.", DP.matches.length);
+            //console.log("Found %d matches.", DP.matches.length);
 
             DP.matches.forEach(match => {
 

@@ -12,7 +12,6 @@ export default class ViewStudyDetailsController extends WebcController {
         this.model = this.getState() || {};
         const study = this.model.toObject('study');
 
-        console.log(study.data)
         this.model.canJoinStudy = study.status === STUDY_STATUSES.STATUS_ACTIVE;
 
         this.onTagClick('confirm', (model) => {
