@@ -235,14 +235,10 @@ export default class TaskCalendarController extends WebcController {
             useCaseSpecifics: {
                 tpDid: this.model.tp.did,
                 visit: {
-                    details: visit.details,
-                    toRemember: visit.toRemember,
                     procedures: visit.procedures,
                     name: visit.name,
-                    period: visit.period,
                     consentSSI: visit.consentSSI,
                     date: visit.date,
-                    unit: visit.unit,
                     accepted: visit.accepted,
                     declined: visit.declined,
                     rescheduled: visit.rescheduled,

@@ -57,14 +57,9 @@ async function visit_confirmed(data) {
         showTask: "",
         details: {
             name: visitDetails.name,
-            toRemember: visitDetails.toRemember,
             details: visitDetails.details,
             procedures: visitDetails.procedures,
         }
-    }
-
-    if(visitDetails.uuid) {
-        visit.uid = visitDetails.uuid;
     }
 
     if(data.shortDescription === Constants.MESSAGES.HCO.COMMUNICATION.TYPE.UPDATE_VISIT){
