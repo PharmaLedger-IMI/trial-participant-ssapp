@@ -131,7 +131,8 @@ export default class VisitDetailsController extends WebcController {
                     name: visit.name,
                     rescheduled: visit.rescheduled,
                     proposedDate: visit.proposedDate,
-                    id: visit.uid
+                    isExtended: visit.isExtended,
+                    id: visit.uid,
                 },
             },
             shortDescription: message,

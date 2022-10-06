@@ -245,6 +245,7 @@ export default class TaskCalendarController extends WebcController {
                     proposedDate: visit.proposedDate,
                     confirmedDate: visit.confirmedDate,
                     confirmed: visit.confirmed,
+                    isExtended: visit.isExtended,
                     id: visit.uid
                 },
             },
