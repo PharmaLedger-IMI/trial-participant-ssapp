@@ -32,6 +32,7 @@ export default class VisitDetailsController extends WebcController {
         })
 
         this.model.visits = this.state.visits.sort((a, b) => a.proposedDate - b.proposedDate);
+        this.model.hasOtherVisitsScheduled =  this.model.visits.length > 0;
 
         if(this.state.schedule.startDate) {
             this.model.toShowDate = momentService(this.state.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);

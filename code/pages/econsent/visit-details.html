@@ -52,7 +52,8 @@
             </ion-card-header>
             <ion-card-content>
 
-                <div data-for="@visits">
+                <div data-if="@hasOtherVisitsScheduled">
+                    <div slot="true" data-for="@visits">
                     <div class="other-visits-container">
 
                         <div class="invitation-details">
@@ -78,6 +79,12 @@
 
                     </div>
 
+                </div>
+                    <div slot="false">
+                        <div class="alert alert-warning" role="alert">
+                            There are no other scheduled visits.
+                        </div>
+                    </div>
                 </div>
             </ion-card-content>
         </ion-card>

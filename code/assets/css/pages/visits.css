@@ -248,16 +248,8 @@
     color: #2F80ED;
 }
 
-.invitation {
-    display: flex;
-}
-
 .item1 {
     margin-top: 10px;
-}
-
-.invitations-container {
-    border-bottom: 1px solid gray;
 }
 
 .legend-item {
@@ -298,9 +290,6 @@
     color: #008798;
 }
 
-.date-star-container {
-    display: flex;
-}
 .visit-date{
     font-size: 14px;
 
@@ -351,4 +340,20 @@ ion-card.current-visit{
 
 .current-visit h2{
     color:#008798;
+}
+
+.reschedule-decline-invitation{
+    display: flex;
+    grid-column-gap: 1.5rem;
+}
+
+.reschedule-decline-invitation .general-button.reschedule-visit-btn{
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+.reschedule-decline-invitation .general-button.decline-visit-btn{
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
 }
