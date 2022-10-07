@@ -116,7 +116,7 @@ export default class VisitDetailsController extends WebcController {
             event.stopImmediatePropagation();
             let details = this.model.toObject('details');
             let info = {
-                procedures: details.procedures
+                procedures: details.procedures.filter(procedure => procedure.checked && procedure.status !== "N/A")
             }
             this.navigateToPageTag('procedures-view', info);
         });
