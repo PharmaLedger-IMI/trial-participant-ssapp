@@ -1,5 +1,7 @@
 import TaskService from "../../scripts/services/TaskService.js";
 const commonServices = require('common-services');
+const momentService = commonServices.momentService;
+const DATE_FORMATS = commonServices.Constants.DATE_UTILS.FORMATS;
 const { WebcController } = WebCardinal.controllers;
 const {QuestionnaireService} = commonServices;
 
@@ -40,14 +42,16 @@ class CalendarController extends WebcController {
 
             this.QuestionnaireService.getAllQuestionnaires((err, data) => {
                 if (err) {
-                    return reject(err);
+                    return console.error(err);
                 }
                 this.questionnaire = data[0];
 
                 if(this.questionnaire){
-                    let startDate = new Date(this.questionnaire.schedule.startDate)
+                    //let startDate = new Date(this.questionnaire.schedule.startDate)
+                    let startDate = momentService(momentService(this.questionnaire.schedule.startDate,DATE_FORMATS.YYYYMMDD).format(DATE_FORMATS.DDMMYYYY),DATE_FORMATS.DDMMYYYY).toDate();
                     startDate.setHours(0,0,0);
-                    let endDate = new Date(this.questionnaire.schedule.endDate)
+                    //let endDate = new Date(this.questionnaire.schedule.endDate)
+                    let endDate = momentService(momentService(this.questionnaire.schedule.endDate,DATE_FORMATS.YYYYMMDD).format(DATE_FORMATS.DDMMYYYY),DATE_FORMATS.DDMMYYYY).toDate();
                     endDate.setHours(0,0,0);
                     let frequencyType = this.questionnaire.schedule.frequencyType;
 
