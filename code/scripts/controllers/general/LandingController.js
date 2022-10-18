@@ -290,7 +290,7 @@ export default class LandingController extends WebcController {
                 })
             }
         })
-        const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uid, visitToBeAdded);
+        const visitCreated = await this.VisitsAndProceduresRepository.createAsync(visitToBeAdded.uuid, visitToBeAdded);
         this.model.tp.hasNewVisits = true;
         await this.TPService.updateTpAsync(this.model.tp)
         return visitCreated;

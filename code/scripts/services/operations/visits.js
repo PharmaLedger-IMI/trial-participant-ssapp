@@ -46,7 +46,7 @@ async function visit_confirmed(data) {
 
     let visitDetails = data.useCaseSpecifics.visit;
     let visit = {
-        uid: visitDetails.uid,
+        uuid: visitDetails.uuid,
         task: "Visit",
         tag: "visit-details",
         schedule: {
@@ -71,7 +71,7 @@ async function visit_confirmed(data) {
         if(err) {
             return console.error(err);
         }
-        let index = tasks.item.findIndex(t => t.uid === visit.uid);
+        let index = tasks.item.findIndex(t => t.uuid === visit.uuid);
         if(index === -1) {
             return taskService.addTask(visit, (err, tasks) => {
                 if (err) {

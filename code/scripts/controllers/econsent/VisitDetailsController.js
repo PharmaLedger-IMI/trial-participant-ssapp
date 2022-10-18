@@ -28,7 +28,7 @@ export default class VisitDetailsController extends WebcController {
         });
 
         this.state.visits = this.state.visits.filter((visit) => {
-            return visit.uid !== this.state.uid && !visit.declined
+            return visit.uuid !== this.state.uuid && !visit.declined
         })
 
         this.model.visits = this.state.visits.sort((a, b) => a.proposedDate - b.proposedDate);
@@ -63,7 +63,7 @@ export default class VisitDetailsController extends WebcController {
             event.stopImmediatePropagation();
             const VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
 
-            VisitsAndProceduresRepository.findBy(this.state.uid, (err, existingVisit) => {
+            VisitsAndProceduresRepository.findBy(this.state.uuid, (err, existingVisit) => {
                 if (err || !existingVisit) {
                     return console.err(err);
 
@@ -133,7 +133,7 @@ export default class VisitDetailsController extends WebcController {
                     rescheduled: visit.rescheduled,
                     proposedDate: visit.proposedDate,
                     isExtended: visit.isExtended,
-                    id: visit.uid,
+                    uuid: visit.uuid,
                 },
             },
             shortDescription: message,

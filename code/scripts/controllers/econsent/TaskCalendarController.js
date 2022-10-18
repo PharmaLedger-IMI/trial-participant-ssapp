@@ -212,7 +212,7 @@ export default class TaskCalendarController extends WebcController {
                 if(err) {
                     return console.error(err);
                 }
-                let index = tasks.item.findIndex(t => t.uid === visit.uid);
+                let index = tasks.item.findIndex(t => t.uuid === visit.uuid);
                 if(index === -1) {
                     return;
                 }
@@ -246,7 +246,7 @@ export default class TaskCalendarController extends WebcController {
                     confirmedDate: visit.confirmedDate,
                     confirmed: visit.confirmed,
                     isExtended: visit.isExtended,
-                    id: visit.uid
+                    uuid: visit.uuid
                 },
             },
             shortDescription: message,
