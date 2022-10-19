@@ -28,8 +28,14 @@ class ProfileService extends DSUService {
                     if (err) {
                         return callback(err);
                     }
-                    const profilesReadSSI = this.getSReadSSI(saveProfileDataIdentifier);
-                    callback(undefined, profilesReadSSI);
+
+                    this.getSReadSSI(saveProfileDataIdentifier, (err, profilesReadSSI)=>{
+                        if(err){
+                            return callback(err);
+                        }
+                        callback(undefined, profilesReadSSI);
+                    });
+
                 })
 
             });

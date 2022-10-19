@@ -164,7 +164,7 @@ export default class LandingController extends WebcController {
                     if (err) {
                         return console.log(err);
                     }
-                    this._sendTrialConsentToHCO(hcoIdentity);
+                    //this._sendTrialConsentToHCO(hcoIdentity);
                     this._initTrials();
                     resolve();
                 });
