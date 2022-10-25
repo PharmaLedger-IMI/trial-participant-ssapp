@@ -25,16 +25,25 @@ export default class SelectHealthDataController extends WebcController {
                 console.log(patientObservations);
 
 
-                let selectedObservation = this.model.selectObservation.value;
-                let desiredHealthData = patientObservations;
+                let selectedObservation = this.model.selectObservation.value !== "" ? this.model.selectObservation.value : "All data types";
+                let state;
+                let desiredHealthData;
                 if(selectedObservation){
-                    desiredHealthData = desiredHealthData.filter(observation=>{
-                        return observation.code.text === selectedObservation
-                    })
+                    if(selectedObservation !== "All data types") {
+                        desiredHealthData = patientObservations.filter(observation=>{
+                            return observation.code.text === selectedObservation
+                        })
+                    } else desiredHealthData = patientObservations;
+
+
+                    state = {
+                        healthDataTitle: selectedObservation,
+                        healthData: desiredHealthData
+                    }
+
                 }
 
-                console.log(desiredHealthData);
-                this.navigateToPageTag('iot-helath-data', desiredHealthData);
+                this.navigateToPageTag('iot-helath-data', state);
 
             });
             

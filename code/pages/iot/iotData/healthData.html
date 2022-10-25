@@ -1,47 +1,79 @@
+<link href="./assets/css/pages/visits.css" rel="stylesheet">
 <webc-container controller="iot/HealthDataController">
-    <div class="container-child">
 
+    <div class="container-child">
         <div class="header-title">
             <button class="navigate-back" data-tag="go-back">
                 <i class="fa fa-angle-left"></i>
             </button>
             <h3>Health Data</h3>
         </div>
+        <ion-app class="ionic-wrapper">
+            <ion-tabs>
+                <ion-tab tab="data-table">
+                    <ion-header translucent>
 
-        <div class="container justify-content-start">
-            <main>
-                <div class="form-row font-weight-bold">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <div class="container" data-if="@hasHealthData">
-                                <div class="alert alert-warning" role="alert" slot="false">
-                                    <p class="alert-heading">Sorry! No data is available to view.</p>
-                                </div>
-                                <table class="table table-striped" slot="true">
-                                    <thead style="background-color: #00345B; color:#FFFF; position: sticky;">
-                                      <tr>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Time</th>
-                                        <th scope="col">Data Type</th>
-                                        <th scope="col">Value</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody data-for="@healthData">
+                    </ion-header>
+                    <ion-content fullscreen class="ion-padding">
+
+                        <div class="form-row font-weight-bold">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <div class="container" data-if="@hasHealthData">
+                                        <div class="alert alert-warning" role="alert" slot="false">
+                                            <p class="alert-heading">Sorry! No data is available to view.</p>
+                                        </div>
+                                        <table class="table table-striped" slot="true">
+                                            <thead style="background-color: #00345B; color:#FFFF; position: sticky;">
+                                            <tr>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Time</th>
+                                                <th scope="col">Data Type</th>
+                                                <th scope="col">Value</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody data-for="@healthData">
                                             <tr>
                                                 <td>{{@date}}</td>
                                                 <td>{{@time}}</td>
                                                 <td>{{@title}}</td>
                                                 <td>{{@value}} {{@unit}}</td>
                                             </tr>
-                                    </tbody>
+                                            </tbody>
+                                        </table>
 
-                                </table>
-
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+
+                    </ion-content>
+                </ion-tab>
+
+                <ion-tab tab="graphs">
+
+                    <ion-content fullscreen class="ion-padding">
+
+                        <div class="title">Graphs</div>
+                        <div class="parent-graphs-container">
+                            <div class="graph-container">
+                                <canvas id="timeSeriesChart"></canvas>
+                            </div>
+                        </div>
+                    </ion-content>
+                </ion-tab>
+
+                <ion-tab-bar slot="bottom">
+                    <ion-tab-button tab="data-table">
+                        <ion-label>Data Table</ion-label>
+                        <ion-icon name="book-outline"></ion-icon>
+                    </ion-tab-button>
+                    <ion-tab-button tab="graphs">
+                        <ion-label>Graph</ion-label>
+                        <ion-icon name="cellular-outline"></ion-icon>
+                    </ion-tab-button>
+                </ion-tab-bar>
+            </ion-tabs>
+        </ion-app>
     </div>
 </webc-container>
