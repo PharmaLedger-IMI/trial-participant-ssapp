@@ -93,7 +93,7 @@ async function visit_confirmed(data) {
 async function _updateVisit(visitToBeUpdated) {
     const VisitsAndProceduresRepository = BaseRepository.getInstance(BaseRepository.identities.PATIENT.VISITS);
 
-    VisitsAndProceduresRepository.filter(`id == ${visitToBeUpdated.id}`, 'ascending', 1, (err, visits) => {
+    VisitsAndProceduresRepository.filter(`uuid == ${visitToBeUpdated.uuid}`, 'ascending', 1, (err, visits) => {
         if (err || visits.length === 0) {
             return;
         }
