@@ -1,13 +1,15 @@
 import TrialConsentService from "../../services/TrialConsentService.js";
+import {getTPService} from "../../services/TPService.js";
 const commonServices = require('common-services');
 const ConsentStatusMapper = commonServices.ConsentStatusMapper;
 const BaseRepository = commonServices.BaseRepository;
 const CommunicationService = commonServices.CommunicationService;
 const PDFService = commonServices.PDFService;
 const Constants = commonServices.Constants;
-import {getTPService} from "../../services/TPService.js";
-
+const JWTService = commonServices.JWTService;
+const openDSU = require("opendsu");
 const {WebcController} = WebCardinal.controllers;
+const FileDownloaderService = commonServices.FileDownloaderService;
 
 export default class ReadEconsentController extends WebcController {
     constructor(...props) {
@@ -38,11 +40,11 @@ export default class ReadEconsentController extends WebcController {
     }
 
     _initConsent() {
-        let econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.historyData.ecoId)
+        this.econsent = this.model.trialConsent.volatile.ifc.find(c => c.uid === this.historyData.ecoId)
         let ecoVersion = this.historyData.ecoVersion;
-        this.model.econsent = econsent;
-        this.currentVersion = econsent.versions.find(eco => eco.version === ecoVersion);
-        this.econsentFilePath = this.getEconsentFilePath(econsent, this.currentVersion);
+        this.model.econsent = this.econsent;
+        this.currentVersion = this.econsent.versions.find(eco => eco.version === ecoVersion);
+        this.econsentFilePath = this.getEconsentFilePath(this.econsent, this.currentVersion);
         this.PDFService = new PDFService(this.DSUStorage);
         this.PDFService.displayPDF(this.econsentFilePath, this.currentVersion.attachment, {scale: 0.6});
         this.PDFService.onFileReadComplete(() => {
@@ -72,6 +74,10 @@ export default class ReadEconsentController extends WebcController {
     getEconsentFilePath(econsent, currentVersion) {
         return this.TrialConsentService.PATH  + '/' + this.model.trialConsent.uid + '/ifc/'
             + econsent.uid + '/versions/' + currentVersion.version;
+    }
+
+    getIfcPath() {
+        return this.TrialConsentService.PATH  + '/' + this.model.trialConsent.uid + '/ifc';
     }
 
     _attachHandlerSign() {
@@ -194,6 +200,9 @@ export default class ReadEconsentController extends WebcController {
     async _saveStatus(operation) {
         this.tpData = await this.TPService.getTpAsync();
         this.tp = this.tpData.tp;
+        this.JWTService = new JWTService();
+        this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
+
         const digitalSignatureOptions = {
             path: this.econsentFilePath,
             version: this.currentVersion.attachment,
@@ -212,8 +221,30 @@ export default class ReadEconsentController extends WebcController {
             return;
         }
         await this.EconsentsStatusRepository.updateAsync(this.model.status.uid, this.model.status);
-        this.sendMessageToHCO(operation, this.model.econsent.keySSI, 'Tp ' + operation);
-        this._finishActionSave();
+
+        const buffer = await this.fileDownloaderService.prepareDownloadFromDsu(this.econsentFilePath, this.currentVersion.attachment);
+        const crypto = openDSU.loadApi('crypto');
+        const checkSum = crypto.sha256(buffer);
+
+        const claims = {
+            subjectClaims: {
+                ...digitalSignatureOptions,
+                checkSum: checkSum
+            },
+        };
+        const vcForIFC = await this.JWTService.createVCForIFC(this.tpData.hcoIdentity, this.tp.did, claims);
+
+        let versionIndex = this.econsent.versions.findIndex(version => version.version === this.currentVersion.version);
+        this.econsent.versions[versionIndex].vcForIFC = vcForIFC;
+        let ifcPath = this.getIfcPath();
+        this.TrialConsentService.updateSubEntity(this.econsent, ifcPath, async (err) => {
+            if (err) {
+                return console.log(err);
+            }
+
+            this.sendMessageToHCO(operation, this.model.econsent.keySSI, 'Tp ' + operation);
+            this._finishActionSave();
+        });
     }
 
     _finishActionSave() {

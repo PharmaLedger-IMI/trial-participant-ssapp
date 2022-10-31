@@ -114,6 +114,10 @@ export default class TrialConsentService extends DSUService {
         });
     }
 
+    updateSubEntity(entity, path, callback) {
+        this.updateEntity(entity, path, callback);
+    }
+
     _getSubPath = (subItem) => {
         return this.PATH + '/' + this.ssi + '/' + subItem;
     }

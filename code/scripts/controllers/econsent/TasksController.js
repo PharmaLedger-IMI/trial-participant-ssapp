@@ -58,7 +58,8 @@ export default class TasksController extends WebcController {
             if((clickedDate.getTime() >= startDate.getTime()) && (clickedDate.getTime() <= endDate.getTime())){
                 switch (frequencyType) {
                     case "weekly":
-                        if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
+                        let weeklyDaysBetween = Math.round((clickedDate-startDate)/(1000*24*3600))
+                        if (weeklyDaysBetween % 7 === 0) {
                             tasksItemList[i].showTask = true;
                         }
                         break;
@@ -106,7 +107,8 @@ export default class TasksController extends WebcController {
         if((clickedDate >= startDate) && (clickedDate <= endDate)){
             switch (frequencyType) {
                 case "weekly":
-                    if(this.isInteger(((clickedDate-startDate)/(7*1000 * 60 * 60 * 24)))){
+                    let weeklyDaysBetween = Math.round((clickedDate-startDate)/(1000*24*3600))
+                    if (weeklyDaysBetween % 7 === 0) {
                         if (this.model.questionnaire.prom.length>0) this.model.showProms=true;
                         if (this.model.questionnaire.prem.length>0) this.model.showPrems=true;
                     }
