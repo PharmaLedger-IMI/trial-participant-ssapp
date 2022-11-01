@@ -15,6 +15,7 @@ export default class ReadEconsentController extends WebcController {
     constructor(...props) {
         super(...props);
         this.model.econsent = {};
+        this.model.isWithdrawDisabled = false;
         this._initServices();
         this.historyData = this.getState();
         this.model.required = {};
@@ -37,6 +38,13 @@ export default class ReadEconsentController extends WebcController {
             this.model.trialConsent = trialConsent;
             this._initConsent();
         });
+        this.tpData = await this.TPService.getTpAsync();
+        this.tp = this.tpData.tp;
+        let statuses = [Constants.TRIAL_PARTICIPANT_STATUS.DISCONTINUED, Constants.TRIAL_PARTICIPANT_STATUS.WITHDRAWN, Constants.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE,
+            Constants.TRIAL_PARTICIPANT_STATUS.COMPLETED, Constants.TRIAL_PARTICIPANT_STATUS.END_OF_TREATMENT, Constants.TRIAL_PARTICIPANT_STATUS.SCREEN_FAILED];
+        if(statuses.includes(this.tp.status)) {
+            this.model.isWithdrawDisabled = true;
+        }
     }
 
     _initConsent() {
@@ -198,8 +206,6 @@ export default class ReadEconsentController extends WebcController {
     }
 
     async _saveStatus(operation) {
-        this.tpData = await this.TPService.getTpAsync();
-        this.tp = this.tpData.tp;
         this.JWTService = new JWTService();
         this.fileDownloaderService = new FileDownloaderService(this.DSUStorage);
 

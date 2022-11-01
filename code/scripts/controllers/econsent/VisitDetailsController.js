@@ -13,6 +13,7 @@ export default class VisitDetailsController extends WebcController {
         this.state = {
             ...this.getState()
         };
+        this.model.isRescheduleDisabled = false;
 
         this.model.details = this.state.details;
         this.CommunicationService = CommunicationService.getCommunicationServiceInstance();
@@ -54,6 +55,11 @@ export default class VisitDetailsController extends WebcController {
                 return console.log(err);
             }
             this.model.tp = tp;
+            let statuses = [Constants.TRIAL_PARTICIPANT_STATUS.DISCONTINUED, Constants.TRIAL_PARTICIPANT_STATUS.WITHDRAWN, Constants.TRIAL_PARTICIPANT_STATUS.UNAVAILABLE,
+                Constants.TRIAL_PARTICIPANT_STATUS.COMPLETED, Constants.TRIAL_PARTICIPANT_STATUS.END_OF_TREATMENT, Constants.TRIAL_PARTICIPANT_STATUS.SCREEN_FAILED];
+            if(statuses.includes(this.model.tp.tp.status)) {
+                this.model.isRescheduleDisabled = true;
+            }
         })
     }
 
