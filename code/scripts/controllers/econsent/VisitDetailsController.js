@@ -37,6 +37,10 @@ export default class VisitDetailsController extends WebcController {
 
         if(this.state.schedule.startDate) {
             this.model.toShowDate = momentService(this.state.schedule.startDate).format(Constants.DATE_UTILS.FORMATS.DateTimeFormatPattern);
+            let now = (new Date()).getTime();
+            if(now > this.state.schedule.startDate) {
+                this.model.isRescheduleDisabled = true;
+            }
         }
         this.getTp();
         this._initHandlers();
