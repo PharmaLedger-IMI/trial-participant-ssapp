@@ -83,6 +83,22 @@ export default class LandingController extends WebcController {
     }
 
     addHandlers() {
+
+        this.onTagEvent("share-did", "click", () => {
+            this.showModalFromTemplate('general/share-did', () => {
+            }, () => {
+            }, {
+                controller: 'general/ShareDidModalController',
+                disableExpanding: true,
+                disableBackdropClosing: true,
+                disableClosing: true,
+                disableFooter: true,
+                model: {
+                    publicDid:this.model.did
+                }
+            });
+        });
+
         this.onTagEvent("navigate:notifications", "click", () => {
             this.navigateToPageTag('notifications');
         });

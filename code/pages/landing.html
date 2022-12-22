@@ -37,7 +37,19 @@
             </div>
         </header>
         <div data-if="@publicDidReady">
-            <share-did class="w-50"></share-did>
+
+            <div class="input-group share-did p-2">
+                <input type="text" class="form-control share-did-input" readonly value="@did" placeholder="Loading DID...">
+                <div class="input-group-append">
+                        <span class="did-tooltip">
+                            <button class="btn btn-outline-secondary share-did-btn" type="button" data-tag="share-did">
+                                <i class="fa fa-qrcode"></i>
+                            </button>
+                          </span>
+                </div>
+            </div>
+
+
             <div class="main-navigation">
 
 

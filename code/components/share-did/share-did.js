@@ -12,7 +12,7 @@ customElements.define(
                     <div class="input-group share-did p-2">
                         <input type="text" class="form-control share-did-input" readonly value="" placeholder="Loading DID...">
                         <div class="input-group-append">
-                        <span data-tooltip="Copy DID to clipboard" data-flow="right" class="did-tooltip">
+                        <span data-tooltip="Copy DID to clipboard" data-flow="bottom" class="did-tooltip">
                             <button class="btn btn-outline-secondary share-did-btn" type="button">
                                 <i class="fa fa-share"></i>
                             </button>
