@@ -91,13 +91,26 @@ export default class VisitDetailsController extends WebcController {
                                 delete existingVisit.accepted;
                                 delete existingVisit.confirmed;
                             }
+
+                            this.showModalFromTemplate('general/success-message',
+                                () => { }, () => { },
+                                {
+                                    controller: 'modals/general/SuccessMessageController',
+                                    disableExpanding: true,
+                                    disableClosing: true,
+                                    disableFooter: true,
+                                    disableBackdropClosing: true,
+                                    model: {
+                                        title: 'Visit was Rescheduled',
+                                        message: "Visit was rescheduled. Wait for the doctor response."
+                                    }
+                                });
+
                             await VisitsAndProceduresRepository.updateAsync(existingVisit.pk, existingVisit)
                             this.sendMessageToHCO(existingVisit, Constants.MESSAGES.HCO.COMMUNICATION.PATIENT.VISIT_RESCHEDULED);
                         }
                     },
-                    (event) => {
-                        const response = event.detail;
-                    },
+                    () => { },
                     {
                         controller: 'modals/RescheduleInvitationController',
                         disableExpanding: false,

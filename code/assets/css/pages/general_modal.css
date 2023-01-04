@@ -35,6 +35,10 @@ webc-modal:not([expanded]){
     border: 1px solid #008798 !important;
 }
 
+.success-icon{
+    color: #1a93a2;
+}
+
 .tp-button {
     background-color: #00345b;
     border: none;
